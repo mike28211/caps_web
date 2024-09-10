@@ -30,7 +30,7 @@ const LoginScreen = ({navigation}) => {
       <TextInput placeholder="Username" style={styles.input} />
       <TextInput placeholder="Password" style={styles.input} secureTextEntry />
       
-      <TouchableOpacity style={styles.registerButton}>
+      <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate('Home')}>
         <Text style={styles.registerText}>Login</Text>
       </TouchableOpacity>
 
