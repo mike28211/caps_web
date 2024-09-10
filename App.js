@@ -1,26 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 import * as React from 'react';
-import MainContainer from './navigation/MainContainer';
-import {createNativeStackNavigator} from '@react-navigation/stack';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import WelcomeScreen from './src/screens/WelcomeScreen';
+import RegisterAsScreen from './src/screens/RegisterAsScreen';
+import SignupScreen from './src/screens/SignupScreen';
+import LoginScreen from './src/screens/LoginScreen';
 
-
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
- 
-    <MainContainer/>
- 
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName = "Welcome">
+        <Stack.Screen name="Welcome" component={WelcomeScreen}/>
+        <Stack.Screen name="RegisterAs" component={RegisterAsScreen}/>
+        <Stack.Screen name="Signup" component={SignupScreen}/>
+        <Stack.Screen name="Login" component={LoginScreen}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#D7CCF2',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
