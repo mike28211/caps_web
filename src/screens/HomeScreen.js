@@ -6,7 +6,7 @@ export default function HomeScreen({navigation}){
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text
             onPress={() => alert('this is the Home Screen. ')}
-            style={{ fontSize: 26, fontWeight: 'bold' }}>Home Screen
+            style={{ fontSize: 26, fontWeight: 'bold' }}>Hello Seeker
             </Text>
             </View>
     )

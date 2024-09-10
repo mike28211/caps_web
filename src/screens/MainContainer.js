@@ -5,9 +5,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {createNativeStackNavigator} from '@react-navigation/stack';
 
 //Screems
-import HomeScreen from './screens/HomeScreen'
-import MoodScreen from './screens/MoodScreen'
-import ProfileScreen from './screens/ProfileScreen'
+import HomeScreen from './HomeScreen'
+import MoodScreen from './MoodScreen'
+import ProfileScreen from './ProfileScreen'
 
 
 // Screen names
@@ -22,7 +22,7 @@ const Tab = createBottomTabNavigator();
 export default function MainContainer(){
     return(
     
-        <NavigationContainer>
+        
             <Tab.Navigator 
             initialRouteName ={homeName}
             screenOptions={({route})=>({
@@ -50,7 +50,7 @@ export default function MainContainer(){
             <Tab.Screen name={profileName} component={ProfileScreen}/>
 
             </Tab.Navigator>
-        </NavigationContainer>
+    
 
        
     );
