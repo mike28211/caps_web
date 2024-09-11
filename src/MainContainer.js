@@ -1,13 +1,10 @@
 import * as React from 'react';
-import {NavigationContainer } from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';  
-import {createNativeStackNavigator} from '@react-navigation/stack';
-
 //Screems
-import HomeScreen from './HomeScreen'
-import MoodScreen from './MoodScreen'
-import ProfileScreen from './ProfileScreen'
+import HomeScreen from './screens/HomeScreen'
+import MoodScreen from './screens/MoodScreen'
+import ProfileScreen from './screens/ProfileScreen'
 
 
 // Screen names
