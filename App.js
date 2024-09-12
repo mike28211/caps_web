@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'; 
+import { Image } from 'react-native';
 import WelcomeScreen from './src/screens/WelcomeScreen';
 import RegisterAsScreen from './src/screens/RegisterAsScreen';
 import SignupScreen from './src/screens/SignupScreen';
@@ -10,8 +11,7 @@ import NotificationScreen from './src/screens/NotificationScreen';
 import MainContainer from './src/MainContainer';
 import MenuButton from './src/buttons/MenuButton';
 import NotificationButton from './src/buttons/NotificationButton';
-import logoSVG from './src/assets/smalllogo.svg';
-import { SvgXml } from 'react-native-svg';
+
 
 const Stack = createStackNavigator();
 
@@ -35,8 +35,13 @@ export default function App() {
               <NotificationButton onPress={() => navigation.navigate('Notifications')} />
             ),
             headerTitle: () => (
-            <SvgXml xml={logoSVG} width={100} height={50} /> // Adjust the size as necessary
+              <Image
+              source={require('./src/assets/smal-logo.jpg')} // Path to your JPG logo
+              style={{ width: 36, height: 36 }} // Adjust the size as necessary
+              resizeMode="contain"
+            />
           ),
+          headerTitleAlign: 'center',
           })}
         />
         <Stack.Screen name="Menu" component={MenuScreen} />

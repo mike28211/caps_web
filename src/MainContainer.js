@@ -37,6 +37,7 @@ export default function MainContainer(){
 
                     return <Ionicons name={iconName} size={size} color={color}/>
                 },
+                headerShown: false, // This hides the header
             })}
             
             
