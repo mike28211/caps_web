@@ -41,12 +41,10 @@ const LoginScreen = ({navigation}) => {
       </TouchableOpacity>
 
       <View style={styles.loginContainer}>
-      <Text>
-        Don't have an account? 
+        <Text>Don't have an account?</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-            <Text style={styles.loginLink}>Register</Text>
+          <Text style={styles.loginLink}> Register</Text>
         </TouchableOpacity>
-      </Text>
       </View>
     </View>
   );
@@ -109,14 +107,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
-    fontSize: 14,
-    color: '#8e8e8e',
   },
   loginLink: {
     color: '#9B51E0',
     fontWeight: 'bold',
     marginLeft: 5,
-  }
+  },
 });
 
 export default LoginScreen;
