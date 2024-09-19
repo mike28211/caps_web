@@ -11,7 +11,9 @@ import NotificationScreen from './src/screens/NotificationScreen';
 import MainContainer from './src/MainContainer';
 import MenuButton from './src/buttons/MenuButton';
 import NotificationButton from './src/buttons/NotificationButton';
-
+import PreferencesScreen from './src/screens/PreferencesScreen';
+import SelfAssessmentScreen2 from './src/screens/SelfAssessmentScreen2';
+import SelfAssessmentResultScreen from './src/screens/SelfAssessmentResultScreen';
 
 const Stack = createStackNavigator();
 
@@ -46,6 +48,9 @@ export default function App() {
         />
         <Stack.Screen name="Menu" component={MenuScreen} />
         <Stack.Screen name="Notifications" component={NotificationScreen} />
+        <Stack.Screen name="Preferences" component={PreferencesScreen} />
+        <Stack.Screen name="SelfAssessment2" component={SelfAssessmentScreen2} options={{ headerShown: false }} />
+        <Stack.Screen name="SelfAssessmentResult" component={SelfAssessmentResultScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
