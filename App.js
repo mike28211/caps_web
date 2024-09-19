@@ -13,6 +13,7 @@ import MenuButton from './src/buttons/MenuButton';
 import NotificationButton from './src/buttons/NotificationButton';
 
 
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -46,6 +47,7 @@ export default function App() {
         />
         <Stack.Screen name="Menu" component={MenuScreen} />
         <Stack.Screen name="Notifications" component={NotificationScreen} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
