@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
-const RegisterAsScreen = ({ navigation }) => {
+export const RegisterAsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {/* Logo Image */}
@@ -65,5 +65,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   }
 });
-
-export default RegisterAsScreen;

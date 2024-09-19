@@ -1,123 +1,168 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import * as Google from 'expo-google-app-auth';
+import React, { useState } from 'react';
+import { Text, StyleSheet } from 'react-native';
+import { Formik } from 'formik';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-const SignupScreen = ({navigation}) => {
+import { View, TextInput, Logo, Button, FormErrorMessage } from '../components';
+import { Images, Colors, auth } from '../config';
+import { useTogglePasswordVisibility } from '../hooks';
+import { signupValidationSchema } from '../utils';
 
-  const signInWithGoogle = async () => {
-    try {
-      const result = await Google.logInAsync({
-        androidClientId: 'YOUR_ANDROID_CLIENT_ID',
-        iosClientId: 'YOUR_IOS_CLIENT_ID',
-        scopes: ['profile', 'email'],
-      });
-      if (result.type === 'success') {
-        console.log(result.user);
-        // Handle successful login here
-      } else {
-        console.log('Login cancelled');
-      }
-    } catch (error) {
-      console.error(error);
-    }
+export const SignupScreen = ({ navigation }) => {
+  const [errorState, setErrorState] = useState('');
+  const {
+    passwordVisibility,
+    handlePasswordVisibility,
+    rightIcon,
+    handleConfirmPasswordVisibility,
+    confirmPasswordIcon,
+    confirmPasswordVisibility,
+  } = useTogglePasswordVisibility();
+
+  const handleSignUp = async (values) => {
+    const { email, password } = values;
+    createUserWithEmailAndPassword(auth, email, password).catch((error) => {
+      setErrorState(error.message);
+    });
   };
 
   return (
-    <View style={styles.container}>
-      <Image source={require('../assets/tranqheal-logo.png')} style={styles.logo} />
-      <Text style={styles.title}>Create an account.</Text>
+    <View isSafe style={styles.container}>
+      <KeyboardAwareScrollView enableOnAndroid={true}>
+        {/* LogoContainer: app logo and screen title */}
+        <View style={styles.loginContainer}>
+          <Logo uri={Images.logo} style={styles.logo} />
+          <Text style={styles.title}>Create an account.</Text>
+        </View>
 
-      <TextInput placeholder="Username" style={styles.input} />
-      <TextInput placeholder="Email" style={styles.input} keyboardType="email-address" />
-      <TextInput placeholder="Password" style={styles.input} secureTextEntry />
+        <Formik
+          initialValues={{ email: '', password: '', confirmPassword: '' }}
+          validationSchema={signupValidationSchema}
+          onSubmit={(values) => handleSignUp(values)}
+        >
+          {({
+            values,
+            touched,
+            errors,
+            handleChange,
+            handleSubmit,
+            handleBlur,
+          }) => (
+            <>
+              {/* Input fields */}
+              <TextInput
+                name="email"
+                leftIconName="email"
+                placeholder="Enter email"
+                autoCapitalize="none"
+                keyboardType="email-address"
+                textContentType="emailAddress"
+                autoFocus={true}
+                value={values.email}
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+              />
+              <FormErrorMessage error={errors.email} visible={touched.email} />
 
-      <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.registerText}>Register</Text>
-      </TouchableOpacity>
+              <TextInput
+                name="password"
+                leftIconName="key-variant"
+                placeholder="Enter password"
+                autoCapitalize="none"
+                autoCorrect={false}
+                secureTextEntry={passwordVisibility}
+                textContentType="newPassword"
+                rightIcon={rightIcon}
+                handlePasswordVisibility={handlePasswordVisibility}
+                value={values.password}
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+              />
+              <FormErrorMessage
+                error={errors.password}
+                visible={touched.password}
+              />
 
-      <Text style={styles.or}>or register with</Text>
+              <TextInput
+                name="confirmPassword"
+                leftIconName="key-variant"
+                placeholder="Confirm password"
+                autoCapitalize="none"
+                autoCorrect={false}
+                secureTextEntry={confirmPasswordVisibility}
+                textContentType="password"
+                rightIcon={confirmPasswordIcon}
+                handlePasswordVisibility={handleConfirmPasswordVisibility}
+                value={values.confirmPassword}
+                onChangeText={handleChange('confirmPassword')}
+                onBlur={handleBlur('confirmPassword')}
+              />
+              <FormErrorMessage
+                error={errors.confirmPassword}
+                visible={touched.confirmPassword}
+              />
 
-      <TouchableOpacity style={styles.googleButton} onPress={signInWithGoogle}>
-        <Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png'}} style={styles.googleIcon} />
-      </TouchableOpacity>
+              {/* Display Screen Error Messages */}
+              {errorState !== '' ? (
+                <FormErrorMessage error={errorState} visible={true} />
+              ) : null}
 
-      <View style={styles.loginContainer}>
-      <Text>
-        Already have an account? 
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text style={styles.loginLink}>Login</Text>
-        </TouchableOpacity>
-      </Text>
-      </View>
+              {/* Signup button */}
+              <Button style={styles.button} onPress={handleSubmit}>
+                <Text style={styles.buttonText}>Register</Text>
+              </Button>
+            </>
+          )}
+        </Formik>
+
+        {/* Login link */}
+        <View style={styles.loginContainer}>
+          <Text>
+            Already have an account?{' '}
+            <Text
+              style={styles.loginLink}
+              onPress={() => navigation.navigate('Login')}
+            >
+              Login
+            </Text>
+          </Text>
+        </View>
+      </KeyboardAwareScrollView>
     </View>
   );
 };
 
+// Adjust styles accordingly
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
     padding: 20,
+    backgroundColor: '#fff',
   },
-  logo: {
-    width: 200,
-    height: 200,
-    marginBottom: 30,
+  loginContainer: {
+    alignItems: 'center',
+    marginBottom: 40,
   },
   title: {
     fontSize: 24,
-    marginBottom: 20,
+    fontWeight: 'bold',
+    marginVertical: 20,
   },
-  input: {
-    width: '100%',
+  button: {
+    backgroundColor: Colors.purple,
     padding: 15,
-    borderRadius: 10,
-    backgroundColor: '#f0f0f0',
-    marginBottom: 15,
-  },
-  registerButton: {
-    width: '100%',
-    backgroundColor: '#9B51E0',
-    padding: 15,
-    borderRadius: 10,
+    borderRadius: 25,
     alignItems: 'center',
-    marginBottom: 15,
+    marginVertical: 10,
   },
-  registerText: {
+  buttonText: {
     color: '#fff',
-    fontSize: 16,
-  },
-  or: {
-    color: '#8e8e8e',
-    marginBottom: 10,
-  },
-  googleButton: {
-    backgroundColor: '#fff',
-    padding: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#dcdcdc',
-    marginBottom: 20,
-  },
-  googleIcon: {
-    width: 24,
-    height: 24,
-  },
-  loginContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20,
-    fontSize: 14,
-    color: '#8e8e8e',
+    fontWeight: 'bold',
+    fontSize: 18,
   },
   loginLink: {
-    color: '#9B51E0',
+    color: Colors.purple,
     fontWeight: 'bold',
-    marginLeft: 5,
-  }
+  },
 });
-
-export default SignupScreen;

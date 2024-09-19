@@ -1,33 +1,5 @@
 {
-  "expo": {
-    "name": "tranqheal-mobile",
-    "slug": "tranqheal-mobile",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./src/assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./src/assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "package": "com.tranqheal.mobile",
-      "adaptiveIcon": {
-        "foregroundImage": "./src/assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./src/assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "ebfe0542-9061-4c3c-9fc2-d675974ff5d6"
-      }
-    }
-  }
+  "name": "tranqheal-app",
+  "slug": "tranqheal-app"
 }
+

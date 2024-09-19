@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
-const WelcomeScreen = ({ navigation }) => {
+export const WelcomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {/* Logo Image */}
@@ -45,5 +45,3 @@ const styles = StyleSheet.create({
     color: '#000',
   },
 });
-
-export default WelcomeScreen;
