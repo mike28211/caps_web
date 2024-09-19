@@ -37,6 +37,7 @@ function HomeScreen({ navigation }) {
             <Ionicons name="clipboard-outline" size={24} color="white" />
           </View>
           <Text style={styles.todoText}>Self-Assessment</Text>
+          <Image source={require('../assets/selfassessmentpic.jpg')} style={styles.todoImage} />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('Forums')} style={styles.todoItem}>
@@ -44,6 +45,7 @@ function HomeScreen({ navigation }) {
             <Ionicons name="chatbox-outline" size={24} color="white" />
           </View>
           <Text style={styles.todoText}>Forums</Text>
+          <Image source={require('../assets/forumspic.png')} style={styles.todoImage} />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('ViewProfessionals')} style={styles.todoItem}>
@@ -51,6 +53,7 @@ function HomeScreen({ navigation }) {
             <Ionicons name="person-circle-outline" size={24} color="white" />
           </View>
           <Text style={styles.todoText}>View Professionals</Text>
+          <Image source={require('../assets/professionalspic.jpg')} style={styles.todoImage} />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('ViewOrganizations')} style={styles.todoItem}>
@@ -58,6 +61,7 @@ function HomeScreen({ navigation }) {
             <Ionicons name="business-outline" size={24} color="white" />
           </View>
           <Text style={styles.todoText}>View Organizations</Text>
+          <Image source={require('../assets/orgspic.jpg')} style={styles.todoImage} />
         </TouchableOpacity>
       </View>
     </View>
@@ -77,22 +81,22 @@ export default function AppNavigator() {
       <Stack.Screen 
         name="SelfAssessment" 
         component={SelfAssessmentScreen} 
-        options={{ headerShown: true }} // Show the header for SelfAssessmentScreen
+        options={{ headerShown: false }} // Show the header for SelfAssessmentScreen
       />
       <Stack.Screen 
         name="Forums" 
         component={ForumsScreen} 
-        options={{ headerShown: true }} // Show the header for ForumsScreen
+        options={{ headerShown: false }} // Show the header for ForumsScreen
       />
       <Stack.Screen 
         name="ViewProfessionals" 
         component={ViewProfScreen} 
-        options={{ headerShown: true }} // Show the header for ViewProfessionalsScreen
+        options={{ headerShown: false }} // Show the header for ViewProfessionalsScreen
       />
       <Stack.Screen 
         name="ViewOrganizations" 
         component={ViewOrgScreen} 
-        options={{ headerShown: true }} // Show the header for ViewOrganizationsScreen
+        options={{ headerShown: false }} // Show the header for ViewOrganizationsScreen
       />
     </Stack.Navigator>
   );
@@ -111,7 +115,7 @@ const styles = StyleSheet.create({
   greeting: {
     fontSize: 26,
     fontWeight: 'bold',
-    fontFamily: 'Manrope',
+    
   },
   subText: {
     fontSize: 14,
@@ -124,14 +128,21 @@ const styles = StyleSheet.create({
     height: 185,
     borderRadius: 100, // Makes the image circular
   },
+  todoPics:{
+    width: 185,
+    height: 185,
+    borderRadius: 8, 
+    
+    
+  },
   todoItem: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 10,
-    width: 360,
-    height: 80,
-    padding: 10,
-    backgroundColor: '#F7F2FA',
+      alignItems: 'center',
+      marginVertical: 10,
+      width: 360,
+      height: 80,
+      padding: 10,
+      backgroundColor: '#F7F2FA',
     borderRadius: 12,
     
     // Drop shadow for iOS
