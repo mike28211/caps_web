@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
-import RadioGroup from 'react-native-radio-buttons-group';
+import RadioGroup from 'react-native-radio-buttons-group';   //https://www.npmjs.com/package/react-native-radio-buttons-group
 
 import { RootLayout } from '../navigation/RootLayout';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -93,15 +93,13 @@ export const SelfAssessmentScreen2 = ({navigation}) => {
               ]}
               onPress={(value) => handleSelectOption(question.key, value)}
               selectedId={answers[question.key]}
-              layout="column"
+              containerStyle={styles.radioGroupContainer}
             />
           </View>
         </View>
       ))}
 
-      <Text style={styles.introText}>
-       In the last month, how often...
-      </Text>
+    
       {/* Questions with Never options */}
       {[
         { label: 'In the last month, how often have you been upset because of something that happened unexpectedly?', key: 'upsetUnexpectedly' },
@@ -127,7 +125,7 @@ export const SelfAssessmentScreen2 = ({navigation}) => {
               ]}
               onPress={(value) => handleSelectOption(question.key, value)}
               selectedId={answers[question.key]}
-              layout="column"
+              containerStyle={styles.radioGroupContainer}
             />
           </View>
         </View>
@@ -186,6 +184,10 @@ const styles = StyleSheet.create({
   },
   radioGroup: {
     alignItems: 'flex-start',
+  },
+  radioGroupContainer: {
+    width: '100%', 
+    alignItems: 'flex-start', 
   },
   button: {
     backgroundColor: '#6200ee',
