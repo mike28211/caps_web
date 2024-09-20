@@ -67,17 +67,17 @@ export const AppStack = () => {
              <Stack.Screen 
                 name="Preferences" 
                 component={PreferencesScreen} 
-                options={{ headerShown: true }}
+                options={{ headerShown: false }}
             />
              <Stack.Screen 
                 name="SelfAssessment2" 
                 component={SelfAssessmentScreen2} 
-                options={{ headerShown: true }} 
+                options={{ headerShown: false }} 
             />
              <Stack.Screen 
                 name="SelfAssessmentResult" 
                 component={SelfAssessmentResultScreen} 
-                options={{ headerShown: true }} 
+                options={{ headerShown: false }} 
             />
         </Stack.Navigator>
     );
