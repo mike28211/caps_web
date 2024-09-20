@@ -1,60 +1,15 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import * as ImagePicker from 'expo-image-picker';
-import { useState } from 'react';
+import { View,Text} from 'react-native';
 
-
-export default function ProfileScreen({ navigation }) {
-  const [profileImage, setProfileImage] = useState(require('../assets/testprofile.jpg')); // Initial image
-
-  // Function to handle image picking
-  const pickImage = async () => {
-    // Request permission to access media library
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('Permission denied', 'Sorry, we need camera roll permissions to make this work!');
-      return;
-    }
-
-    // Open image picker
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1], // Keep image square
-      quality: 1,     // Maximum quality
-    });
-
-    // If user selects an image
-    if (!result.canceled) {
-      setProfileImage({ uri: result.assets[0].uri }); // Update the profile image
-    }
-  };
-
-  return (
-    <View style={{ flex: 1, padding: 20 }}>
-      <View style={styles.header}>
-        {/* Greeting and Subtext */}
-        <View style={styles.textContainer}>
-          <Text style={styles.ProfileTitle}>Profile</Text>
-        </View>
-      </View>
-
-      {/* Divider Line */}
-      <View style={styles.divider} />
-
-      {/* Profile Image with Camera Icon */}
-      <View style={styles.imageContainer}>
-        <Image
-          source={profileImage} // Display selected image
-          style={styles.profileImage}
-        />
-        <TouchableOpacity style={styles.cameraIcon} onPress={pickImage}>
-          <Ionicons name="camera-outline" size={24} color="white" />
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+xport const ProfileScreen = ({navigation}) => {
+    return(
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text
+            onPress={() => navigation.navigate('Home')}
+            style={{ fontSize: 26, fontWeight: 'bold' }}>Profile Screen
+            </Text>
+            </View>
+    );
 }
 
 const styles = StyleSheet.create({

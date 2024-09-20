@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 
-export default function SelfAssessmentScreen({ navigation }) {
+export const SelfAssessmentScreen = () => {
   return (
     <View style={styles.container}>
       {/* Top Left Greeting */}

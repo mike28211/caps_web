@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
-export default function NotificationScreen() {
+export const NotificationScreen = () => {
   return (
     <View style={{ flex: 1, padding: 20 }}>
     <View style={styles.header}>

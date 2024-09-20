@@ -4,58 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 const { width } = Dimensions.get('window'); // Get screen width
 
-export default function ForumsScreen({ navigation }) {
-  const [isSearching, setIsSearching] = useState(false); // State to control visibility of search bar
-  const [searchQuery, setSearchQuery] = useState('');    // State to hold the search input
-
-  // Sample forum data (replace this with your backend data)
-  const forums = [
-    { id: '1', title: 'Mental Health Awareness', tags: ['Mental Health', 'Awareness', 'Support', 'Community'], timeFrame: '3d ago' },
-    { id: '2', title: 'Stress Management Tips', tags: ['Stress', 'Wellness'], timeFrame: '5d ago' },
-    { id: '3', title: 'Therapy Resources', tags: ['Therapy', 'Resources'], timeFrame: '1w ago' },
-    { id: '4', title: 'Coping Mechanisms', tags: ['Coping', 'Mechanisms', 'Therapy'], timeFrame: '2w ago' },
-    { id: '5', title: 'Self-Care Strategies', tags: ['Self-Care', 'Strategies', 'Wellness'], timeFrame: '1m ago' },
-    { id: '6', title: 'Mindfulness Techniques', tags: ['Mindfulness', 'Techniques'], timeFrame: '1w ago' },
-    { id: '7', title: 'Healthy Relationships', tags: ['Relationships', 'Healthy'], timeFrame: '2d ago' },
-    { id: '8', title: 'Anxiety Reduction', tags: ['Anxiety', 'Reduction'], timeFrame: '4d ago' },
-    { id: '9', title: 'Depression Support', tags: ['Depression', 'Support'], timeFrame: '6d ago' },
-    { id: '10', title: 'Sleep Hygiene', tags: ['Sleep', 'Hygiene'], timeFrame: '8d ago' },
-  ];
-
-  const handleSearch = () => {
-    console.log(`Searching for: ${searchQuery}`); // Handle your search logic here
-    setIsSearching(false);
-    setSearchQuery('');
-  };
-
-  // Function to render each forum item
-  const renderForumItem = ({ item }) => {
-    // Get the first two tags and calculate how many tags are left
-    const visibleTags = item.tags.slice(0, 2);
-    const remainingTagsCount = item.tags.length - visibleTags.length;
-
-    return (
-      <View style={styles.forumContainer}>
-        <Text style={styles.forumTitle}>{item.title}</Text>
-        <View style={styles.metaContainer}>
-          <Text style={styles.timeFrame}>{item.timeFrame}</Text>
-          <View style={styles.tagContainer}>
-            {visibleTags.map((tag, index) => (
-              <Text key={index} style={styles.tag}>{tag}</Text>
-            ))}
-            {remainingTagsCount > 0 && (
-              <Text style={styles.tag}>{`${remainingTagsCount}+`}</Text>  // Display remaining tags count
-            )}
-          </View>
-        </View>
-        <TouchableOpacity style={styles.visitButton} onPress={() => console.log(`Visiting forum: ${item.title}`)}>
-          <Ionicons name="arrow-forward-outline" size={16} color="white" style={styles.visitIcon} />
-          <Text style={styles.visitButtonText}>Visit</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
+export const ForumsScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>

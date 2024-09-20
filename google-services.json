@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "388083674825",
+    "project_id": "tranqheal-app-5b56c",
+    "storage_bucket": "tranqheal-app-5b56c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388083674825:android:8f05ad4dc1c207ba0fa718",
+        "android_client_info": {
+          "package_name": "com.tranqheal.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs1l0ohgVcEyp-rOiS78tSBOtkAzaDwEA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,103 +1,54 @@
 import * as React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { createStackNavigator } from '@react-navigation/stack';
+import { RootLayout } from '../navigation/RootLayout';
 
-// Screens
-import SelfAssessmentScreen from '../screens/SelfAssessmentScreen';
-import ViewOrgScreen from '../screens/ViewOrgScreen';
-import ViewProfScreen from '../screens/ViewProfScreen';
-import ForumsScreen from '../screens/ForumsScreen';
-
-const Stack = createStackNavigator();
-
-function HomeScreen({ navigation }) {
-  const { width } = Dimensions.get('window'); // Get the width of the device screen
-
+export const HomeScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      {/* Header Section */}
-      <View style={styles.header}>
-        {/* Greeting and Subtext */}
-        <View style={styles.textContainer}>
-          <Text style={styles.greeting}>Hello, Seeker!</Text>
-          <Text style={styles.subText}>Assess, Connect, Thrive: Your Path to Mental Wellness</Text>
+    <RootLayout navigation={navigation}>
+      <View style={{ flex: 1, padding: 20 }}>
+        {/* Header Section */}
+        <View style={styles.header}>
+          {/* Greeting and Subtext */}
+          <View style={styles.textContainer}>
+            <Text style={styles.greeting}>Hello, Seeker!</Text>
+            <Text style={styles.subText}>Assess, Connect, Thrive: Your Path to Mental Wellness</Text>
+          </View>
+          {/* Profile Picture */}
+          <Image
+            source={require('../assets/testprofile.jpg')} // Replace with your image URI
+            style={styles.profileImage}
+          />
         </View>
-        
-        {/* Profile Picture */}
-        <Image
-          source={require('../assets/testprofile.jpg')} // Replace with your image URI
-          style={styles.profileImage}
-        />
+        {/* To-Do List Buttons */}
+        <View style={{ marginTop: 40 }}>
+          <TouchableOpacity onPress={() => navigation.navigate('SelfAssessment')} style={styles.todoItem}>
+            <View style={styles.circle}>
+              <Ionicons name="clipboard-outline" size={24} color="white" />
+            </View>
+            <Text style={styles.todoText}>Self-Assessment</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Forums')} style={styles.todoItem}>
+            <View style={styles.circle}>
+              <Ionicons name="chatbox-outline" size={24} color="white" />
+            </View>
+            <Text style={styles.todoText}>Forums</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('ViewProfessionals')} style={styles.todoItem}>
+            <View style={styles.circle}>
+              <Ionicons name="person-circle-outline" size={24} color="white" />
+            </View>
+            <Text style={styles.todoText}>View Professionals</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('ViewOrganizations')} style={styles.todoItem}>
+            <View style={styles.circle}>
+              <Ionicons name="business-outline" size={24} color="white" />
+            </View>
+            <Text style={styles.todoText}>View Organizations</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-
-      {/* To-Do List Buttons */}
-      <View style={styles.todoContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('SelfAssessment')} style={styles.todoItem}>
-          <View style={styles.circle}>
-            <Ionicons name="clipboard-outline" size={24} color="white" />
-          </View>
-          <Text style={styles.todoText}>Self-Assessment</Text>
-          <Image source={require('../assets/selfassessmentpic.jpg')} style={styles.todoImage} />
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Forums')} style={styles.todoItem}>
-          <View style={styles.circle}>
-            <Ionicons name="people-outline" size={24} color="white" />
-          </View>
-          <Text style={styles.todoText}>Forums</Text>
-          <Image source={require('../assets/forumspic.png')} style={styles.todoImage} />
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Professionals')} style={styles.todoItem}>
-          <View style={styles.circle}>
-            <Ionicons name="person-circle-outline" size={24} color="white" />
-          </View>
-          <Text style={styles.todoText}>View Professionals</Text>
-          <Image source={require('../assets/professionalspic.jpg')} style={styles.todoImage} />
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Organizations')} style={styles.todoItem}>
-          <View style={styles.circle}>
-            <Ionicons name="briefcase-outline" size={24} color="white" />
-          </View>
-          <Text style={styles.todoText}>View Organizations</Text>
-          <Image source={require('../assets/orgspic.jpg')} style={styles.todoImage} />
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
-
-export default function AppNavigator() {
-  return (
-    <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen 
-        name="Home" 
-        component={HomeScreen} 
-        options={{ headerShown: false }} // Hide the header for HomeScreen
-      />
-      <Stack.Screen 
-        name="SelfAssessment" 
-        component={SelfAssessmentScreen} 
-        options={{ headerShown: false }} // Show the header for SelfAssessmentScreen
-      />
-      <Stack.Screen 
-        name="Forums" 
-        component={ForumsScreen} 
-        options={{ headerShown: false }} // Show the header for ForumsScreen
-      />
-      <Stack.Screen 
-        name="Professionals" 
-        component={ViewProfScreen} 
-        options={{ headerShown: true }} // Show the header for ViewProfessionalsScreen
-      />
-      <Stack.Screen 
-        name="Organizations" 
-        component={ViewOrgScreen} 
-        options={{ headerShown: true }} // Show the header for ViewOrganizationsScreen
-      />
-    </Stack.Navigator>
+    </RootLayout>
   );
 }
 
