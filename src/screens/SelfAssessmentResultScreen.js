@@ -1,17 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 
+import { RootLayout } from '../navigation/RootLayout';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 
-export default function SelfAssessmentResultScreen({ navigation, route }) {
+export const SelfAssessmentResultScreen = ({ navigation, route }) =>{
   
     // receive the scores as props
   const { phqScore, gadScore, pssScore } = route.params || { phqScore: 15, gadScore: 15, pssScore: 15 }; // default values for scores
 
   return (
-    <ScrollView style={styles.container}>
+    <RootLayout navigation={navigation}>
+       <ScrollView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -57,6 +59,8 @@ export default function SelfAssessmentResultScreen({ navigation, route }) {
         </TouchableOpacity>
       </View>
     </ScrollView>
+    </RootLayout>
+   
   );
 }
 

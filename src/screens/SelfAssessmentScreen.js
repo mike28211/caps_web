@@ -2,13 +2,15 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { RootLayout } from '../navigation/RootLayout';
 import PreferencesScreen from '../screens/PreferencesScreen';
 
 const Stack = createStackNavigator();
 
-export default function SelfAssessmentScreen({navigation}) {
+export const SelfAssessmentScreen = ({navigation}) => {
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <RootLayout navigation={navigation}>
+      <ScrollView contentContainerStyle={styles.container}>
       
       {/* Header */}
       <View style={styles.header}>
@@ -44,6 +46,8 @@ export default function SelfAssessmentScreen({navigation}) {
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
     </ScrollView>
+    </RootLayout>
+    
   );
 }
 

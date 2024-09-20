@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
 
+import { RootLayout } from '../navigation/RootLayout';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 
-export default function SelfAssessmentScreen2({navigation}) {
+export const SelfAssessmentScreen2 = ({navigation}) => {
   // State for each question's answer
   const [answers, setAnswers] = useState({
     interest: 'notAtAll',
@@ -42,7 +43,8 @@ export default function SelfAssessmentScreen2({navigation}) {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <RootLayout navigation={navigation}>
+      <ScrollView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity>
@@ -136,6 +138,8 @@ export default function SelfAssessmentScreen2({navigation}) {
         <Text style={styles.buttonText}>Finish</Text>
       </TouchableOpacity>
     </ScrollView>
+    </RootLayout>
+    
   );
 }
 

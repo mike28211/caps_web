@@ -1,118 +1,191 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import * as Google from 'expo-google-app-auth';
+import React, { useState } from 'react';
+import { Text, StyleSheet, Image } from 'react-native';
+import { Formik } from 'formik';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-const LoginScreen = ({navigation}) => {
+import { View, TextInput, Button, FormErrorMessage } from '../components';
+import { Images, Colors, auth } from '../config';
+import { useTogglePasswordVisibility } from '../hooks';
+import { loginValidationSchema } from '../utils';
 
-  const signInWithGoogle = async () => {
-    try {
-      const result = await Google.logInAsync({
-        androidClientId: 'YOUR_ANDROID_CLIENT_ID',
-        iosClientId: 'YOUR_IOS_CLIENT_ID',
-        scopes: ['profile', 'email'],
-      });
-      if (result.type === 'success') {
-        console.log(result.user);
-        // Handle successful login here
-      } else {
-        console.log('Login cancelled');
-      }
-    } catch (error) {
-      console.error(error);
-    }
+export const LoginScreen = ({ navigation }) => {
+  const [errorState, setErrorState] = useState("");
+  const { passwordVisibility, handlePasswordVisibility, rightIcon } = useTogglePasswordVisibility();
+
+  const handleLogin = (values) => {
+    const { email, password } = values;
+    signInWithEmailAndPassword(auth, email, password).catch((error) => {
+      setErrorState(error.message);
+    });
   };
 
   return (
-    <View style={styles.container}>
-      <Image source={require('../assets/tranqheal-logo.png')} style={styles.logo} />
-      <Text style={styles.title}>Welcome back.</Text>
+    <>
+      <View isSafe style={styles.container}>
+        <KeyboardAwareScrollView enableOnAndroid={true}>
+          {/* LogoContainer: consist app logo and screen title */}
+          <View style={styles.logoContainer}>
+            <Image source={require('../assets/tranqheal-logo.png')} style={styles.logo} />
+            <Text style={styles.title}>Welcome back.</Text>
+            <Text style={styles.subtitle}>Log In to your Account</Text>
+          </View>
 
-      <TextInput placeholder="Username" style={styles.input} />
-      <TextInput placeholder="Password" style={styles.input} secureTextEntry />
-      
-      <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate('Home')}>
-        <Text style={styles.registerText}>Login</Text>
-      </TouchableOpacity>
+          <Formik
+            initialValues={{ email: '', password: '' }}
+            validationSchema={loginValidationSchema}
+            onSubmit={(values) => handleLogin(values)}
+          >
+            {({
+              values,
+              touched,
+              errors,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+            }) => (
+              <>
+                {/* Input fields */}
+                <TextInput
+                  name="email"
+                  leftIconName="email"
+                  placeholder="Enter Email"
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                  textContentType="emailAddress"
+                  autoFocus={true}
+                  value={values.email}
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                />
+                <FormErrorMessage error={errors.email} visible={touched.email} />
 
-      <Text style={styles.or}>or register with</Text>
+                <TextInput
+                  name="password"
+                  leftIconName="key-variant"
+                  placeholder="Enter password"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  secureTextEntry={passwordVisibility}
+                  textContentType="password"
+                  rightIcon={rightIcon}
+                  handlePasswordVisibility={handlePasswordVisibility}
+                  value={values.password}
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                />
+                <FormErrorMessage error={errors.password} visible={touched.password} />
 
-      <TouchableOpacity style={styles.googleButton} onPress={signInWithGoogle}>
-        <Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png'}} style={styles.googleIcon} />
-      </TouchableOpacity>
+                {/* Display Screen Error Messages */}
+                {errorState !== "" ? (
+                  <FormErrorMessage error={errorState} visible={true} />
+                ) : null}
 
-      <View style={styles.loginContainer}>
-        <Text>Don't have an account?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-          <Text style={styles.loginLink}> Register</Text>
-        </TouchableOpacity>
+                {/* Forgot Password link */}
+                <Text style={styles.forgotPassword} onPress={() => navigation.navigate("ForgotPassword")}>
+                  Forgot Password?
+                </Text>
+
+                {/* Login button */}
+                <Button style={styles.button} onPress={handleSubmit}>
+                  <Text style={styles.buttonText}>Log In</Text>
+                </Button>
+
+                {/* Google Sign-in Placeholder */}
+                <Text style={styles.orSignInText}>or sign in with</Text>
+                <Button style={styles.googleButton}>
+                  <Text style={styles.googleText}>Sign in with Google</Text>
+                </Button>
+              </>
+            )}
+          </Formik>
+
+          {/* Footer for creating a new account */}
+          <View style={styles.footer}>
+            <Text>Don't have an account?</Text>
+            <Text style={styles.signupLink} onPress={() => navigation.navigate('Signup')}>
+              Register
+            </Text>
+          </View>
+        </KeyboardAwareScrollView>
       </View>
-    </View>
+    </>
   );
 };
 
+// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
     padding: 20,
+    backgroundColor: Colors.white,
   },
-  logo: {
-    width: 200,
-    height: 200,
+  logoContainer: {
+    alignItems: 'center',
     marginBottom: 30,
   },
+  logo: {
+    width: 120,
+    height: 120,
+    marginBottom: 20,
+  },
   title: {
-    fontSize: 24,
-    marginBottom: 20,
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: Colors.black,
   },
-  input: {
-    width: '100%',
-    padding: 15,
-    borderRadius: 10,
-    backgroundColor: '#f0f0f0',
-    marginBottom: 15,
-  },
-  registerButton: {
-    width: '100%',
-    backgroundColor: '#9B51E0',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  registerText: {
-    color: '#fff',
+  subtitle: {
     fontSize: 16,
-  },
-  or: {
-    color: '#8e8e8e',
-    marginBottom: 10,
-  },
-  googleButton: {
-    backgroundColor: '#fff',
-    padding: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#dcdcdc',
+    color: Colors.grey,
     marginBottom: 20,
   },
-  googleIcon: {
-    width: 24,
-    height: 24,
+  forgotPassword: {
+    alignSelf: 'flex-end',
+    marginTop: 10,
+    color: Colors.purple,
+    textDecorationLine: 'underline',
   },
-  loginContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+  button: {
+    backgroundColor: Colors.purple,
+    paddingVertical: 10,
+    borderRadius: 5,
     marginTop: 20,
   },
-  loginLink: {
-    color: '#9B51E0',
-    fontWeight: 'bold',
+  buttonText: {
+    color: Colors.white,
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  orSignInText: {
+    marginVertical: 20,
+    fontSize: 14,
+    textAlign: 'center',
+    color: Colors.grey,
+  },
+  googleButton: {
+    backgroundColor: Colors.white,
+    borderWidth: 1,
+    borderColor: Colors.grey,
+    paddingVertical: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+  googleText: {
+    color: Colors.black,
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  signupLink: {
+    color: Colors.purple,
     marginLeft: 5,
+    textDecorationLine: 'underline',
   },
 });
-
-export default LoginScreen;

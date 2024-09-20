@@ -2,18 +2,17 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';   //https://www.npmjs.com/package/react-native-radio-buttons-group
 
-import { createStackNavigator } from '@react-navigation/stack';
-import SelfAssessmentScreen2 from './SelfAssessmentScreen2';
+import { RootLayout } from '../navigation/RootLayout';
 
-const Stack = createStackNavigator();
 
-export default function PreferencesScreen({navigation}) {
+export const PreferencesScreen = ({navigation}) => {
   const [age, setAge] = useState('');
   const [gender, setGender] = useState('male');
   const [availability, setAvailability] = useState('morning'); 
 
   return (
-    <View style={styles.container}>
+    <RootLayout navigation={navigation}>
+      <View style={styles.container}>
       
       {/* Header */}
       <View style={styles.header}>
@@ -75,6 +74,8 @@ export default function PreferencesScreen({navigation}) {
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
     </View>
+    </RootLayout>
+    
   );
 }
 
