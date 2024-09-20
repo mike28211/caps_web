@@ -14,38 +14,47 @@ export const HomeScreen = ({ navigation }) => {
             <Text style={styles.greeting}>Hello, Seeker!</Text>
             <Text style={styles.subText}>Assess, Connect, Thrive: Your Path to Mental Wellness</Text>
           </View>
-          {/* Profile Picture */}
-          <Image
-            source={require('../assets/testprofile.jpg')} // Replace with your image URI
-            style={styles.profileImage}
-          />
-        </View>
-        {/* To-Do List Buttons */}
-        <View style={{ marginTop: 40 }}>
-          <TouchableOpacity onPress={() => navigation.navigate('SelfAssessment')} style={styles.todoItem}>
-            <View style={styles.circle}>
-              <Ionicons name="clipboard-outline" size={24} color="white" />
-            </View>
-            <Text style={styles.todoText}>Self-Assessment</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Forums')} style={styles.todoItem}>
-            <View style={styles.circle}>
-              <Ionicons name="chatbox-outline" size={24} color="white" />
-            </View>
-            <Text style={styles.todoText}>Forums</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('ViewProfessionals')} style={styles.todoItem}>
-            <View style={styles.circle}>
-              <Ionicons name="person-circle-outline" size={24} color="white" />
-            </View>
-            <Text style={styles.todoText}>View Professionals</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('ViewOrganizations')} style={styles.todoItem}>
-            <View style={styles.circle}>
-              <Ionicons name="business-outline" size={24} color="white" />
-            </View>
-            <Text style={styles.todoText}>View Organizations</Text>
-          </TouchableOpacity>
+         {/* Profile Picture */}
+         <Image
+          source={require('../assets/testprofile.jpg')} // Replace with your image URI
+          style={styles.profileImage}
+        />
+      </View>
+
+      {/* To-Do List Buttons */}
+      <View style={{ marginTop: 40 }}>
+        <TouchableOpacity onPress={() => navigation.navigate('SelfAssessment')} style={styles.todoItem}>
+          <View style={styles.circle}>
+            <Ionicons name="clipboard-outline" size={24} color="white" />
+          </View>
+          <Text style={styles.todoText}>Self-Assessment</Text>
+
+          <Image source={require('../assets/selfassessmentpic.jpg')} style={styles.todoImage} />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('Forums')} style={styles.todoItem}>
+          <View style={styles.circle}>
+            <Ionicons name="chatbox-outline" size={24} color="white" />
+          </View>
+          <Text style={styles.todoText}>Forums</Text>
+          <Image source={require('../assets/forumspic.png')} style={styles.todoImage} />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('ViewProfessionals')} style={styles.todoItem}>
+          <View style={styles.circle}>
+            <Ionicons name="person-circle-outline" size={24} color="white" />
+          </View>
+          <Text style={styles.todoText}>View Professionals</Text>
+          <Image source={require('../assets/professionalspic.jpg')} style={styles.todoImage} />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('ViewOrganizations')} style={styles.todoItem}>
+          <View style={styles.circle}>
+            <Ionicons name="business-outline" size={24} color="white" />
+          </View>
+          <Text style={styles.todoText}>View Organizations</Text>
+          <Image source={require('../assets/orgspic.jpg')} style={styles.todoImage} />
+        </TouchableOpacity>
         </View>
       </View>
     </RootLayout>
@@ -79,8 +88,8 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   profileImage: {
-    width: 165,
-    height: 165,
+    width: 80,
+    height: 80,
     borderRadius: 40, // Circular image
   },
   todoContainer: {
@@ -91,12 +100,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 10,
-    padding: 5,
+    padding: 8,
     backgroundColor: '#F7F2FA',
     borderRadius: 12,
     shadowColor: '#000',
-    width: '360',
-    height: '80',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
