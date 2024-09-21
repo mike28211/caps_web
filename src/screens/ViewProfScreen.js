@@ -111,6 +111,7 @@ export const ViewProfScreen = () => {
     </TouchableOpacity>
   );
 
+export const ViewProfScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>View Professionals</Text>

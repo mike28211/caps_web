@@ -55,6 +55,39 @@ export const HomeScreen = ({ navigation }) => {
           <Text style={styles.todoText}>View Organizations</Text>
           <Image source={require('../assets/orgspic.jpg')} style={styles.todoImage} />
         </TouchableOpacity>
+          </View>
+          {/* Profile Picture */}
+          <Image
+            source={require('../assets/testprofile.jpg')} // Replace with your image URI
+            style={styles.profileImage}
+          />
+        </View>
+        {/* To-Do List Buttons */}
+        <View style={{ marginTop: 40 }}>
+          <TouchableOpacity onPress={() => navigation.navigate('SelfAssessment')} style={styles.todoItem}>
+            <View style={styles.circle}>
+              <Ionicons name="clipboard-outline" size={24} color="white" />
+            </View>
+            <Text style={styles.todoText}>Self-Assessment</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Forums')} style={styles.todoItem}>
+            <View style={styles.circle}>
+              <Ionicons name="chatbox-outline" size={24} color="white" />
+            </View>
+            <Text style={styles.todoText}>Forums</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('ViewProfessionals')} style={styles.todoItem}>
+            <View style={styles.circle}>
+              <Ionicons name="person-circle-outline" size={24} color="white" />
+            </View>
+            <Text style={styles.todoText}>View Professionals</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('ViewOrganizations')} style={styles.todoItem}>
+            <View style={styles.circle}>
+              <Ionicons name="business-outline" size={24} color="white" />
+            </View>
+            <Text style={styles.todoText}>View Organizations</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </RootLayout>

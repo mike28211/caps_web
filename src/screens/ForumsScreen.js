@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput, FlatList, StyleSheet, Dimensions } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
+
 const { width } = Dimensions.get('window'); // Get screen width
 
 export const ForumsScreen = ({navigation}) => {
