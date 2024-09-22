@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { RootLayout } from '../navigation/RootLayout';
 
@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   profileImage: {
-    width: 80,
-    height: 80,
+    width: 165,
+    height: 165,
     borderRadius: 40, // Circular image
   },
   todoContainer: {

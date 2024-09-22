@@ -10,6 +10,9 @@ import { MoodScreen } from '../screens';
 import { ProfileScreen } from '../screens';
 import { MenuScreen } from '../screens';
 import { NotificationScreen } from '../screens';
+import { EditProfileScreen } from '../screens/editProfileScreen';
+import { ProfessionalDetailsScreen } from '../screens/ProfessionalDetailsScreen';
+
 
 const Stack = createStackNavigator();
 
@@ -61,6 +64,16 @@ export const AppStack = () => {
                 component={NotificationScreen} 
                 options={{ headerShown: true }} // Show the header for ViewOrganizationsScreen
             /> 
+            <Stack.Screen 
+                name="ProfessionalDetails" 
+                component={ProfessionalDetailsScreen} 
+                options={{ headerShown: true }} // Show the header for ViewOrganizationsScreen
+            /> 
+            <Stack.Screen
+                name="EditProfile"
+                component={EditProfileScreen}
+                options={{ headerShown: true }} // Show the header for ViewOrganizationsScreen
+            ></Stack.Screen>
         </Stack.Navigator>
     );
 }

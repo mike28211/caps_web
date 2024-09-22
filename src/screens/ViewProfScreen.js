@@ -4,6 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import RNPickerSelect from 'react-native-picker-select';
+import { ProfessionalDetailsScreen } from '../screens/ProfessionalDetailsScreen';
 
 
 // Sample data
@@ -145,7 +146,7 @@ export const ViewProfScreen = () => {
           <RNPickerSelect
             onValueChange={(value) => setSelectedSpecialty(value)}
             items={[
-              { label: 'All', value: null },
+              { label: 'All', value: '' },
               { label: 'Psychiatrist', value: 'Psychiatrist' },
               { label: 'Therapist', value: 'Therapist' },
               { label: 'Clinical Psychologist', value: 'Clinical Psychologist' },
@@ -160,7 +161,7 @@ export const ViewProfScreen = () => {
           <RNPickerSelect
             onValueChange={(value) => setSelectedGender(value)}
             items={[
-              { label: 'All', value: null },
+              { label: 'All', value: '' },
               { label: 'Male', value: 'Male' },
               { label: 'Female', value: 'Female' },
             ]}
@@ -189,7 +190,7 @@ export const ViewProfScreen = () => {
           <RNPickerSelect
             onValueChange={(value) => setSelectedTimeAvailable(value)}
             items={[
-              { label: 'All', value: null },
+              { label: 'All', value: '' },
               { label: 'Morning', value: 'Morning' },
               { label: 'Afternoon', value: 'Afternoon' },
               { label: 'Evening', value: 'Evening' },

@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 export const ProfessionalDetailsScreen = ({ route }) => {
     const { professional } = route.params; // Get the professional data passed during navigation
@@ -13,3 +13,13 @@ export const ProfessionalDetailsScreen = ({ route }) => {
       </View>
     );
   }
+
+  const styles = StyleSheet.create({
+    professionalDetails: {
+      flex: 1,
+      justifyContent: 'center',
+    },
+    
+    
+  });
+
