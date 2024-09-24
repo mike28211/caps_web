@@ -1,18 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
-
 import { RootLayout } from '../navigation/RootLayout';
-import { createStackNavigator } from '@react-navigation/stack';
+import { Colors } from '../config';
 
-const Stack = createStackNavigator();
-
-export const SelfAssessmentResultScreen = ({ navigation, route }) =>{
+export const SAResultScreen = ({ navigation, route }) =>{
   
     // receive the scores as props
   const { phqScore, gadScore, pssScore } = route.params || { phqScore: 15, gadScore: 15, pssScore: 15 }; // default values for scores
 
   return (
-    <RootLayout navigation={navigation}>
+    <RootLayout screenName="SAResult" navigation={navigation}>
        <ScrollView style={styles.container}>
       {/* Title */}
       <Text style={styles.title}>Your total score was ..... </Text>
@@ -43,7 +40,7 @@ export const SelfAssessmentResultScreen = ({ navigation, route }) =>{
           <Text style={styles.buttonText}>Seek Professional</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.button, styles.finishButton]} onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>
           <Text style={styles.buttonText}>Finish</Text>
         </TouchableOpacity>
       </View>
@@ -56,7 +53,6 @@ export const SelfAssessmentResultScreen = ({ navigation, route }) =>{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
@@ -76,7 +72,6 @@ const styles = StyleSheet.create({
   },
   resultText: {
     fontSize: 16,
-    color: '#333',
     marginBottom: 15,
   },
   disclaimer: {
@@ -90,7 +85,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   button: {
-    backgroundColor: '#6200ee',
+    backgroundColor: Colors.purple,
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 25,
@@ -99,11 +94,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     marginBottom: 20,
   },
-  finishButton: {
-    backgroundColor: '#6200ee',
-  },
   buttonText: {
-    color: '#fff',
+    color: Colors.white,
     fontSize: 16,
     fontWeight: 'bold',
   },

@@ -110,8 +110,7 @@ export const ViewProfScreen = () => {
       <Ionicons name="arrow-forward-circle-outline" size={24} color="gray" style={styles.forwardIcon} />
     </TouchableOpacity>
   );
-
-export const ViewProfScreen = () => {
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>View Professionals</Text>
