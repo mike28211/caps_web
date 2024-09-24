@@ -15,9 +15,11 @@ import {PreferencesScreen} from './PreferencesScreen';
 import {SelfAssessmentScreen2} from './SelfAssessmentScreen2';
 import { SelfAssessmentScreen3 } from './SelfAssessmentScreen3';
 import {SelfAssessmentResultScreen} from './SelfAssessmentResultScreen';
+import {ProfessionalHomeScreen} from    './ProfessionalHomeScreen'
 
 export { WelcomeScreen, RegisterAsScreen, LoginScreen, 
     SignupScreen, ViewProfScreen, ViewOrgScreen, ForumsScreen, 
     HomeScreen, SelfAssessmentScreen, MoodScreen, 
     ProfileScreen, NotificationScreen, MenuScreen,
-    PreferencesScreen, SelfAssessmentScreen2, SelfAssessmentScreen3, SelfAssessmentResultScreen};
+    PreferencesScreen, SelfAssessmentScreen2, SelfAssessmentScreen3, SelfAssessmentResultScreen,
+    ProfessionalHomeScreen};

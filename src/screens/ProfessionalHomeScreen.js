@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'rea
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { RootLayout } from '../navigation/RootLayout';
 
-export const HomeScreen = ({ navigation }) => {
+export const ProfessionalHomeScreen = ({ navigation }) => {
   return (
     <RootLayout navigation={navigation}>
       <View style={{ flex: 1, padding: 20 }}>
@@ -11,7 +11,7 @@ export const HomeScreen = ({ navigation }) => {
         <View style={styles.header}>
           {/* Greeting and Subtext */}
           <View style={styles.textContainer}>
-            <Text style={styles.greeting}>Hello, Seeker!</Text>
+            <Text style={styles.greeting}>Hello, Kayla!</Text>
             <Text style={styles.subText}>Assess, Connect, Thrive: Your Path to Mental Wellness</Text>
           </View>
          {/* Profile Picture */}
@@ -27,9 +27,9 @@ export const HomeScreen = ({ navigation }) => {
           <View style={styles.circle}>
             <Ionicons name="clipboard-outline" size={24} color="white" />
           </View>
-          <Text style={styles.todoText}>Self-Assessment</Text>
+          <Text style={styles.todoText}>Search Organizations</Text>
 
-          <Image source={require('../assets/selfassessmentpic.jpg')} style={styles.todoImage} />
+          <Image source={require('../assets/orgspic.jpg')} style={styles.todoImage} />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('Forums')} style={styles.todoItem}>
@@ -40,19 +40,19 @@ export const HomeScreen = ({ navigation }) => {
           <Image source={require('../assets/forumspic.png')} style={styles.todoImage} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('ViewProfessionals')} style={styles.todoItem}>
+        <TouchableOpacity onPress={() => navigation.navigate('ViewRequestHistory')} style={styles.todoItem}>
           <View style={styles.circle}>
             <Ionicons name="person-circle-outline" size={24} color="white" />
           </View>
-          <Text style={styles.todoText}>View Professionals</Text>
-          <Image source={require('../assets/professionalspic.jpg')} style={styles.todoImage} />
+          <Text style={styles.todoText}>View Request History</Text>
+          <Image source={require('../assets/viewrequesthistory.jpg')} style={styles.todoImage} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('ViewOrganizations')} style={styles.todoItem}>
+        <TouchableOpacity onPress={() => navigation.navigate('')} style={styles.todoItem}>
           <View style={styles.circle}>
             <Ionicons name="business-outline" size={24} color="white" />
           </View>
-          <Text style={styles.todoText}>View Organizations</Text>
+          <Text style={styles.todoText}>View Request</Text>
           <Image source={require('../assets/orgspic.jpg')} style={styles.todoImage} />
         </TouchableOpacity>
           </View>

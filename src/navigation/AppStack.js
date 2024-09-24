@@ -14,6 +14,7 @@ import { PreferencesScreen } from '../screens';
 import { SelfAssessmentScreen2 } from '../screens';
 import {SelfAssessmentScreen3}  from  '../screens';
 import { SelfAssessmentResultScreen } from '../screens';
+import { ProfessionalHomeScreen } from '../screens';
 
 const Stack = createStackNavigator();
 
@@ -83,6 +84,11 @@ export const AppStack = () => {
              <Stack.Screen 
                 name="SelfAssessmentResult" 
                 component={SelfAssessmentResultScreen} 
+                options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+                name="ProfessionalHome" 
+                component={ProfessionalHomeScreen} 
                 options={{ headerShown: false }} 
             />
         </Stack.Navigator>
