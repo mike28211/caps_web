@@ -23,7 +23,7 @@ export const ProfessionalHomeScreen = ({ navigation }) => {
 
       {/* To-Do List Buttons */}
       <View style={{ marginTop: 40 }}>
-        <TouchableOpacity onPress={() => navigation.navigate('')} style={styles.todoItem}>
+        <TouchableOpacity onPress={() => navigation.navigate('ViewOrganizations')} style={styles.todoItem}>
           <View style={styles.circle}>
             <Ionicons name="clipboard-outline" size={24} color="white" />
           </View>
@@ -40,7 +40,7 @@ export const ProfessionalHomeScreen = ({ navigation }) => {
           <Image source={require('../assets/forumspic.png')} style={styles.todoImage} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('')} style={styles.todoItem}>
+        <TouchableOpacity onPress={() => navigation.navigate('ViewRequestHistory')} style={styles.todoItem}>
           <View style={styles.circle}>
             <Ionicons name="person-circle-outline" size={24} color="white" />
           </View>
@@ -48,7 +48,7 @@ export const ProfessionalHomeScreen = ({ navigation }) => {
           <Image source={require('../assets/viewrequesthistory.jpg')} style={styles.todoImage} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('')} style={styles.todoItem}>
+        <TouchableOpacity onPress={() => navigation.navigate('ViewRequest')} style={styles.todoItem}>
           <View style={styles.circle}>
             <Ionicons name="business-outline" size={24} color="white" />
           </View>
@@ -56,12 +56,6 @@ export const ProfessionalHomeScreen = ({ navigation }) => {
           <Image source={require('../assets/professionalspic.jpg')} style={styles.todoImage} />
         </TouchableOpacity>
           </View>
-          
-          {/* Profile Picture */}
-          {/* <Image
-            source={require('../assets/testprofile.jpg')} // Replace with your image URI
-            style={styles.profileImage}
-          /> */}
       </View>
     </RootLayout>
   );

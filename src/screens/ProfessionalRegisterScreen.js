@@ -27,7 +27,8 @@ export const ProfessionalRegisterScreen = ({ navigation }) => {
       {/* Yes Button */}
       <TouchableOpacity 
         style={styles.button}
-        onPress={() => navigation.navigate('ProfessionalHome')}  // Adjust navigation
+        //onPress={() => navigation.navigate('SignUp')}
+        onPress={() => navigation.navigate('UploadCredentials')}  
       >
         <Text style={styles.buttonText}>Yes</Text>
       </TouchableOpacity>
@@ -35,6 +36,7 @@ export const ProfessionalRegisterScreen = ({ navigation }) => {
       {/* No Button */}
       <TouchableOpacity 
         style={styles.button}
+        onPress={() => navigation.navigate('RegisterAs')}
       >
         <Text style={styles.buttonText}>No</Text>
       </TouchableOpacity>

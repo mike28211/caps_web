@@ -15,11 +15,10 @@ import { SAPreferenceScreen } from './SAPreferenceScreen';
 import { SAResultScreen } from './SAResultScreen';
 import { SAScreen2 } from './SAScreen2';
 import { SAScreen3 } from './SAScreen3';
-import {ProfessionalRegisterScreen}   from './ProfessionalRegisterScreen'
-import {ProfessionalHomeScreen}   from './ProfessionalHomeScreen'
+
 
 export { WelcomeScreen, RegisterAsScreen, LoginScreen, 
     SignupScreen, ViewProfScreen, ViewOrgScreen, ForumsScreen, 
     HomeScreen, SAScreen, SAScreen2, SAScreen3, MoodScreen, 
     ProfileScreen, NotificationScreen, MenuScreen,
-    SAPreferenceScreen, SAResultScreen, ProfessionalRegisterScreen, ProfessionalHomeScreen };
+    SAPreferenceScreen, SAResultScreen};
