@@ -366,5 +366,5 @@ const pickerSelectStyles = StyleSheet.create({
     color: 'black',
     paddingRight: 30,
     backgroundColor: 'white',
-  },
-}); 
+  }
+});
