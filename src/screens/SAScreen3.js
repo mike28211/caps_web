@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';   //https://www.npmjs.com/package/react-native-radio-buttons-group
-
 import { RootLayout } from '../navigation/RootLayout';
-import { createStackNavigator } from '@react-navigation/stack';
+import { Colors } from '../config';
 
-const Stack = createStackNavigator();
-
-export const SelfAssessmentScreen3 = ({navigation}) => {
+export const SAScreen3 = ({navigation}) => {
   // State for each question's answer
   const [answers, setAnswers] = useState({
    
@@ -28,7 +25,7 @@ export const SelfAssessmentScreen3 = ({navigation}) => {
   };
 
   return (
-    <RootLayout navigation={navigation}>
+    <RootLayout screenName={'SelfAssessment'} navigation={navigation}>
       <ScrollView style={styles.container}>
      
       {/* Title */}
@@ -81,7 +78,6 @@ export const SelfAssessmentScreen3 = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
@@ -89,7 +85,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     marginBottom: 20,
-    color: '#333',
   },
   title: {
     fontSize: 24,
@@ -113,7 +108,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start', 
   },
   button: {
-    backgroundColor: '#6200ee',
+    backgroundColor: Colors.purple,
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 25,
@@ -122,7 +117,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonText: {
-    color: '#fff',
+    color: Colors.white,
     fontSize: 16,
     fontWeight: 'bold',
   },

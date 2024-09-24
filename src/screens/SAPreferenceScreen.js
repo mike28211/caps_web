@@ -5,7 +5,7 @@ import RadioGroup from 'react-native-radio-buttons-group';   //https://www.npmjs
 import { RootLayout } from '../navigation/RootLayout';
 
 
-export const PreferencesScreen = ({navigation}) => {
+export const SAPreferenceScreen = ({navigation}) => {
   const [age, setAge] = useState('');
   const [gender, setGender] = useState('male');
   const [availability, setAvailability] = useState('morning'); 

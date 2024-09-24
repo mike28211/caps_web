@@ -5,7 +5,7 @@ import { RootLayout } from '../navigation/RootLayout';
 
 export const HomeScreen = ({ navigation }) => {
   return (
-    <RootLayout navigation={navigation}>
+    <RootLayout screenName="Home" navigation={navigation}>
       <View style={{ flex: 1, padding: 20 }}>
         {/* Header Section */}
         <View style={styles.header}>
@@ -19,6 +19,7 @@ export const HomeScreen = ({ navigation }) => {
           source={require('../assets/testprofile.jpg')} // Replace with your image URI
           style={styles.profileImage}
         />
+        </View>
       </View>
 
       {/* To-Do List Buttons */}
@@ -55,12 +56,6 @@ export const HomeScreen = ({ navigation }) => {
           <Text style={styles.todoText}>View Organizations</Text>
           <Image source={require('../assets/orgspic.jpg')} style={styles.todoImage} />
         </TouchableOpacity>
-          </View>
-          {/* Profile Picture */}
-          <Image
-            source={require('../assets/testprofile.jpg')} // Replace with your image URI
-            style={styles.profileImage}
-          />
       </View>
     </RootLayout>
   );

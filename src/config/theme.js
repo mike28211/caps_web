@@ -5,5 +5,6 @@ export const Colors = {
     white: "#ffffff",
     mediumGray: "#6e6869",
     red: "#fc5c65",
-    purple: "#9B51E0"
+    purple: "#9B51E0",
+    grey: "#6c757d"
   };
