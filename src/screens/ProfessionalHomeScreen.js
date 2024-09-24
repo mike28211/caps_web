@@ -16,14 +16,14 @@ export const ProfessionalHomeScreen = ({ navigation }) => {
           </View>
          {/* Profile Picture */}
          <Image
-          source={require('../assets/testprofile.jpg')} // Replace with your image URI
+          source={require('../assets/testProfProfile.jpg')} // Replace with your image URI
           style={styles.profileImage}
         />
       </View>
 
       {/* To-Do List Buttons */}
       <View style={{ marginTop: 40 }}>
-        <TouchableOpacity onPress={() => navigation.navigate('SelfAssessment')} style={styles.todoItem}>
+        <TouchableOpacity onPress={() => navigation.navigate('')} style={styles.todoItem}>
           <View style={styles.circle}>
             <Ionicons name="clipboard-outline" size={24} color="white" />
           </View>
@@ -40,7 +40,7 @@ export const ProfessionalHomeScreen = ({ navigation }) => {
           <Image source={require('../assets/forumspic.png')} style={styles.todoImage} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('ViewRequestHistory')} style={styles.todoItem}>
+        <TouchableOpacity onPress={() => navigation.navigate('')} style={styles.todoItem}>
           <View style={styles.circle}>
             <Ionicons name="person-circle-outline" size={24} color="white" />
           </View>
@@ -53,7 +53,7 @@ export const ProfessionalHomeScreen = ({ navigation }) => {
             <Ionicons name="business-outline" size={24} color="white" />
           </View>
           <Text style={styles.todoText}>View Request</Text>
-          <Image source={require('../assets/orgspic.jpg')} style={styles.todoImage} />
+          <Image source={require('../assets/professionalspic.jpg')} style={styles.todoImage} />
         </TouchableOpacity>
           </View>
           

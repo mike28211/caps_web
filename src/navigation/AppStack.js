@@ -2,7 +2,7 @@ import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { HomeScreen } from '../screens';
-import { SelfAssessmentScreen } from '../screens';
+import { SAScreen } from '../screens';
 import { ForumsScreen } from '../screens';
 import { ViewProfScreen } from '../screens';
 import { ViewOrgScreen } from '../screens';
@@ -10,11 +10,12 @@ import { MoodScreen } from '../screens';
 import { ProfileScreen } from '../screens';
 import { MenuScreen } from '../screens';
 import { NotificationScreen } from '../screens';
-import { PreferencesScreen } from '../screens';
-import { SelfAssessmentScreen2 } from '../screens';
-import {SelfAssessmentScreen3}  from  '../screens';
-import { SelfAssessmentResultScreen } from '../screens';
-import { ProfessionalHomeScreen } from '../screens';
+import { SAPreferenceScreen } from '../screens';
+import { SAResultScreen } from '../screens';
+import { SAScreen2 }  from  '../screens';
+import { SAScreen3 } from '../screens';
+//import { ProfessionalHomeScreen } from '../screens';
+
 
 const Stack = createStackNavigator();
 
@@ -28,7 +29,7 @@ export const AppStack = () => {
             />
             <Stack.Screen 
                 name="SelfAssessment" 
-                component={SelfAssessmentScreen} 
+                component={SAScreen} 
                 options={{ headerShown: false }} // Show the header for SelfAssessmentScreen
             />
             <Stack.Screen 
@@ -68,29 +69,29 @@ export const AppStack = () => {
             /> 
              <Stack.Screen 
                 name="Preferences" 
-                component={PreferencesScreen} 
+                component={SAPreferenceScreen} 
                 options={{ headerShown: false }}
             />
              <Stack.Screen 
                 name="SelfAssessment2" 
-                component={SelfAssessmentScreen2} 
+                component={SAScreen2} 
                 options={{ headerShown: false }} 
             />
             <Stack.Screen 
                 name="SelfAssessment3" 
-                component={SelfAssessmentScreen3} 
+                component={SAScreen3} 
                 options={{ headerShown: false }} 
             />
              <Stack.Screen 
                 name="SelfAssessmentResult" 
-                component={SelfAssessmentResultScreen} 
+                component={SAResultScreen} 
                 options={{ headerShown: false }} 
             />
-            <Stack.Screen 
+           {/* <Stack.Screen 
                 name="ProfessionalHome" 
                 component={ProfessionalHomeScreen} 
                 options={{ headerShown: false }} 
-            />
+            /> */}
         </Stack.Navigator>
     );
 }
