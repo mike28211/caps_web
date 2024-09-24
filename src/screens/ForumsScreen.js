@@ -4,7 +4,53 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 const { width } = Dimensions.get('window'); // Get screen width
 
-export const ForumsScreen = ({navigation}) => {
+export const ForumsScreen = ({ navigation }) => {
+  // State declarations
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [forums, setForums] = useState([
+    // Example forums data
+    { id: '1', title: 'Mental Health Awareness', timeFrame: '2h ago', tags: ['Support', 'Awareness'] },
+    { id: '2', title: 'Stress Management', timeFrame: '5h ago', tags: ['Stress', 'Self-care'] },
+    // Add more forum objects here
+  ]);
+
+  // Function to filter forums based on search query
+  const handleSearch = () => {
+    if (searchQuery) {
+      const filteredForums = forums.filter((forum) =>
+        forum.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setForums(filteredForums);
+    } else {
+      // Reset forums if search query is empty
+      setForums([
+        { id: '1', title: 'Mental Health Awareness', timeFrame: '2h ago', tags: ['Support', 'Awareness'] },
+        { id: '2', title: 'Stress Management', timeFrame: '5h ago', tags: ['Stress', 'Self-care'] },
+        // Add more forum objects here
+      ]);
+    }
+  };
+
+  // Function to render each forum item
+  const renderForumItem = ({ item }) => (
+    <View style={styles.forumContainer}>
+      <Text style={styles.forumTitle}>{item.title}</Text>
+      <View style={styles.metaContainer}>
+        <Text style={styles.timeFrame}>{item.timeFrame}</Text>
+        <View style={styles.tagContainer}>
+          {item.tags.map((tag, index) => (
+            <Text key={index} style={styles.tag}>{tag}</Text>
+          ))}
+        </View>
+      </View>
+      <TouchableOpacity style={styles.visitButton} onPress={() => navigation.navigate('ForumDetails', { forumId: item.id })}>
+        <Ionicons name="arrow-forward" size={18} color="white" style={styles.visitIcon} />
+        <Text style={styles.visitButtonText}>Visit Forum</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>

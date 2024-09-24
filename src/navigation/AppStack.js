@@ -12,6 +12,7 @@ import { MenuScreen } from '../screens';
 import { NotificationScreen } from '../screens';
 import { EditProfileScreen } from '../screens/editProfileScreen';
 import { ProfessionalDetailsScreen } from '../screens/ProfessionalDetailsScreen';
+import { OrganizationDetailsScreen } from '../screens/OrganizationDetailsScreen';
 
 
 const Stack = createStackNavigator();
@@ -19,6 +20,7 @@ const Stack = createStackNavigator();
 export const AppStack = () => {
     return (
         <Stack.Navigator>
+        
             <Stack.Screen 
                 name="Home" 
                 component={HomeScreen} 
@@ -69,6 +71,11 @@ export const AppStack = () => {
                 component={ProfessionalDetailsScreen} 
                 options={{ headerShown: true }} // Show the header for ViewOrganizationsScreen
             /> 
+            <Stack.Screen
+                name="OrganizationDetails"
+                component={OrganizationDetailsScreen}
+                options={{ headerShown: true }} // Show the header for ViewOrganizationsScreen
+            ></Stack.Screen>
             <Stack.Screen
                 name="EditProfile"
                 component={EditProfileScreen}

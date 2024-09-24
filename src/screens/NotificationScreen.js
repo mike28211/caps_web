@@ -3,11 +3,11 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 export const NotificationScreen = () => {
   return (
-    <View style={{ flex: 1, padding: 20 }}>
+    <View style={{ flex: 1, padding: 20 , backgroundColor: 'white'}}>
     <View style={styles.header}>
       {/* Greeting and Subtext */}
       <View style={styles.textContainer}>
-        <Text style={styles.ProfileTitle}>Profile</Text>
+        <Text style={styles.ProfileTitle}>Notifications</Text>
       </View>
     </View>
     <View style={styles.divider} />

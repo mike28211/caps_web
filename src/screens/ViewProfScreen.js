@@ -4,7 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import RNPickerSelect from 'react-native-picker-select';
-import { ProfessionalDetailsScreen } from '../screens/ProfessionalDetailsScreen';
+
 
 
 // Sample data
