@@ -1,8 +1,25 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, SafeAreaView, StatusBar } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Image, SafeAreaView, StatusBar } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-export const RootLayout = ({ children, navigation }) => {
+export const RootLayout = ({ children, navigation, screenName }) => {
+
+  const renderLeftIcon = () => {
+    if (screenName === 'Home') {
+      return (
+        <TouchableOpacity onPress={() => navigation.navigate('Menu')}>
+          <Ionicons name="menu" size={30} color="black" />
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="chevron-back" size={30} color="black" />
+        </TouchableOpacity>
+      );
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
 
@@ -10,9 +27,7 @@ export const RootLayout = ({ children, navigation }) => {
 
         {/* Header */}
         <View style={styles.header}>
-            <TouchableOpacity onPress={() => navigation.navigate('Menu')}>
-            <Ionicons name="menu" size={30} color="black" />
-            </TouchableOpacity>
+            {renderLeftIcon()}
             <Image source={require('../assets/small-logo.jpg')} style={styles.logo} />
             <TouchableOpacity onPress={() => navigation.navigate('Notifications')}>
             <Ionicons name="notifications-outline" size={30} color="black" />

@@ -5,7 +5,7 @@ import { RootLayout } from '../navigation/RootLayout';
 
 export const HomeScreen = ({ navigation }) => {
   return (
-    <RootLayout navigation={navigation}>
+    <RootLayout screenName="Home" navigation={navigation}>
       <View style={{ flex: 1, padding: 20 }}>
         {/* Header Section */}
         <View style={styles.header}>
@@ -19,6 +19,7 @@ export const HomeScreen = ({ navigation }) => {
           source={require('../assets/testprofile.jpg')} // Replace with your image URI
           style={styles.profileImage}
         />
+        </View>
       </View>
 
       {/* To-Do List Buttons */}
@@ -36,8 +37,8 @@ export const HomeScreen = ({ navigation }) => {
           <View style={styles.circle}>
             <Ionicons name="chatbox-outline" size={24} color="white" />
           </View>
-          <Text style={styles.todoText}>Forums</Text>
-          <Image source={require('../assets/forumspic.png')} style={styles.todoImage} />
+            <Text style={styles.todoText}>Forums</Text>
+            <Image source={require('../assets/forumspic.png')} style={styles.todoImage} />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('ViewProfessionals')} style={styles.todoItem}>
@@ -55,7 +56,6 @@ export const HomeScreen = ({ navigation }) => {
           <Text style={styles.todoText}>View Organizations</Text>
           <Image source={require('../assets/orgspic.jpg')} style={styles.todoImage} />
         </TouchableOpacity>
-        </View>
       </View>
     </RootLayout>
   );
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     padding: 8,
     backgroundColor: '#F7F2FA',
     borderRadius: 12,
+    width: 360,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,

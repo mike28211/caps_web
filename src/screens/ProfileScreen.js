@@ -4,6 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { RootLayout } from '../navigation/RootLayout';
 
 
 
@@ -36,57 +37,59 @@ export const ProfileScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.textContainer}>
-          <Text style={styles.ProfileTitle}>Profile</Text>
+    <RootLayout screenName="Profile" navigation={navigation}>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <View style={styles.textContainer}>
+              <Text style={styles.ProfileTitle}>Profile</Text>
+            </View>
+          </View>
+
+          {/* Divider Line */}
+          <View style={styles.divider} />
+
+          {/* Profile Image with Camera Icon */}
+          <View style={styles.imageContainer}>
+            <Image
+              source={profileImage} // Display selected image
+              style={styles.profileImage}
+            />
+            <TouchableOpacity style={styles.cameraIcon} onPress={pickImage}>
+              <Ionicons name="camera-outline" size={24} color="white" />
+            </TouchableOpacity>
+          </View>
+
+          {/* Username with Hovering Edit Icon */}
+          <View style={styles.usernameContainer}>
+            <Text style={styles.username}>Username: seeker1</Text>
+            <TouchableOpacity 
+              style={styles.editButton} 
+              onPress={() => navigation.navigate('EditProfile')}
+            >
+              <Ionicons name="pencil-outline" size={20} color="black" />
+            </TouchableOpacity>
+          </View>
+
+          {/* Personal Details */}
+          <View style={styles.divider} />
+          <View style={styles.personalDetails}>
+            <Text style={styles.detailTitle}>Full Name: John Doe</Text>
+            <Text style={styles.detailTitle}>Age: 28</Text>
+            <Text style={styles.detailTitle}>Gender: Male</Text>
+            <Text style={styles.detailTitle}>Contact: +1 234 567 8901</Text>
+          </View>
+
+          {/* Divider Line */}
+          <View style={styles.divider} />
+
+          {/* Contact Details */}
+          <View style={styles.contactDetails}>
+            <Text style={styles.detailTitle}>Mobile: +1 234 567 8901</Text>
+            <Text style={styles.detailTitle}>Email: johndoe@example.com</Text>
+            <Text style={styles.detailTitle}>Facebook: @johnDoe</Text>
+          </View>
         </View>
-      </View>
-
-      {/* Divider Line */}
-      <View style={styles.divider} />
-
-      {/* Profile Image with Camera Icon */}
-      <View style={styles.imageContainer}>
-        <Image
-          source={profileImage} // Display selected image
-          style={styles.profileImage}
-        />
-        <TouchableOpacity style={styles.cameraIcon} onPress={pickImage}>
-          <Ionicons name="camera-outline" size={24} color="white" />
-        </TouchableOpacity>
-      </View>
-
-      {/* Username with Hovering Edit Icon */}
-      <View style={styles.usernameContainer}>
-        <Text style={styles.username}>Username: seeker1</Text>
-        <TouchableOpacity 
-          style={styles.editButton} 
-          onPress={() => navigation.navigate('EditProfile')}
-        >
-          <Ionicons name="pencil-outline" size={20} color="black" />
-        </TouchableOpacity>
-      </View>
-
-      {/* Personal Details */}
-      <View style={styles.divider} />
-      <View style={styles.personalDetails}>
-        <Text style={styles.detailTitle}>Full Name: John Doe</Text>
-        <Text style={styles.detailTitle}>Age: 28</Text>
-        <Text style={styles.detailTitle}>Gender: Male</Text>
-        <Text style={styles.detailTitle}>Contact: +1 234 567 8901</Text>
-      </View>
-
-      {/* Divider Line */}
-      <View style={styles.divider} />
-
-      {/* Contact Details */}
-      <View style={styles.contactDetails}>
-        <Text style={styles.detailTitle}>Mobile: +1 234 567 8901</Text>
-        <Text style={styles.detailTitle}>Email: johndoe@example.com</Text>
-        <Text style={styles.detailTitle}>Facebook: @johnDoe</Text>
-      </View>
-    </View>
+    </RootLayout>  
   );
 }
 

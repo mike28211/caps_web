@@ -4,6 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import RNPickerSelect from 'react-native-picker-select';
+import { RootLayout } from '../navigation/RootLayout';
 
 // Sample data for organizations
 const organizations = [
@@ -77,6 +78,7 @@ export const ViewOrgScreen = () => {
   );
 
   return (
+    <RootLayout navigation={navigation} screenName="ViewOrg">
     <View style={styles.container}>
       <Text style={styles.title}>View Organizations</Text>
       <View style={styles.searchBarRow}>
@@ -98,6 +100,7 @@ export const ViewOrgScreen = () => {
         contentContainerStyle={styles.orgList}
       />
     </View>
+    </RootLayout>
   );
 };
 

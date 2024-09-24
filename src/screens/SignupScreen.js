@@ -52,6 +52,19 @@ export const SignupScreen = ({ navigation }) => {
             <>
               {/* Input fields */}
               <TextInput
+                name="username"
+                leftIconName="account"
+                placeholder="Enter Username"
+                autoCapitalize="none"
+                keyboardType="username"
+                textContentType="username"
+                autoFocus={true}
+                value={values.username}
+                onChangeText={handleChange('username')}
+                onBlur={handleBlur('username')}
+              />
+              <FormErrorMessage error={errors.username} visible={touched.username} />
+              <TextInput
                 name="email"
                 leftIconName="email"
                 placeholder="Enter email"
@@ -138,16 +151,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
   },
   loginContainer: {
     alignItems: 'center',
-    marginBottom: 40,
+    marginBottom: 30,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginVertical: 20,
+    marginVertical: 10,
   },
   button: {
     backgroundColor: Colors.purple,
@@ -157,7 +170,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   buttonText: {
-    color: '#fff',
+    color: Colors.white,
     fontWeight: 'bold',
     fontSize: 18,
   },

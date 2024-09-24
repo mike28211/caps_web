@@ -1,19 +1,22 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
+import { RootLayout } from '../navigation/RootLayout';
 
 export const OrganizationDetailsScreen = ({ route }) => {
   const { organization } = route.params;
 
   return (
-    <View style={styles.container}>
-      <Image source={{ uri: organization.image }} style={styles.orgImage} />
-      <Text style={styles.orgName}>{organization.name}</Text>
-      <Text style={styles.orgType}>Type: {organization.type}</Text>
-      <Text style={styles.orgServices}>Services Offered: {organization.services}</Text>
-      <Text style={styles.orgAddress}>Address: {organization.address}</Text>
-      <Text style={styles.orgHours}>Hours Available: {organization.hoursAvailable}</Text>
-      <Text style={styles.orgRating}>Rating: {organization.rating.toFixed(1)}</Text>
-    </View>
+    <RootLayout navigation={route.params.navigation} screenName="OrganizationDetails">
+        <View style={styles.container}>
+            <Image source={{ uri: organization.image }} style={styles.orgImage} />
+                <Text style={styles.orgName}>{organization.name}</Text>
+                <Text style={styles.orgType}>Type: {organization.type}</Text>
+                <Text style={styles.orgServices}>Services Offered: {organization.services}</Text>
+                <Text style={styles.orgAddress}>Address: {organization.address}</Text>
+                <Text style={styles.orgHours}>Hours Available: {organization.hoursAvailable}</Text>
+                <Text style={styles.orgRating}>Rating: {organization.rating.toFixed(1)}</Text>
+        </View>
+    </RootLayout>
   );
 };
 
