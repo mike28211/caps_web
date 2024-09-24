@@ -14,17 +14,6 @@ export const SelfAssessmentResultScreen = ({ navigation, route }) =>{
   return (
     <RootLayout navigation={navigation}>
        <ScrollView style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image style={styles.icon} source={require('../assets/arrow_back.svg')} />
-        </TouchableOpacity>
-        <Image style={styles.logo} source={require('../assets/icon-lotus-flower.svg')} />
-        <TouchableOpacity>
-          <Image style={styles.icon} source={require('../assets/notifications.svg')} />
-        </TouchableOpacity>
-      </View>
-
       {/* Title */}
       <Text style={styles.title}>Your total score was ..... </Text>
 
@@ -54,7 +43,7 @@ export const SelfAssessmentResultScreen = ({ navigation, route }) =>{
           <Text style={styles.buttonText}>Seek Professional</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.button, styles.finishButton]} onPress={() => navigation.navigate('HomeScreen')}>
+        <TouchableOpacity style={[styles.button, styles.finishButton]} onPress={() => navigation.navigate('Home')}>
           <Text style={styles.buttonText}>Finish</Text>
         </TouchableOpacity>
       </View>
@@ -70,20 +59,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 20,
     paddingVertical: 10,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  icon: {
-    width: 24,
-    height: 24,
-  },
-  logo: {
-    width: 40,
-    height: 40,
   },
   title: {
     fontSize: 24,

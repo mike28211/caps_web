@@ -12,6 +12,7 @@ import { MenuScreen } from '../screens';
 import { NotificationScreen } from '../screens';
 import { PreferencesScreen } from '../screens';
 import { SelfAssessmentScreen2 } from '../screens';
+import {SelfAssessmentScreen3}  from  '../screens';
 import { SelfAssessmentResultScreen } from '../screens';
 
 const Stack = createStackNavigator();
@@ -27,7 +28,7 @@ export const AppStack = () => {
             <Stack.Screen 
                 name="SelfAssessment" 
                 component={SelfAssessmentScreen} 
-                options={{ headerShown: true }} // Show the header for SelfAssessmentScreen
+                options={{ headerShown: false }} // Show the header for SelfAssessmentScreen
             />
             <Stack.Screen 
                 name="Forums" 
@@ -72,6 +73,11 @@ export const AppStack = () => {
              <Stack.Screen 
                 name="SelfAssessment2" 
                 component={SelfAssessmentScreen2} 
+                options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+                name="SelfAssessment3" 
+                component={SelfAssessmentScreen3} 
                 options={{ headerShown: false }} 
             />
              <Stack.Screen 

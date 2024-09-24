@@ -14,17 +14,7 @@ export const PreferencesScreen = ({navigation}) => {
     <RootLayout navigation={navigation}>
       <View style={styles.container}>
       
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <Image style={styles.icon} source={require('../assets/arrow_back.svg')} />
-        </TouchableOpacity>
-        <Image style={styles.logo} source={require('../assets/icon-lotus-flower.svg')} />
-        <TouchableOpacity>
-          <Image style={styles.icon} source={require('../assets/notifications.svg')} />
-        </TouchableOpacity>
-      </View>
-
+    
       {/* Title */}
       <Text style={styles.title}>Preferences</Text>
 
@@ -85,12 +75,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 20,
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
   icon: {
     width: 24,
     height: 24,
@@ -104,6 +88,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 30,
+    marginTop: 45,
   },
   inputSection: {
     marginBottom: 20,

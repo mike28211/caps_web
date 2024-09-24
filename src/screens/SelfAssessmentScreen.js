@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   title: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: 'bold',
   },
   underline: {
@@ -88,13 +88,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   description: {
-    textAlign: 'center',
+    textAlign: 'justify',
     fontSize: 16,
     marginVertical: 30,
     color: '#333',
   },
   disclaimer: {
-    textAlign: 'center',
+    textAlign: 'justify',
     fontSize: 12,
     color: '#999',
     marginBottom: 40,

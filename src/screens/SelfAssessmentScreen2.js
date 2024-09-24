@@ -26,16 +26,7 @@ export const SelfAssessmentScreen2 = ({navigation}) => {
     restlessness: 'notAtAll',
     irritable: 'notAtAll',
     afraid: 'notAtAll',
-    upsetUnexpectedly: 'never', // For different options
-    unableControlThings: 'never',
-    nervousAndStressed: 'never',
-    handlePersonalProblems: 'never',
-    thingsGoingYourWay: 'never',
-    unableToCope: 'never',
-    controlIrritations: 'never',
-    onTopOfThings: 'never',
-    angeredByThings: 'never',
-    pilingUpDifficulties: 'never',
+    
   });
 
   const handleSelectOption = (key, value) => {
@@ -45,16 +36,6 @@ export const SelfAssessmentScreen2 = ({navigation}) => {
   return (
     <RootLayout navigation={navigation}>
       <ScrollView style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <Image style={styles.icon} source={require('../assets/arrow_back.svg')} />
-        </TouchableOpacity>
-        <Image style={styles.logo} source={require('../assets/icon-lotus-flower.svg')} />
-        <TouchableOpacity>
-          <Image style={styles.icon} source={require('../assets/notifications.svg')} />
-        </TouchableOpacity>
-      </View>
 
       {/* Title */}
       <Text style={styles.title}>Self-Assessment</Text>
@@ -99,41 +80,9 @@ export const SelfAssessmentScreen2 = ({navigation}) => {
         </View>
       ))}
 
-    
-      {/* Questions with Never options */}
-      {[
-        { label: 'In the last month, how often have you been upset because of something that happened unexpectedly?', key: 'upsetUnexpectedly' },
-        { label: 'Have you felt that you were unable to control the important things in your life?', key: 'unableControlThings' },
-        { label: 'Have you felt nervous and stressed?', key: 'nervousAndStressed' },
-        { label: 'Have you felt confident about your ability to handle your personal problems?', key: 'handlePersonalProblems' },
-        { label: 'Have you felt that things were going your way?', key: 'thingsGoingYourWay' },
-        { label: 'Have you found that you could not cope with all the things you had to do?', key: 'unableToCope' },
-        { label: 'Have you been able to control irritations in your life?', key: 'controlIrritations' },
-        { label: 'Have you felt that you were on top of things?', key: 'onTopOfThings' },
-        { label: 'Have you been angered because of things that happened that were outside of your control?', key: 'angeredByThings' },
-        { label: 'Have you felt difficulties were piling up so high that you could not overcome them?', key: 'pilingUpDifficulties' },
-      ].map((question) => (
-        <View style={styles.inputSection} key={question.key}>
-          <Text style={styles.label}>{question.label}</Text>
-          <View style={styles.radioGroup}>
-            <RadioGroup
-              radioButtons={[
-                { id: '1', label: 'Never', value: 'never' },
-                { id: '2', label: 'Sometimes', value: 'sometimes' },
-                { id: '3', label: 'Fairly often', value: 'fairlyOften' },
-                { id: '4', label: 'Very often', value: 'veryOften' },
-              ]}
-              onPress={(value) => handleSelectOption(question.key, value)}
-              selectedId={answers[question.key]}
-              containerStyle={styles.radioGroupContainer}
-            />
-          </View>
-        </View>
-      ))}
-
       {/* Next Button */}
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SelfAssessmentResult')}>
-        <Text style={styles.buttonText}>Finish</Text>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SelfAssessment3')}>
+        <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
     </ScrollView>
     </RootLayout>
@@ -148,25 +97,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
   introText: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: 'justify',
     marginBottom: 20,
     color: '#333',
-  },
-  icon: {
-    width: 24,
-    height: 24,
-  },
-  logo: {
-    width: 40,
-    height: 40,
   },
   title: {
     fontSize: 24,
