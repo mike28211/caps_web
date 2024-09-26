@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { RootLayout } from '../navigation/RootLayout';
 
@@ -37,8 +37,8 @@ export const HomeScreen = ({ navigation }) => {
           <View style={styles.circle}>
             <Ionicons name="chatbox-outline" size={24} color="white" />
           </View>
-          <Text style={styles.todoText}>Forums</Text>
-          <Image source={require('../assets/forumspic.png')} style={styles.todoImage} />
+            <Text style={styles.todoText}>Forums</Text>
+            <Image source={require('../assets/forumspic.png')} style={styles.todoImage} />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('ViewProfessionals')} style={styles.todoItem}>
@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   profileImage: {
-    width: 80,
-    height: 80,
+    width: 165,
+    height: 165,
     borderRadius: 40, // Circular image
   },
   todoContainer: {
@@ -100,9 +100,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 10,
+    marginLeft:   16,
     padding: 8,
     backgroundColor: '#F7F2FA',
     borderRadius: 12,
+    width: 360,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
