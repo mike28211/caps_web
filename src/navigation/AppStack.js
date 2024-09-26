@@ -17,6 +17,9 @@ import { SAScreen3 } from '../screens';
 import { EditProfileScreen } from '../screens/editProfileScreen';
 import { ProfessionalDetailsScreen } from '../screens/ProfessionalDetailsScreen';
 import { OrganizationDetailsScreen } from '../screens/OrganizationDetailsScreen';
+import { ForumPostScreen } from '../screens/ForumPostScreen';
+import { PostDetailsScreen } from '../screens/PostDetailsScreen';
+
 const Stack = createStackNavigator();
 
 export const AppStack = () => {
@@ -44,6 +47,16 @@ export const AppStack = () => {
                 options={{ headerShown: false }} // Show the header for ViewProfessionalsScreen
             />
             <Stack.Screen 
+                name="ForumDetails" 
+                component={ForumPostScreen} 
+                options={{ headerShown: false }} // Show the header for ViewOrganizationsScreen
+            />
+            <Stack.Screen 
+                name="PostDetails" 
+                component={PostDetailsScreen} 
+                options={{ headerShown: false }} // Show the header for ViewOrganizationsScreen
+            />
+            <Stack.Screen 
                 name="ViewOrganizations" 
                 component={ViewOrgScreen} 
                 options={{ headerShown: false }} // Show the header for ViewOrganizationsScreen
@@ -66,7 +79,7 @@ export const AppStack = () => {
             <Stack.Screen 
                 name="Notifications" 
                 component={NotificationScreen} 
-                options={{ headerShown: true }} // Show the header for ViewOrganizationsScreen
+                options={{ headerShown: false }} // Show the header for ViewOrganizationsScreen
             /> 
 
             <Stack.Screen 

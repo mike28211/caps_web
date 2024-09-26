@@ -46,10 +46,15 @@ export const ForumsScreen = ({ navigation }) => {
                   ))}
                 </View>
             </View>
-          <TouchableOpacity style={styles.visitButton} onPress={() => navigation.navigate('ForumDetails', { forumId: item.id })}>
-            <Ionicons name="arrow-forward" size={18} color="white" style={styles.visitIcon} />
-            <Text style={styles.visitButtonText}>Visit Forum</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.visitButton}
+              onPress={() =>
+                navigation.navigate('ForumDetails', { forumId: item.id, forumTitle: item.title })
+                }
+              >
+              <Ionicons name="arrow-forward" size={18} color="white" style={styles.visitIcon} />
+              <Text style={styles.visitButtonText}>Visit Forum</Text>
+            </TouchableOpacity>
      </View>
       );
 
