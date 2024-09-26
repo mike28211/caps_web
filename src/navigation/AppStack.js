@@ -14,12 +14,19 @@ import { SAPreferenceScreen } from '../screens';
 import { SAResultScreen } from '../screens';
 import { SAScreen2 }  from  '../screens';
 import { SAScreen3 } from '../screens';
+//import { ProfessionalHomeScreen } from '../screens';
+import { EditProfileScreen } from '../screens/editProfileScreen';
+import { ProfessionalDetailsScreen } from '../screens/ProfessionalDetailsScreen';
+import { OrganizationDetailsScreen } from '../screens/OrganizationDetailsScreen';
+import { ForumPostScreen } from '../screens/ForumPostScreen';
+import { PostDetailsScreen } from '../screens/PostDetailsScreen';
 
 const Stack = createStackNavigator();
 
 export const AppStack = () => {
     return (
         <Stack.Navigator>
+        
             <Stack.Screen 
                 name="Home" 
                 component={HomeScreen} 
@@ -33,17 +40,27 @@ export const AppStack = () => {
             <Stack.Screen 
                 name="Forums" 
                 component={ForumsScreen} 
-                options={{ headerShown: true }} // Show the header for ForumsScreen
+                options={{ headerShown: false }} // Show the header for ForumsScreen
             />
             <Stack.Screen 
                 name="ViewProfessionals" 
                 component={ViewProfScreen} 
-                options={{ headerShown: true }} // Show the header for ViewProfessionalsScreen
+                options={{ headerShown: false }} // Show the header for ViewProfessionalsScreen
+            />
+            <Stack.Screen 
+                name="ForumDetails" 
+                component={ForumPostScreen} 
+                options={{ headerShown: false }} // Show the header for ViewOrganizationsScreen
+            />
+            <Stack.Screen 
+                name="PostDetails" 
+                component={PostDetailsScreen} 
+                options={{ headerShown: false }} // Show the header for ViewOrganizationsScreen
             />
             <Stack.Screen 
                 name="ViewOrganizations" 
                 component={ViewOrgScreen} 
-                options={{ headerShown: true }} // Show the header for ViewOrganizationsScreen
+                options={{ headerShown: false }} // Show the header for ViewOrganizationsScreen
             />
             <Stack.Screen 
                 name="Mood" 
@@ -53,7 +70,7 @@ export const AppStack = () => {
             <Stack.Screen 
                 name="Profile" 
                 component={ProfileScreen} 
-                options={{ headerShown: true }} // Show the header for ViewOrganizationsScreen
+                options={{ headerShown: false }} // Show the header for ViewOrganizationsScreen
             /> 
             <Stack.Screen 
                 name="Menu" 
@@ -63,8 +80,25 @@ export const AppStack = () => {
             <Stack.Screen 
                 name="Notifications" 
                 component={NotificationScreen} 
-                options={{ headerShown: true }} // Show the header for ViewOrganizationsScreen
+                options={{ headerShown: false }} // Show the header for ViewOrganizationsScreen
             /> 
+
+            <Stack.Screen 
+                name="EditProfile" 
+                component={EditProfileScreen}
+                options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+                name="ProfessionalDetails"
+                component={ProfessionalDetailsScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="OrganizationDetails"
+                component={OrganizationDetailsScreen}
+                options={{ headerShown: false }}
+            />
              <Stack.Screen 
                 name="Preferences" 
                 component={SAPreferenceScreen} 
@@ -85,6 +119,11 @@ export const AppStack = () => {
                 component={SAResultScreen} 
                 options={{ headerShown: false }} 
             />
+           {/* <Stack.Screen 
+                name="ProfessionalHome" 
+                component={ProfessionalHomeScreen} 
+                options={{ headerShown: false }} 
+            /> */}
         </Stack.Navigator>
     );
 }

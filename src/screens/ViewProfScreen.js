@@ -4,6 +4,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import RNPickerSelect from 'react-native-picker-select';
+import { RootLayout } from '../navigation/RootLayout';
+
 
 
 // Sample data
@@ -12,6 +14,12 @@ const professionals = [
     id: '1',
     name: 'Dr. Sarah Johnson',
     specialty: 'Psychiatrist',
+    age: '35',
+    gender: 'female',
+    availability: ['morning', 'afternoon'],
+    availableTimes: ['6:00 AM - 11:00 PM'],
+    email: 'bqj8w@example.com',
+    phone: '123-456-7890',
     rating: 4.5,
     image: 'https://via.placeholder.com/150',
   },
@@ -19,13 +27,25 @@ const professionals = [
     id: '2',
     name: 'Dr. Mark Lee',
     specialty: 'Therapist',
+    age: '45',
     rating: 4.0,
+    gender: 'male',
+    availability: ['morning', 'afternoon', 'evening'],
+    availableTimes: ['6:00 AM - 5:00 PM'],
+    email: 'bqj8w@example.com',
+    phone: '123-456-7890',
     image: 'https://via.placeholder.com/150',
   },
   {
     id: '3',
     name: 'Dr. Emily Clark',
     specialty: 'Clinical Psychologist',
+    age: '55',
+    gender: 'female',
+    availability: ['morning', 'afternoon', 'evening'],
+    availableTimes: ['6:00 AM - 5:00 PM'],
+    email: 'bqj8w@example.com',
+    phone: '123-456-7890',
     rating: 4.7,
     image: 'https://via.placeholder.com/150',
   },
@@ -33,13 +53,25 @@ const professionals = [
     id: '4',
     name: 'Dr. John Williams',
     specialty: 'Therapist',
+    age: '25',
     rating: 3.8,
+    gender: 'male',
+    availability: ['morning', 'afternoon', 'evening'],
+    availableTimes: ['6:00 AM - 5:00 PM'],
+    email: 'bqj8w@example.com',
+    phone: '123-456-7890',
     image: 'https://via.placeholder.com/150',
   },
   {
     id: '5',
     name: 'Dr. Kate Brown',
     specialty: 'Counselor',
+    age: '65',
+    gender: 'female',
+    availability: ['morning', 'afternoon', 'evening'],
+    availableTimes: ['6:00 AM - 5:00 PM'],
+    email: 'bqj8w@example.com',
+    phone: '123-456-7890',
     rating: 4.3,
     image: 'https://via.placeholder.com/150',
   },
@@ -112,106 +144,108 @@ export const ViewProfScreen = () => {
   );
   
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>View Professionals</Text>
-      <View style={styles.searchBarRow}>
-      <TouchableOpacity style={styles.sliderButton} onPress={toggleFilterModal}>
-          <Ionicons name="options-outline" size={24} color="white" />
-        </TouchableOpacity>
-        <View style={styles.searchBar}>
-          <Ionicons name="search-outline" size={20} color="gray" style={styles.searchIcon} />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search by name"
-            placeholderTextColor="gray"
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-          />
-        </View>
-      </View>
-      <FlatList
-        data={filteredProfessionals}
-        renderItem={renderProfessional}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.professionalsList}
-      />
-       {/* Filter Modal */}
-       <Modal isVisible={isFilterModalVisible} onBackdropPress={toggleFilterModal}>
-        <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>Filter Professional By</Text>
-          
-          {/* Specialty Dropdown */}
-          <Text style={styles.filterLabel}>Specialty</Text>
-          <RNPickerSelect
-            onValueChange={(value) => setSelectedSpecialty(value)}
-            items={[
-              { label: 'All', value: null },
-              { label: 'Psychiatrist', value: 'Psychiatrist' },
-              { label: 'Therapist', value: 'Therapist' },
-              { label: 'Clinical Psychologist', value: 'Clinical Psychologist' },
-              { label: 'Counselor', value: 'Counselor' },
-            ]}
-            placeholder={{ label: 'Select Specialty', value: null }}
-            style={pickerSelectStyles}
-          />
-
-          {/* Gender Dropdown */}
-          <Text style={styles.filterLabel}>Gender</Text>
-          <RNPickerSelect
-            onValueChange={(value) => setSelectedGender(value)}
-            items={[
-              { label: 'All', value: null },
-              { label: 'Male', value: 'Male' },
-              { label: 'Female', value: 'Female' },
-            ]}
-            placeholder={{ label: 'Select Gender', value: null }}
-            style={pickerSelectStyles}
-          />
-
-          {/* Rating Dropdown */}
-          <Text style={styles.filterLabel}>Minimum Rating</Text>
-          <RNPickerSelect
-            onValueChange={(value) => setMinRating(value)}
-            items={[
-              { label: 'All', value: 0 },
-              { label: '1', value: 1 },
-              { label: '2', value: 2 },
-              { label: '3', value: 3 },
-              { label: '4', value: 4 },
-              { label: '5', value: 5 },
-            ]}
-            placeholder={{ label: 'Select Minimum Rating', value: 0 }}
-            style={pickerSelectStyles}
-          />
-
-          {/* Time Available Dropdown */}
-          <Text style={styles.filterLabel}>Available Time</Text>
-          <RNPickerSelect
-            onValueChange={(value) => setSelectedTimeAvailable(value)}
-            items={[
-              { label: 'All', value: null },
-              { label: 'Morning', value: 'Morning' },
-              { label: 'Afternoon', value: 'Afternoon' },
-              { label: 'Evening', value: 'Evening' },
-            ]}
-            placeholder={{ label: 'Select Time Available', value: null }}
-            style={pickerSelectStyles}
-          />
-            {/* Buttons */}
-            <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={handleApplyFilters}>
-              <Text style={styles.buttonText}>Apply Filters</Text>
+    <RootLayout navigation={navigation} screenName="ViewProf" >
+      <View style={styles.container}>
+              <Text style={styles.title}>View Professionals</Text>
+        <View style={styles.searchBarRow}>
+            <TouchableOpacity style={styles.sliderButton} onPress={toggleFilterModal}>
+              <Ionicons name="options-outline" size={24} color="white" />
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, styles.clearButton]} onPress={handleClearFilters}>
-              <Text style={styles.buttonText}>Clear Filters</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={toggleFilterModal}>
-              <Text style={styles.buttonText}>Cancel</Text>
-            </TouchableOpacity>
+          <View style={styles.searchBar}>
+            <Ionicons name="search-outline" size={20} color="gray" style={styles.searchIcon} />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search by name"
+                placeholderTextColor="gray"
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+              />
           </View>
+        </View>
+      <FlatList
+          data={filteredProfessionals}
+          renderItem={renderProfessional}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.professionalsList}
+      />
+        {/* Filter Modal */}
+        <Modal isVisible={isFilterModalVisible} onBackdropPress={toggleFilterModal}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Filter Professional By</Text>
+            
+              {/* Specialty Dropdown */}
+              <Text style={styles.filterLabel}>Specialty</Text>
+              <RNPickerSelect
+                onValueChange={(value) => setSelectedSpecialty(value)}
+                items={[
+                  { label: 'All', value: '' },
+                  { label: 'Psychiatrist', value: 'Psychiatrist' },
+                  { label: 'Therapist', value: 'Therapist' },
+                  { label: 'Clinical Psychologist', value: 'Clinical Psychologist' },
+                  { label: 'Counselor', value: 'Counselor' },
+                ]}
+                placeholder={{ label: 'Select Specialty', value: null }}
+                style={pickerSelectStyles}
+              />
+
+               {/* Gender Dropdown */}
+               <Text style={styles.filterLabel}>Gender</Text>
+              <RNPickerSelect
+                onValueChange={(value) => setSelectedGender(value)}
+                items={[
+                  { label: 'All', value: '' },
+                  { label: 'Male', value: 'Male' },
+                  { label: 'Female', value: 'Female' },
+                ]}
+                placeholder={{ label: 'Select Gender', value: null }}
+                style={pickerSelectStyles}
+              />
+
+                {/* Rating Dropdown */}
+                <Text style={styles.filterLabel}>Minimum Rating</Text>
+              <RNPickerSelect
+                onValueChange={(value) => setMinRating(value)}
+                items={[
+                  { label: 'All', value: 0 },
+                  { label: '1', value: 1 },
+                  { label: '2', value: 2 },
+                  { label: '3', value: 3 },
+                  { label: '4', value: 4 },
+                  { label: '5', value: 5 },
+                ]}
+                placeholder={{ label: 'Select Minimum Rating', value: 0 }}
+                style={pickerSelectStyles}
+              />
+
+                  {/* Time Available Dropdown */}
+                <Text style={styles.filterLabel}>Available Time</Text>
+              <RNPickerSelect
+                onValueChange={(value) => setSelectedTimeAvailable(value)}
+                items={[
+                  { label: 'All', value: '' },
+                  { label: 'Morning', value: 'Morning' },
+                  { label: 'Afternoon', value: 'Afternoon' },
+                  { label: 'Evening', value: 'Evening' },
+                ]}
+                placeholder={{ label: 'Select Time Available', value: null }}
+                style={pickerSelectStyles}
+              />
+                  {/* Buttons */}
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={styles.button} onPress={handleApplyFilters}>
+                      <Text style={styles.buttonText}>Apply Filters</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.button, styles.clearButton]} onPress={handleClearFilters}>
+                      <Text style={styles.buttonText}>Clear Filters</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={toggleFilterModal}>
+                      <Text style={styles.buttonText}>Cancel</Text>
+                    </TouchableOpacity>
+                </View>
         </View>
       </Modal>
     </View>
+  </RootLayout>
   );
 };
 

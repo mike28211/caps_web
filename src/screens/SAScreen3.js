@@ -8,20 +8,20 @@ export const SAScreen3 = ({navigation, route}) => {
   const { gad7Total, phq9Total } = route.params;
   // State for each question's answer
   const [answers, setAnswers] = useState({
-    upsetUnexpectedly: '0', 
-    unableControlThings: '0',
-    nervousAndStressed: '0',
-    handlePersonalProblems: '0',
-    thingsGoingYourWay: '0',
-    unableToCope: '0',
-    controlIrritations: '0',
-    onTopOfThings: '0',
-    angeredByThings: '0',
-    pilingUpDifficulties: '0',
+    upsetUnexpectedly: null, 
+    unableControlThings: null,
+    nervousAndStressed: null,
+    handlePersonalProblems: null,
+    thingsGoingYourWay: null,
+    unableToCope: null,
+    controlIrritations: null,
+    onTopOfThings: null,
+    angeredByThings: null,
+    pilingUpDifficulties: null,
   });
 
-  const handleSelectOption = (key, value) => {
-    setAnswers((prevAnswers) => ({ ...prevAnswers, [key]: value }));
+  const handleSelectOption = (key, selectedId) => {
+    setAnswers((prevAnswers) => ({ ...prevAnswers, [key]: selectedId }));
   };
 
   const calculatePSSTotalScore = () => {
@@ -29,16 +29,21 @@ export const SAScreen3 = ({navigation, route}) => {
       'upsetUnexpectedly',
       'unableControlThings',
       'nervousAndStressed',
-      'handlePersonalProblems',
-      'thingsGoingYourWay',
+      'handlePersonalProblems', //reverse
+      'thingsGoingYourWay', //reverse
       'unableToCope',
-      'controlIrritations',
-      'onTopOfThings',
+      'controlIrritations', //reverse
+      'onTopOfThings', //reverse
       'angeredByThings',
       'pilingUpDifficulties',
     ];
     //Questions that need to be reversed
-    const reversedKeys = ['handlePersonalProblems', 'thingsGoingYourWay', 'controlIrritations', 'onTopOfThings']
+    const reversedKeys = [
+      'handlePersonalProblems', 
+      'thingsGoingYourWay', 
+      'controlIrritations', 
+      'onTopOfThings'
+    ];
     //Reversing the score
     const reverseScore = (value) => {
       switch (parseInt(value)) {
@@ -47,13 +52,23 @@ export const SAScreen3 = ({navigation, route}) => {
         case 2: return 2;
         case 3: return 1;
         case 4: return 0;
-        default: return value;
+        default: return 0;
       }
     }
+
+    const idToValue = {
+      '1': '0',
+      '2': '1',
+      '3': '2',
+      '4': '3',
+      '5': '4',
+    };
     //Calculate the total score
     return pssKeys.reduce((total, key) => {
-      const answer = answers[key];
-      const score = reversedKeys.includes(key) ? reverseScore(parseInt(answer)) : parseInt(answer);
+      const selectedId = answers[key];
+      const answerValue = idToValue[selectedId] || '0';
+      const score = reversedKeys.includes(key) ? reverseScore(answerValue) : parseInt(answerValue);
+      console.log(`key: ${key}, answer: ${answerValue}, score: ${score}`);
       return total + score;
     }, 0); //Initialize total to 0
   };
@@ -99,11 +114,11 @@ export const SAScreen3 = ({navigation, route}) => {
           <View style={styles.radioGroup}>
             <RadioGroup
               radioButtons={radioOptions}
-              onPress={(radioButtonsArray) => {
-                console.log('radioButtonsArray:', radioButtonsArray);
-                const selectedButton = radioButtonsArray.find(rb => rb.selected);
-                handleSelectOption(question.key, selectedButton ? selectedButton.value : '0');
+              onPress={(selectedId) => {
+                console.log('button:', selectedId);
+                handleSelectOption(question.key, selectedId);
               }}
+              selectedId={answers[question.key]}
               containerStyle={styles.radioGroupContainer}
             />
           </View>

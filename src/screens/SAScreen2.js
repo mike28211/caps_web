@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';   //https://www.npmjs.com/package/react-native-radio-buttons-group
 import { RootLayout } from '../navigation/RootLayout';
 import { Colors } from '../config';
@@ -7,37 +7,48 @@ import { Colors } from '../config';
 export const SAScreen2 = ({navigation}) => {
   // State for each question's answer
   const [answers, setAnswers] = useState({
-    interest: '0',
-    feelingDown: '0',
-    sleepIssues: '0',
-    tiredness: '0',
-    appetite: '0',
-    feelingBad: '0',
-    concentration: '0',
-    movingSlowly: '0',
-    thoughts: '0',
-    feelingNervous: '0',
-    controlWorrying: '0',
-    tooMuchWorrying: '0',
-    troubleRelaxing: '0',
-    restlessness: '0',
-    irritable: '0',
-    afraid: '0',
-    
+    interest: null,
+    feelingDown: null,
+    sleepIssues: null,
+    tiredness: null,
+    appetite: null,
+    feelingBad: null,
+    concentration: null,
+    movingSlowly: null,
+    thoughts: null,
+    feelingNervous: null,
+    controlWorrying: null,
+    tooMuchWorrying: null,
+    troubleRelaxing: null,
+    restlessness: null,
+    irritable: null,
+    afraid: null,
   });
 
-  const handleSelectOption = (key, value) => {
-    setAnswers((prevAnswers) => ({ ...prevAnswers, [key]: value }));
+  const radioOptions = [
+    { id: '1', label: 'Not at all', value: '0' },
+    { id: '2', label: 'Several days', value: '1' },
+    { id: '3', label: 'More than half the days', value: '2' },
+    { id: '4', label: 'Nearly every day', value: '3' },
+  ];
+
+  const handleSelectOption = (key, selectedId) => {
+    setAnswers((prevAnswers) => ({ ...prevAnswers, [key]: selectedId }));
+  };
+
+  const getOptionValue = (selectedId) => {
+    const selectedOption = radioOptions.find((option) => option.id === selectedId);
+    return selectedOption ? parseInt(selectedOption.value, 10) : 0;
   };
 
   const calculateGAD7Score = () => {
     const gad7Keys = ['feelingNervous', 'controlWorrying', 'tooMuchWorrying', 'troubleRelaxing', 'restlessness', 'irritable', 'afraid'];
-    return gad7Keys.reduce((total, key) => total + parseInt(answers[key], 10), 0); // Sum up the GAD-7 scores
+    return gad7Keys.reduce((total, key) => total + getOptionValue(answers[key]), 0); // Sum up the GAD-7 scores
   };
 
   const calculatePHQ9Score = () => {
     const phq9Keys = ['interest', 'feelingDown', 'sleepIssues', 'tiredness', 'appetite', 'feelingBad', 'concentration', 'movingSlowly', 'thoughts'];
-    return phq9Keys.reduce((total, key) => total + parseInt(answers[key], 10), 0);  // Sum up the PHQ-9 scores
+    return phq9Keys.reduce((total, key) => total + getOptionValue(answers[key]), 0);  // Sum up the PHQ-9 scores
   };
 
   const handleNext = () => {
@@ -79,13 +90,10 @@ export const SAScreen2 = ({navigation}) => {
             <Text style={styles.label}>{question.label}</Text>
             <View style={styles.radioGroup}>
               <RadioGroup
-                radioButtons={[
-                  { id: '1', label: 'Not at all', value: '0' },
-                  { id: '2', label: 'Several days', value: '1' },
-                  { id: '3', label: 'More than half the days', value: '2' },
-                  { id: '4', label: 'Nearly every day', value: '3' },
-                ]}
-                onPress={(selectedButtons) => handleSelectOption(question.key, selectedButtons[0].value)}
+                radioButtons={radioOptions}
+                onPress={(selectedId) => {
+                  console.log('Selected button: ', selectedId);
+                  handleSelectOption(question.key, selectedId);}}
                 selectedId={answers[question.key]}
                 containerStyle={styles.radioGroupContainer}
               />
