@@ -14,6 +14,7 @@ import { SAPreferenceScreen } from '../screens';
 import { SAResultScreen } from '../screens';
 import { SAScreen2 }  from  '../screens';
 import { SAScreen3 } from '../screens';
+//import { ProfessionalHomeScreen } from '../screens';
 import { EditProfileScreen } from '../screens/editProfileScreen';
 import { ProfessionalDetailsScreen } from '../screens/ProfessionalDetailsScreen';
 import { OrganizationDetailsScreen } from '../screens/OrganizationDetailsScreen';
@@ -118,6 +119,11 @@ export const AppStack = () => {
                 component={SAResultScreen} 
                 options={{ headerShown: false }} 
             />
+           {/* <Stack.Screen 
+                name="ProfessionalHome" 
+                component={ProfessionalHomeScreen} 
+                options={{ headerShown: false }} 
+            /> */}
         </Stack.Navigator>
     );
 }
