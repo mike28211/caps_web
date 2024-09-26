@@ -4,25 +4,72 @@ import RadioGroup from 'react-native-radio-buttons-group';   //https://www.npmjs
 import { RootLayout } from '../navigation/RootLayout';
 import { Colors } from '../config';
 
-export const SAScreen3 = ({navigation}) => {
+export const SAScreen3 = ({navigation, route}) => {
+  const { gad7Total, phq9Total } = route.params;
   // State for each question's answer
   const [answers, setAnswers] = useState({
-   
-    upsetUnexpectedly: 'never', 
-    unableControlThings: 'never',
-    nervousAndStressed: 'never',
-    handlePersonalProblems: 'never',
-    thingsGoingYourWay: 'never',
-    unableToCope: 'never',
-    controlIrritations: 'never',
-    onTopOfThings: 'never',
-    angeredByThings: 'never',
-    pilingUpDifficulties: 'never',
+    upsetUnexpectedly: '0', 
+    unableControlThings: '0',
+    nervousAndStressed: '0',
+    handlePersonalProblems: '0',
+    thingsGoingYourWay: '0',
+    unableToCope: '0',
+    controlIrritations: '0',
+    onTopOfThings: '0',
+    angeredByThings: '0',
+    pilingUpDifficulties: '0',
   });
 
   const handleSelectOption = (key, value) => {
     setAnswers((prevAnswers) => ({ ...prevAnswers, [key]: value }));
   };
+
+  const calculatePSSTotalScore = () => {
+    const pssKeys = [
+      'upsetUnexpectedly',
+      'unableControlThings',
+      'nervousAndStressed',
+      'handlePersonalProblems',
+      'thingsGoingYourWay',
+      'unableToCope',
+      'controlIrritations',
+      'onTopOfThings',
+      'angeredByThings',
+      'pilingUpDifficulties',
+    ];
+    //Questions that need to be reversed
+    const reversedKeys = ['handlePersonalProblems', 'thingsGoingYourWay', 'controlIrritations', 'onTopOfThings']
+    //Reversing the score
+    const reverseScore = (value) => {
+      switch (parseInt(value)) {
+        case 0: return 4;
+        case 1: return 3;
+        case 2: return 2;
+        case 3: return 1;
+        case 4: return 0;
+        default: return value;
+      }
+    }
+    //Calculate the total score
+    return pssKeys.reduce((total, key) => {
+      const answer = answers[key];
+      const score = reversedKeys.includes(key) ? reverseScore(parseInt(answer)) : parseInt(answer);
+      return total + score;
+    }, 0); //Initialize total to 0
+  };
+
+  const handleFinish = () => {
+    const pssTotal = calculatePSSTotalScore();
+    navigation.navigate('SelfAssessmentResult', { gad7Total, phq9Total, pssTotal });
+  };
+
+  const radioOptions = [
+    { id: '1', label: 'Never', value: '0' },
+    { id: '2', label: 'Almost never', value: '1' },
+    { id: '3', label: 'Sometimes', value: '2' },
+    { id: '4', label: 'Fairly often', value: '3' },
+    { id: '5', label: 'Very often', value: '4' },
+  ];
 
   return (
     <RootLayout screenName={'SelfAssessment'} navigation={navigation}>
@@ -51,14 +98,12 @@ export const SAScreen3 = ({navigation}) => {
           <Text style={styles.label}>{question.label}</Text>
           <View style={styles.radioGroup}>
             <RadioGroup
-              radioButtons={[
-                { id: '1', label: 'Never', value: 'never' },
-                { id: '2', label: 'Sometimes', value: 'sometimes' },
-                { id: '3', label: 'Fairly often', value: 'fairlyOften' },
-                { id: '4', label: 'Very often', value: 'veryOften' },
-              ]}
-              onPress={(value) => handleSelectOption(question.key, value)}
-              selectedId={answers[question.key]}
+              radioButtons={radioOptions}
+              onPress={(radioButtonsArray) => {
+                console.log('radioButtonsArray:', radioButtonsArray);
+                const selectedButton = radioButtonsArray.find(rb => rb.selected);
+                handleSelectOption(question.key, selectedButton ? selectedButton.value : '0');
+              }}
               containerStyle={styles.radioGroupContainer}
             />
           </View>
@@ -66,7 +111,7 @@ export const SAScreen3 = ({navigation}) => {
       ))}
 
       {/* Next Button */}
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SelfAssessmentResult')}>
+      <TouchableOpacity style={styles.button} onPress={handleFinish}>
         <Text style={styles.buttonText}>Finish</Text>
       </TouchableOpacity>
     </ScrollView>

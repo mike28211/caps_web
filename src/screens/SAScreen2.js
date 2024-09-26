@@ -7,27 +7,43 @@ import { Colors } from '../config';
 export const SAScreen2 = ({navigation}) => {
   // State for each question's answer
   const [answers, setAnswers] = useState({
-    interest: 'notAtAll',
-    feelingDown: 'notAtAll',
-    sleepIssues: 'notAtAll',
-    tiredness: 'notAtAll',
-    appetite: 'notAtAll',
-    feelingBad: 'notAtAll',
-    concentration: 'notAtAll',
-    movingSlowly: 'notAtAll',
-    thoughts: 'notAtAll',
-    feelingNervous: 'notAtAll',
-    controlWorrying: 'notAtAll',
-    tooMuchWorrying: 'notAtAll',
-    troubleRelaxing: 'notAtAll',
-    restlessness: 'notAtAll',
-    irritable: 'notAtAll',
-    afraid: 'notAtAll',
+    interest: '0',
+    feelingDown: '0',
+    sleepIssues: '0',
+    tiredness: '0',
+    appetite: '0',
+    feelingBad: '0',
+    concentration: '0',
+    movingSlowly: '0',
+    thoughts: '0',
+    feelingNervous: '0',
+    controlWorrying: '0',
+    tooMuchWorrying: '0',
+    troubleRelaxing: '0',
+    restlessness: '0',
+    irritable: '0',
+    afraid: '0',
     
   });
 
   const handleSelectOption = (key, value) => {
     setAnswers((prevAnswers) => ({ ...prevAnswers, [key]: value }));
+  };
+
+  const calculateGAD7Score = () => {
+    const gad7Keys = ['feelingNervous', 'controlWorrying', 'tooMuchWorrying', 'troubleRelaxing', 'restlessness', 'irritable', 'afraid'];
+    return gad7Keys.reduce((total, key) => total + parseInt(answers[key], 10), 0); // Sum up the GAD-7 scores
+  };
+
+  const calculatePHQ9Score = () => {
+    const phq9Keys = ['interest', 'feelingDown', 'sleepIssues', 'tiredness', 'appetite', 'feelingBad', 'concentration', 'movingSlowly', 'thoughts'];
+    return phq9Keys.reduce((total, key) => total + parseInt(answers[key], 10), 0);  // Sum up the PHQ-9 scores
+  };
+
+  const handleNext = () => {
+    const gad7Total = calculateGAD7Score();
+    const phq9Total = calculatePHQ9Score();
+    navigation.navigate('SelfAssessment3', { gad7Total, phq9Total });
   };
 
   return (
@@ -40,7 +56,7 @@ export const SAScreen2 = ({navigation}) => {
           Over the last two weeks, how often have you been bothered by any of the following problems?
         </Text>
 
-        {/* Questions with Not at all options */}
+        {/* Questions*/}
         {[
           { label: 'Little interest or pleasure in doing things.', key: 'interest' },
           { label: 'Feeling down, depressed, or hopeless.', key: 'feelingDown' },
@@ -64,12 +80,12 @@ export const SAScreen2 = ({navigation}) => {
             <View style={styles.radioGroup}>
               <RadioGroup
                 radioButtons={[
-                  { id: '1', label: 'Not at all', value: 'notAtAll' },
-                  { id: '2', label: 'Several days', value: 'severalDays' },
-                  { id: '3', label: 'More than half the days', value: 'moreThanHalf' },
-                  { id: '4', label: 'Nearly every day', value: 'nearlyEveryDay' },
+                  { id: '1', label: 'Not at all', value: '0' },
+                  { id: '2', label: 'Several days', value: '1' },
+                  { id: '3', label: 'More than half the days', value: '2' },
+                  { id: '4', label: 'Nearly every day', value: '3' },
                 ]}
-                onPress={(value) => handleSelectOption(question.key, value)}
+                onPress={(selectedButtons) => handleSelectOption(question.key, selectedButtons[0].value)}
                 selectedId={answers[question.key]}
                 containerStyle={styles.radioGroupContainer}
               />
@@ -78,7 +94,7 @@ export const SAScreen2 = ({navigation}) => {
         ))}
 
         {/* Next Button */}
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SelfAssessment3')}>
+        <TouchableOpacity style={styles.button} onPress={handleNext}>
           <Text style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
       </ScrollView>

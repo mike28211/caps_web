@@ -4,9 +4,29 @@ import { RootLayout } from '../navigation/RootLayout';
 import { Colors } from '../config';
 
 export const SAResultScreen = ({ navigation, route }) =>{
-  
     // receive the scores as props
-  const { phqScore, gadScore, pssScore } = route.params || { phqScore: 15, gadScore: 15, pssScore: 15 }; // default values for scores
+  const { gad7Total, phq9Total, pssTotal } = route.params;
+
+  const interpretPHQ9 = (score) => {
+    if (score <= 4) return 'Minimal or no depression';
+    if (score <= 9) return 'Mild depression';
+    if (score <= 14) return 'Moderate depression';
+    if (score <= 19) return 'Moderately severe depression';
+    return 'Severe depression';
+  };
+
+  const interpretGAD7 = (score) => {
+    if (score <= 4) return 'Minimal or no anxiety';
+    if (score <= 9) return 'Mild anxiety';
+    if (score <= 14) return 'Moderate anxiety';
+    return 'Severe anxiety';
+  };
+
+  const interpretPSS = (score) => {
+    if (score <= 13) return 'Low stress';
+    if (score <= 26) return 'Moderate stress';
+    return 'Severe stress';
+  };
 
   return (
     <RootLayout screenName="SAResult" navigation={navigation}>
@@ -16,14 +36,14 @@ export const SAResultScreen = ({ navigation, route }) =>{
 
       {/* Scores Section */}
       <View style={styles.scoreSection}>
-        <Text style={styles.scoreText}>15 in PHQ-9 (Depression Test)</Text>
-        <Text style={styles.resultText}>Your result suggests that you may be....</Text>
+        <Text style={styles.scoreText}>{phq9Total} in PHQ-9 (Depression Test)</Text>
+        <Text style={styles.resultText}>Your result suggests that you may have {interpretPHQ9(phq9Total)}</Text>
 
-        <Text style={styles.scoreText}>15 in GAD-7 (Anxiety Screening Test)</Text>
-        <Text style={styles.resultText}>Your result suggests that you may be....</Text>
+        <Text style={styles.scoreText}>{gad7Total} in GAD-7 (Anxiety Screening Test)</Text>
+        <Text style={styles.resultText}>Your result suggests that you may have {interpretGAD7(gad7Total)}</Text>
 
-        <Text style={styles.scoreText}>15 in PSS (Stress Test)</Text>
-        <Text style={styles.resultText}>Your result suggests that you may be....</Text>
+        <Text style={styles.scoreText}>{pssTotal} in PSS (Stress Test)</Text>
+        <Text style={styles.resultText}>Your result suggests that you may have {interpretPSS(pssTotal)}</Text>
       </View>
 
       {/* Disclaimer Section */}
