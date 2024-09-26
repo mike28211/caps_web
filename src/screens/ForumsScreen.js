@@ -1,52 +1,109 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput, FlatList, StyleSheet, Dimensions } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { RootLayout } from '../navigation/RootLayout';
 
 
 const { width } = Dimensions.get('window'); // Get screen width
 
-export const ForumsScreen = ({navigation}) => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        {/* Greeting and Subtext */}
-        <View style={styles.textContainer}>
-          <Text style={styles.greeting}>Forums</Text>
-          <Text style={styles.subText}>Connect, Discuss, and Support</Text>
-        </View>
+export const ForumsScreen = ({ navigation }) => {
+  // State declarations
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [forums, setForums] = useState([
+    // Example forums data
+    { id: '1', title: 'Mental Health Awareness', timeFrame: '2h ago', tags: ['Support', 'Awareness'] },
+    { id: '2', title: 'Stress Management', timeFrame: '5h ago', tags: ['Stress', 'Self-care'] },
+    // Add more forum objects here
+  ]);
 
-        {/* Icons for Add and Search */}
-        <View style={styles.iconContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate('SelfAssessment')}>
-            <Ionicons name="add-circle-outline" size={32} color="black" style={styles.icon} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setIsSearching(!isSearching)}>
-            <Ionicons name="search-outline" size={32} color="black" style={styles.icon} />
-          </TouchableOpacity>
-        </View>
-      </View>
+  // Function to filter forums based on search query
+  const handleSearch = () => {
+    if (searchQuery) {
+      const filteredForums = forums.filter((forum) =>
+        forum.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setForums(filteredForums);
+    } else {
+      // Reset forums if search query is empty
+      setForums([
+        { id: '1', title: 'Mental Health Awareness', timeFrame: '2h ago', tags: ['Support', 'Awareness'] },
+        { id: '2', title: 'Stress Management', timeFrame: '5h ago', tags: ['Stress', 'Self-care'] },
+        // Add more forum objects here
+      ]);
+    }
+  };
 
-      {/* Search Bar (conditionally rendered) */}
-      {isSearching && (
-        <View style={styles.searchContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search forums..."
-            value={searchQuery}
-            onChangeText={(text) => setSearchQuery(text)}
-            onSubmitEditing={handleSearch}
+  // Function to render each forum item
+  const renderForumItem = ({ item }) => (
+    <View style={styles.forumContainer}>
+          <Text style={styles.forumTitle}>{item.title}</Text>
+            <View style={styles.metaContainer}>
+              <Text style={styles.timeFrame}>{item.timeFrame}</Text>
+                <View style={styles.tagContainer}>
+                  {item.tags.map((tag, index) => (
+                    <Text key={index} style={styles.tag}>{tag}</Text>
+                  ))}
+                </View>
+            </View>
+            <TouchableOpacity
+              style={styles.visitButton}
+              onPress={() =>
+                navigation.navigate('ForumDetails', { forumId: item.id, forumTitle: item.title })
+                }
+              >
+              <Ionicons name="arrow-forward" size={18} color="white" style={styles.visitIcon} />
+              <Text style={styles.visitButtonText}>Visit Forum</Text>
+            </TouchableOpacity>
+     </View>
+      );
+
+      return (
+
+        <RootLayout navigation={navigation} screenName="Forums">
+          <View style={styles.container}>
+            <View style={styles.header}>
+              {/* Greeting and Subtext */}
+              <View style={styles.textContainer}>
+                <Text style={styles.greeting}>Forums</Text>
+                <Text style={styles.subText}>Connect, Discuss, and Support</Text>
+              </View>
+
+              {/* Icons for Add and Search */}
+              <View style={styles.iconContainer}>
+                  <TouchableOpacity onPress={() => navigation.navigate('SelfAssessment')}>
+                    <Ionicons name="add-circle-outline" size={32} color="black" style={styles.icon} />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => setIsSearching(!isSearching)}>
+                    <Ionicons name="search-outline" size={32} color="black" style={styles.icon} />
+                  </TouchableOpacity>
+              </View>
+          </View>
+          
+
+          {/* Search Bar (conditionally rendered) */}
+          {isSearching && (
+            <View style={styles.searchContainer}>
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search forums..."
+                value={searchQuery}
+                onChangeText={(text) => setSearchQuery(text)}
+                onSubmitEditing={handleSearch}
+              />
+            </View>
+          )}
+
+          {/* List of Forums (showing all items) */}
+          <FlatList
+            data={forums}  // Show all forums
+            keyExtractor={(item) => item.id}
+            renderItem={renderForumItem}
+            style={styles.forumsList}
           />
-        </View>
-      )}
+      </View>
+    </RootLayout>
 
-      {/* List of Forums (showing all items) */}
-      <FlatList
-        data={forums}  // Show all forums
-        keyExtractor={(item) => item.id}
-        renderItem={renderForumItem}
-        style={styles.forumsList}
-      />
-    </View>
   );
 }
 
