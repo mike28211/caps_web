@@ -27,7 +27,7 @@ export const ProfessionalHomeScreen = ({ navigation }) => {
           <View style={styles.circle}>
             <Ionicons name="clipboard-outline" size={24} color="white" />
           </View>
-          <Text style={styles.todoText}>Search Organizations</Text>
+          <Text style={styles.todoText}>View Organizations</Text>
 
           <Image source={require('../assets/orgspic.jpg')} style={styles.todoImage} />
         </TouchableOpacity>

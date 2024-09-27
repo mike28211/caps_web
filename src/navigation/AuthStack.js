@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { WelcomeScreen, RegisterAsScreen, LoginScreen, SignupScreen, ProfessionalRegisterScreen } from '../screens';
-import { ProfessionalHomeScreen } from '../screens';  //testing
+import { WelcomeScreen, RegisterAsScreen, LoginScreen, SignupScreen, ProfessionalRegisterScreen, ProfessionalHomeScreen } from '../screens';
+
 
 const Stack = createStackNavigator();
 
@@ -16,8 +16,7 @@ export const AuthStack = () => {
             <Stack.Screen name="RegisterAs" component={RegisterAsScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Signup" component={SignupScreen} />
-            <Stack.Screen name="ProfessionalRegister" component={ProfessionalRegisterScreen} />
-            <Stack.Screen name="ProfessionalHome" component={ProfessionalHomeScreen} />
+        
         </Stack.Navigator>
     );
 }
