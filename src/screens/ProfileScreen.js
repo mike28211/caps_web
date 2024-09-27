@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   divider: {
     height: 1, 
     backgroundColor: '#ddd', 
-    marginVertical: 20, 
+    marginVertical: 15, 
   },
   imageContainer: {
     justifyContent: 'center',

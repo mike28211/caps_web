@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet, Image, SafeAreaView, StatusBar } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { Colors } from '../config';
 
 export const RootLayout = ({ children, navigation, screenName }) => {
 
@@ -19,6 +20,8 @@ export const RootLayout = ({ children, navigation, screenName }) => {
       );
     }
   };
+
+  const isActiveScreen = (screen) => screenName === screen;
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -39,14 +42,20 @@ export const RootLayout = ({ children, navigation, screenName }) => {
 
         {/* Footer Navigation */}
         <View style={styles.footer}>
-            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-            <Ionicons name="home-outline" size={30} color="black" />
+            <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.navButton}>
+              <View style={screenName === 'Home' ? styles.activeIconContainer : styles.iconContainer}>
+                <Ionicons name="home-outline" size={30} color='black'/>
+              </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('Mood')}>
-            <Ionicons name="happy-outline" size={30} color="black" />
+            <TouchableOpacity onPress={() => navigation.navigate('Mood')} style={styles.navButton}>
+              <View style={screenName === 'Mood' ? styles.activeIconContainer : styles.iconContainer}>
+                <Ionicons name="happy-outline" size={30} color='black'/>
+              </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-            <Ionicons name="person-outline" size={30} color="black" />
+            <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.navButton}>
+              <View style={screenName === 'Profile' ? styles.activeIconContainer : styles.iconContainer}>
+                <Ionicons name="person-outline" size={30} color='black'/>
+              </View>
             </TouchableOpacity>
         </View>
     </SafeAreaView>
@@ -56,14 +65,14 @@ export const RootLayout = ({ children, navigation, screenName }) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
     elevation: 3, // for shadow on Android
   },
   logo: {
@@ -75,8 +84,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    paddingVertical: 10,
-    backgroundColor: 'white',
+    paddingVertical: 5,
+    backgroundColor: Colors.white,
     elevation: 10,
+  },
+  navButton: {
+    flex: 1,
+    alignItems: 'center',
+    padding: 5,
+  },
+  iconContainer: {
+    padding: 5, // Adjust the padding to your liking
+    borderRadius: 20, // Rounded corners
+  },
+  activeIconContainer: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: Colors.lightpurple, // Change this to your desired highlight color
   },
 });
