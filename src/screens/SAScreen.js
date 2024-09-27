@@ -25,7 +25,7 @@ export const SAScreen = ({ navigation }) => {
           </Text>
           <TouchableOpacity 
             style={styles.button} 
-            onPress={() => navigation.navigate('SelfAssessment2')} // Replace 'NextScreen' with your target screen name
+            onPress={() => navigation.navigate('Preferences')} // Replace 'NextScreen' with your target screen name
           >
             <Text style={styles.buttonText}>Next</Text>
           </TouchableOpacity>

@@ -3,9 +3,10 @@ import { Text, StyleSheet } from 'react-native';
 import { Formik } from 'formik';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { getFirestore, collection, doc, setDoc } from 'firebase/firestore';
 
 import { View, TextInput, Logo, Button, FormErrorMessage } from '../components';
-import { Images, Colors, auth } from '../config';
+import { Images, Colors, auth, firestore } from '../config';
 import { useTogglePasswordVisibility } from '../hooks';
 import { signupValidationSchema } from '../utils';
 
@@ -21,10 +22,25 @@ export const SignupScreen = ({ navigation }) => {
   } = useTogglePasswordVisibility();
 
   const handleSignUp = async (values) => {
-    const { email, password } = values;
-    createUserWithEmailAndPassword(auth, email, password).catch((error) => {
+    const { email, password, username } = values;
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      const usersCollection = collection(firestore, 'users');
+
+      const userDocRef = doc(usersCollection, user.uid);
+
+      await setDoc(userDocRef, {
+        username: username,
+        email: email,
+      });
+      console.log('User created successfully:', { userId: user, username, email });
+    } catch (error) {
+      console.log('Error creating user:', error.message);
       setErrorState(error.message);
-    });
+    }
   };
 
   return (
@@ -37,7 +53,7 @@ export const SignupScreen = ({ navigation }) => {
         </View>
 
         <Formik
-          initialValues={{ email: '', password: '', confirmPassword: '' }}
+          initialValues={{ email: '', password: '', confirmPassword: '', username: '' }}
           validationSchema={signupValidationSchema}
           onSubmit={(values) => handleSignUp(values)}
         >

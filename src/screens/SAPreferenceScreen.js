@@ -11,7 +11,7 @@ export const SAPreferenceScreen = ({navigation}) => {
   const [availability, setAvailability] = useState('morning'); 
 
   return (
-    <RootLayout navigation={navigation}>
+    <RootLayout navigation={navigation} screenName={'Preferences'}>
       <View style={styles.container}>
       
     
