@@ -1,17 +1,16 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
-import { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { RootLayout } from '../navigation/RootLayout';
-
-
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, firestore } from '../config';
 
 
 export const ProfileScreen = () => {
   const navigation = useNavigation();
-  const [profileImage, setProfileImage] = useState(require('../assets/testprofile.jpg')); // Initial image
+  const [profileData, setProfileData] = useState(null);
 
   // Function to handle image picking
   const pickImage = async () => {
@@ -36,6 +35,29 @@ export const ProfileScreen = () => {
     }
   };
 
+  const fetchProfileData = async () => {
+    const userId = auth.currentUser.uid;
+    const userRef = doc(firestore, 'users', userId);
+
+    try {
+      const docSnap = await getDoc(userRef);
+      if(docSnap.exists()) {
+        console.log('Profile Data Fetched Successfully: ', docSnap.data());
+        setProfileData(docSnap.data());
+      } else{
+        console.log('No such document!');
+      }
+    } catch(error){
+      console.log('Error fetching profile data:', error.message)
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchProfileData();
+    }, [])
+  );
+
   return (
     <RootLayout screenName="Profile" navigation={navigation}>
         <View style={styles.container}>
@@ -51,7 +73,7 @@ export const ProfileScreen = () => {
           {/* Profile Image with Camera Icon */}
           <View style={styles.imageContainer}>
             <Image
-              source={profileImage} // Display selected image
+              source={ {uri: profileData?.profileImage} || require('../assets/testprofile.jpg')} // Display selected image
               style={styles.profileImage}
             />
             <TouchableOpacity style={styles.cameraIcon} onPress={pickImage}>
@@ -61,7 +83,9 @@ export const ProfileScreen = () => {
 
           {/* Username with Hovering Edit Icon */}
           <View style={styles.usernameContainer}>
-            <Text style={styles.username}>Username: seeker1</Text>
+            <Text style={styles.username}>
+              Username: {profileData ? profileData.username: 'Loading...'}
+            </Text>
             <TouchableOpacity 
               style={styles.editButton} 
               onPress={() => navigation.navigate('EditProfile')}
@@ -73,10 +97,14 @@ export const ProfileScreen = () => {
           {/* Personal Details */}
           <View style={styles.divider} />
           <View style={styles.personalDetails}>
-            <Text style={styles.detailTitle}>Full Name: John Doe</Text>
-            <Text style={styles.detailTitle}>Age: 28</Text>
-            <Text style={styles.detailTitle}>Gender: Male</Text>
-            <Text style={styles.detailTitle}>Contact: +1 234 567 8901</Text>
+            <Text style={styles.detailTitle}>
+              Full Name: {profileData 
+                ? `${profileData.firstName || ''} ${profileData.middleName || ''} ${profileData.lastName || ''}`.trim() || 'N/A'
+                : 'Loading...'}
+            </Text>
+            <Text style={styles.detailTitle}>Age: {profileData ? profileData.age || 'N/A': 'Loading...'}</Text>
+            <Text style={styles.detailTitle}>Gender: {profileData ? profileData.gender || 'N/A': 'Loading...'}</Text>
+            <Text style={styles.detailTitle}>Contact: {profileData ? profileData.mobileNumber || 'N/A': 'Loading...'}</Text>
           </View>
 
           {/* Divider Line */}
@@ -84,9 +112,9 @@ export const ProfileScreen = () => {
 
           {/* Contact Details */}
           <View style={styles.contactDetails}>
-            <Text style={styles.detailTitle}>Mobile: +1 234 567 8901</Text>
-            <Text style={styles.detailTitle}>Email: johndoe@example.com</Text>
-            <Text style={styles.detailTitle}>Facebook: @johnDoe</Text>
+            <Text style={styles.detailTitle}>Mobile: {profileData ? profileData.mobileNumber || 'N/A': 'Loading...'}</Text>
+            <Text style={styles.detailTitle}>Email: {profileData ? profileData.email || 'N/A': 'Loading...'}</Text>
+            <Text style={styles.detailTitle}>Facebook: {profileData ? profileData.facebookLink || 'N/A': 'Loading...'}</Text>
           </View>
         </View>
     </RootLayout>  

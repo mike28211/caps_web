@@ -1,4 +1,8 @@
 import * as Yup from 'yup';
+import { getDefaultProfileImage } from './getDefaultProfileImage';
+import { createUserInFirestore } from './createUserInFirestore';
+
+export { getDefaultProfileImage, createUserInFirestore };
 
 export const loginValidationSchema = Yup.object().shape({
   email: Yup.string().required().email().label('Email'),
