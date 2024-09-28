@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, FlatList, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, FlatList, StyleSheet, Dimensions, Modal, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { RootLayout } from '../navigation/RootLayout';
-
 
 const { width } = Dimensions.get('window'); // Get screen width
 
@@ -11,11 +10,16 @@ export const ForumsScreen = ({ navigation }) => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [forums, setForums] = useState([
-    // Example forums data
     { id: '1', title: 'Mental Health Awareness', timeFrame: '2h ago', tags: ['Support', 'Awareness'] },
     { id: '2', title: 'Stress Management', timeFrame: '5h ago', tags: ['Stress', 'Self-care'] },
-    // Add more forum objects here
   ]);
+
+  // Modal state for adding forums
+  const [modalVisible, setModalVisible] = useState(false);
+  const [newForumTitle, setNewForumTitle] = useState('');
+  const [newForumContent, setNewForumContent] = useState('');
+  const [newForumTags, setNewForumTags] = useState([]);
+  const [tagInput, setTagInput] = useState('');
 
   // Function to filter forums based on search query
   const handleSearch = () => {
@@ -25,11 +29,9 @@ export const ForumsScreen = ({ navigation }) => {
       );
       setForums(filteredForums);
     } else {
-      // Reset forums if search query is empty
       setForums([
         { id: '1', title: 'Mental Health Awareness', timeFrame: '2h ago', tags: ['Support', 'Awareness'] },
         { id: '2', title: 'Stress Management', timeFrame: '5h ago', tags: ['Stress', 'Self-care'] },
-        // Add more forum objects here
       ]);
     }
   };
@@ -37,73 +39,151 @@ export const ForumsScreen = ({ navigation }) => {
   // Function to render each forum item
   const renderForumItem = ({ item }) => (
     <View style={styles.forumContainer}>
-          <Text style={styles.forumTitle}>{item.title}</Text>
-            <View style={styles.metaContainer}>
-              <Text style={styles.timeFrame}>{item.timeFrame}</Text>
-                <View style={styles.tagContainer}>
-                  {item.tags.map((tag, index) => (
-                    <Text key={index} style={styles.tag}>{tag}</Text>
-                  ))}
-                </View>
-            </View>
-            <TouchableOpacity
-              style={styles.visitButton}
-              onPress={() =>
-                navigation.navigate('ForumDetails', { forumId: item.id, forumTitle: item.title })
-                }
-              >
-              <Ionicons name="arrow-forward" size={18} color="white" style={styles.visitIcon} />
-              <Text style={styles.visitButtonText}>Visit Forum</Text>
-            </TouchableOpacity>
-     </View>
-      );
+      <Text style={styles.forumTitle}>{item.title}</Text>
+      <View style={styles.metaContainer}>
+        <Text style={styles.timeFrame}>{item.timeFrame}</Text>
+        <View style={styles.tagContainer}>
+          {item.tags.map((tag, index) => (
+            <Text key={index} style={styles.tag}>{tag}</Text>
+          ))}
+        </View>
+      </View>
+      <TouchableOpacity
+        style={styles.visitButton}
+        onPress={() => navigation.navigate('ForumDetails', { forumId: item.id, forumTitle: item.title })}
+      >
+        <Ionicons name="arrow-forward" size={18} color="white" style={styles.visitIcon} />
+        <Text style={styles.visitButtonText}>Visit Forum</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
-      return (
+  // Function to handle adding a new forum
+  const handleAddForum = () => {
+    if (!newForumTitle || !newForumContent) {
+      Alert.alert('Error', 'Please provide a title and content for the forum.');
+      return;
+    }
 
-        <RootLayout navigation={navigation} screenName="Forums">
-          <View style={styles.container}>
-            <View style={styles.header}>
-              {/* Greeting and Subtext */}
-              <View style={styles.textContainer}>
-                <Text style={styles.greeting}>Forums</Text>
-                <Text style={styles.subText}>Connect, Discuss, and Support</Text>
-              </View>
+    const newForum = {
+      id: String(forums.length + 1),
+      title: newForumTitle,
+      timeFrame: 'Just now',
+      tags: newForumTags,
+    };
+    setForums([newForum, ...forums]);
+    setModalVisible(false);
+    setNewForumTitle('');
+    setNewForumContent('');
+    setNewForumTags([]);
+    setTagInput('');
+  };
 
-              {/* Icons for Add and Search */}
-              <View style={styles.iconContainer}>
-                  <TouchableOpacity onPress={() => navigation.navigate('SelfAssessment')}>
-                    <Ionicons name="add-circle-outline" size={32} color="black" style={styles.icon} />
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => setIsSearching(!isSearching)}>
-                    <Ionicons name="search-outline" size={32} color="black" style={styles.icon} />
-                  </TouchableOpacity>
-              </View>
+  // Function to add a tag
+  const handleAddTag = () => {
+    if (tagInput && !newForumTags.includes(tagInput)) {
+      setNewForumTags([...newForumTags, tagInput]);
+      setTagInput('');
+    }
+  };
+
+  // Function to remove a tag
+  const handleRemoveTag = (tagToRemove) => {
+    setNewForumTags(newForumTags.filter(tag => tag !== tagToRemove));
+  };
+
+  return (
+    <RootLayout navigation={navigation} screenName="Forums">
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={styles.textContainer}>
+            <Text style={styles.greeting}>Forums</Text>
+            <Text style={styles.subText}>Connect, Discuss, and Support</Text>
           </View>
-          
 
-          {/* Search Bar (conditionally rendered) */}
-          {isSearching && (
-            <View style={styles.searchContainer}>
+          <View style={styles.iconContainer}>
+            <TouchableOpacity style={styles.addForumButton} onPress={() => setModalVisible(true)}>
+              <Ionicons name="add-circle-outline" size={24} color="white" />
+              <Text style={styles.addForumButtonText}> Add Forum</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setIsSearching(!isSearching)}>
+              <Ionicons name="search-outline" size={32} color="black" />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Search Bar (conditionally rendered) */}
+        {isSearching && (
+          <View style={styles.searchContainer}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search forums..."
+              value={searchQuery}
+              onChangeText={(text) => setSearchQuery(text)}
+              onSubmitEditing={handleSearch}
+            />
+          </View>
+        )}
+
+        {/* List of Forums (showing all items) */}
+        <FlatList
+          data={forums}
+          keyExtractor={(item) => item.id}
+          renderItem={renderForumItem}
+          style={styles.forumsList}
+        />
+
+        {/* Modal for Adding New Forum */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Create a New Forum</Text>
               <TextInput
-                style={styles.searchInput}
-                placeholder="Search forums..."
-                value={searchQuery}
-                onChangeText={(text) => setSearchQuery(text)}
-                onSubmitEditing={handleSearch}
+                style={styles.modalInput}
+                placeholder="Title"
+                value={newForumTitle}
+                onChangeText={setNewForumTitle}
               />
+              <TextInput
+                style={styles.modalInput}
+                placeholder="Content"
+                value={newForumContent}
+                onChangeText={setNewForumContent}
+                multiline
+              />
+              <View style={styles.tagContainer}>
+                {newForumTags.map((tag, index) => (
+                  <View key={index} style={styles.tagItem}>
+                    <Text style={styles.tag}>{tag}</Text>
+                    <TouchableOpacity onPress={() => handleRemoveTag(tag)}>
+                      <Ionicons name="close-circle" size={16} color="red" />
+                    </TouchableOpacity>
+                  </View>
+                ))}
+                <TextInput
+                  style={styles.tagInput}
+                  placeholder="Add a tag"
+                  value={tagInput}
+                  onChangeText={setTagInput}
+                  onSubmitEditing={handleAddTag}
+                />
+              </View>
+              <TouchableOpacity style={styles.submitButton} onPress={handleAddForum}>
+                <Text style={styles.submitButtonText}>Create Forum</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <Text style={styles.closeButton}>Close</Text>
+              </TouchableOpacity>
             </View>
-          )}
-
-          {/* List of Forums (showing all items) */}
-          <FlatList
-            data={forums}  // Show all forums
-            keyExtractor={(item) => item.id}
-            renderItem={renderForumItem}
-            style={styles.forumsList}
-          />
+          </View>
+        </Modal>
       </View>
     </RootLayout>
-
   );
 }
 
@@ -111,7 +191,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#ffffff', // Set background color for better contrast
+    backgroundColor: '#ffffff',
   },
   header: {
     flexDirection: 'row',
@@ -126,6 +206,18 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: 'bold',
   },
+  addForumButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#7129F2',
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 20,
+  },
+  addForumButtonText: {
+    color: '#fff',
+    marginLeft: 5,
+  },
   subText: {
     fontSize: 14,
     color: '#6c757d',
@@ -135,9 +227,7 @@ const styles = StyleSheet.create({
   iconContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  icon: {
-    marginLeft: 15,
+    justifyContent: 'space-evenly',
   },
   searchContainer: {
     marginTop: 20,
