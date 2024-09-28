@@ -3,15 +3,14 @@ import { Text, StyleSheet } from 'react-native';
 import { Formik } from 'formik';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { getFirestore, collection, doc, setDoc } from 'firebase/firestore';
-
 import { View, TextInput, Logo, Button, FormErrorMessage } from '../components';
 import { Images, Colors, auth, firestore } from '../config';
 import { useTogglePasswordVisibility } from '../hooks';
-import { signupValidationSchema } from '../utils';
+import { signupValidationSchema, createUserInFirestore } from '../utils';
 
 export const SignupScreen = ({ navigation }) => {
   const [errorState, setErrorState] = useState('');
+
   const {
     passwordVisibility,
     handlePasswordVisibility,
@@ -26,17 +25,9 @@ export const SignupScreen = ({ navigation }) => {
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+      const userId = userCredential.user.uid;
 
-      const usersCollection = collection(firestore, 'users');
-
-      const userDocRef = doc(usersCollection, user.uid);
-
-      await setDoc(userDocRef, {
-        username: username,
-        email: email,
-      });
-      console.log('User created successfully:', { userId: user, username, email });
+      await createUserInFirestore(userId, username, email);
     } catch (error) {
       console.log('Error creating user:', error.message);
       setErrorState(error.message);
