@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { ProfessionalHomeScreen } from '../screens';
 import { ViewRequestScreen } from '../screens';
 import { ViewRequestHistoryScreen } from '../screens';
+import { MenuScreen } from '../screens';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,11 @@ export const ProfessionalStack = () => {
                 name="ViewRequestHistory" 
                 component={ViewRequestHistoryScreen} 
                 options={{ headerShown: false }} // Show the header for ForumScreen
+            />
+            <Stack.Screen 
+                name="Menu" 
+                component={MenuScreen} 
+                options={{ headerShown: false }} // Show the header for ViewProfessionalsScreen
             />
         </Stack.Navigator>
     );

@@ -64,22 +64,22 @@ export const AppStack = () => {
             <Stack.Screen 
                 name="Mood" 
                 component={MoodScreen} 
-                options={{ headerShown: true }} // Show the header for ViewOrganizationsScreen
+                options={{ headerShown: true }}
             /> 
             <Stack.Screen 
                 name="Profile" 
                 component={ProfileScreen} 
-                options={{ headerShown: false }} // Show the header for ViewOrganizationsScreen
+                options={{ headerShown: false }} 
             /> 
             <Stack.Screen 
                 name="Menu" 
                 component={MenuScreen} 
-                options={{ headerShown: true }} // Show the header for ViewOrganizationsScreen
+                options={{ headerShown: false }}
             /> 
             <Stack.Screen 
                 name="Notifications" 
                 component={NotificationScreen} 
-                options={{ headerShown: false }} // Show the header for ViewOrganizationsScreen
+                options={{ headerShown: false }}
             /> 
 
             <Stack.Screen 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { RootLayout } from '../navigation/RootLayout';
+import { RootLayout } from '../navigation';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, firestore } from '../config';
 
