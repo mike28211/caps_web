@@ -6,7 +6,7 @@ import { Colors } from '../config';
 export const RootLayout = ({ children, navigation, screenName }) => {
 
   const renderLeftIcon = () => {
-    if (screenName === 'Home') {
+    if (screenName === 'Home' || screenName === 'ProfessionalHome') {
       return (
         <TouchableOpacity onPress={() => navigation.navigate('Menu')}>
           <Ionicons name="menu" size={30} color="black" />
@@ -42,8 +42,8 @@ export const RootLayout = ({ children, navigation, screenName }) => {
 
         {/* Footer Navigation */}
         <View style={styles.footer}>
-            <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.navButton}>
-              <View style={screenName === 'Home' ? styles.activeIconContainer : styles.iconContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate(screenName)} style={styles.navButton}>
+              <View style={screenName === 'Home' || screenName === 'ProfessionalHome' ? styles.activeIconContainer : styles.iconContainer}>
                 <Ionicons name="home-outline" size={30} color='black'/>
               </View>
             </TouchableOpacity>

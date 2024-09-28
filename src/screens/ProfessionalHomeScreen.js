@@ -5,7 +5,7 @@ import { RootLayout } from '../navigation/RootLayout';
 
 export const ProfessionalHomeScreen = ({ navigation }) => {
   return (
-    <RootLayout navigation={navigation}>
+    <RootLayout navigation={navigation} screenName={'ProfessionalHome'}>
       <View style={{ flex: 1, padding: 20 }}>
         {/* Header Section */}
         <View style={styles.header}>

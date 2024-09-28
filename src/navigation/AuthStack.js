@@ -14,7 +14,7 @@ export const AuthStack = () => {
             <Stack.Screen name="Welcome" component={WelcomeScreen} />
             <Stack.Screen name="RegisterAs" component={RegisterAsScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Signup" component={SignupScreen} />
+            <Stack.Screen name="Signup" component={SignupScreen} initialParams={{ userType: 'seeker' }} />
         </Stack.Navigator>
     );
 }
