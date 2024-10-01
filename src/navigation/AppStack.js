@@ -1,28 +1,11 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { HomeScreen} from '../screens';
-import { SAScreen } from '../screens';
-import { ForumsScreen } from '../screens';
-import { ViewProfScreen } from '../screens';
-import { ViewOrgScreen } from '../screens';
-import { MoodScreen } from '../screens';
-import { ProfileScreen } from '../screens';
-import { MenuScreen } from '../screens';
-import { NotificationScreen } from '../screens';
-import { SAPreferenceScreen } from '../screens';
-import { SAResultScreen } from '../screens';
-import { SAScreen2 }  from  '../screens';
-import { SAScreen3 } from '../screens';
-//import { ProfessionalHomeScreen } from '../screens';
-import { EditProfileScreen } from '../screens/editProfileScreen';
-import { ProfessionalDetailsScreen } from '../screens/ProfessionalDetailsScreen';
-import { OrganizationDetailsScreen } from '../screens/OrganizationDetailsScreen';
-import { ForumPostScreen } from '../screens/ForumPostScreen';
-import { PostDetailsScreen } from '../screens/PostDetailsScreen';
-import {MoodMeterScreen}    from '../screens/MoodMeterScreen';
-import {MoodScreen2}    from '../screens/MoodScreen2';
-import {MoodResultScreen} from '../screens/MoodResultScreen'
+import { HomeScreen, SAScreen, ForumsScreen, ViewProfScreen, ForumPostScreen, PostDetailsScreen, ViewOrgScreen, MoodScreen,
+     ProfileScreen, NotificationScreen, MenuScreen, EditProfileScreen, ProfessionalDetailsScreen, OrganizationDetailsScreen,
+     SAPreferenceScreen, SAScreen2, SAScreen3, SAResultScreen, MoodMeterScreen, MoodScreen2, MoodResultScreen
+ } from '../screens';
+
 const Stack = createStackNavigator();
 
 export const AppStack = () => {
@@ -67,22 +50,22 @@ export const AppStack = () => {
             <Stack.Screen 
                 name="Mood" 
                 component={MoodScreen} 
-                options={{ headerShown: false }} // Show the header for ViewOrganizationsScreen
+                options={{ headerShown: true }}
             /> 
             <Stack.Screen 
                 name="Profile" 
                 component={ProfileScreen} 
-                options={{ headerShown: false }} // Show the header for ViewOrganizationsScreen
+                options={{ headerShown: false }} 
             /> 
             <Stack.Screen 
                 name="Menu" 
                 component={MenuScreen} 
-                options={{ headerShown: true }} // Show the header for ViewOrganizationsScreen
+                options={{ headerShown: false }}
             /> 
             <Stack.Screen 
                 name="Notifications" 
                 component={NotificationScreen} 
-                options={{ headerShown: false }} // Show the header for ViewOrganizationsScreen
+                options={{ headerShown: false }}
             /> 
 
             <Stack.Screen 
@@ -121,12 +104,7 @@ export const AppStack = () => {
                 component={SAResultScreen} 
                 options={{ headerShown: false }} 
             />
-           {/* <Stack.Screen 
-                name="ProfessionalHome" 
-                component={ProfessionalHomeScreen} 
-                options={{ headerShown: false }} 
-            /> */}
-             <Stack.Screen 
+            <Stack.Screen 
                 name="MoodMeter" 
                 component={MoodMeterScreen} 
                 options={{ headerShown: false }} 

@@ -8,8 +8,10 @@ import { Images, Colors, auth, firestore } from '../config';
 import { useTogglePasswordVisibility } from '../hooks';
 import { signupValidationSchema, createUserInFirestore } from '../utils';
 
-export const SignupScreen = ({ navigation }) => {
+export const SignupScreen = ({ navigation, route }) => {
   const [errorState, setErrorState] = useState('');
+
+  const { userType } = route.params;
 
   const {
     passwordVisibility,
@@ -27,7 +29,9 @@ export const SignupScreen = ({ navigation }) => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const userId = userCredential.user.uid;
 
-      await createUserInFirestore(userId, username, email);
+      const collectionName = userType === 'professional' ? 'professionals' : 'users';      
+
+      await createUserInFirestore(userId, username, email, collectionName);
     } catch (error) {
       console.log('Error creating user:', error.message);
       setErrorState(error.message);

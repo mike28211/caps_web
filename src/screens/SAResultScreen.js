@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { RootLayout } from '../navigation/RootLayout';
 import { Colors } from '../config';
+import { AuthenticatedUserContext } from '../providers';
+import { getFirestore, doc, addDoc, collection } from 'firebase/firestore';
+import { auth, firestore } from '../config';
 
 export const SAResultScreen = ({ navigation, route }) =>{
+  const { userType } = useContext(AuthenticatedUserContext);
     // receive the scores as props
   const { gad7Total, phq9Total, pssTotal } = route.params;
 
@@ -28,8 +32,38 @@ export const SAResultScreen = ({ navigation, route }) =>{
     return 'Severe stress';
   };
 
+  const handleFinish = async () => {
+    const user = auth.currentUser;
+    const phq9Interpretation = interpretPHQ9(phq9Total);
+    const gad7Interpretation = interpretGAD7(gad7Total);
+    const pssInterpretation = interpretPSS(pssTotal);
+
+    if (user) {
+      try {
+        const userId = user.uid;
+
+        const userAssessmentRef = doc(firestore, 'users', userId);
+        const selfAssessmentRef = collection(userAssessmentRef, 'selfAssessment');
+        await addDoc(selfAssessmentRef, {
+          phq9Total,
+          gad7Total,
+          pssTotal,
+          phq9Interpretation,
+          gad7Interpretation,
+          pssInterpretation,
+          timestamp: new Date(),
+        });
+        navigation.navigate('Home');
+      } catch (error) {
+        console.error('Error saving assessment:', error);
+      }
+    } else {
+      console.error('User not authenticated!');
+    }
+  };
+
   return (
-    <RootLayout screenName="SAResult" navigation={navigation}>
+    <RootLayout screenName="SAResult" navigation={navigation} userType={userType}>
        <ScrollView style={styles.container}>
       {/* Title */}
       <Text style={styles.title}>Your total score was ..... </Text>
@@ -60,7 +94,7 @@ export const SAResultScreen = ({ navigation, route }) =>{
           <Text style={styles.buttonText}>Seek Professional</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity style={styles.button} onPress={handleFinish}>
           <Text style={styles.buttonText}>Finish</Text>
         </TouchableOpacity>
       </View>

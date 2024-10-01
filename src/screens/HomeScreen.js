@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { RootLayout } from '../navigation/RootLayout';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, firestore } from '../config';
+import { AuthenticatedUserContext } from '../providers';
 
 export const HomeScreen = ({ navigation }) => {
+    const { userType } = useContext(AuthenticatedUserContext);
     const [profileData, setProfileData] = useState(null);
+    const [refreshing, setRefreshing] = useState(false);
 
-    const fetchProfileData = async () => {
+  const fetchProfileData = async () => {
     const userId = auth.currentUser.uid;
     const userRef = doc(firestore, 'users', userId);
 
@@ -25,63 +28,77 @@ export const HomeScreen = ({ navigation }) => {
     }
   };
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchProfileData();
+    setRefreshing(false);
+  }
+
   useEffect(() => {
     fetchProfileData();
   }, []);
 
   return (
-    <RootLayout screenName="Home" navigation={navigation}>
-      <View style={{ flex: 1, padding: 20 }}>
-        {/* Header Section */}
-        <View style={styles.header}>
-          {/* Greeting and Subtext */}
-          <View style={styles.textContainer}>
-            <Text style={styles.greeting}>Hello, {profileData?.username}!</Text>
-            <Text style={styles.subText}>Assess, Connect, Thrive: Your Path to Mental Wellness</Text>
+    <RootLayout screenName="Home" navigation={navigation} userType={userType}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View style={{ flex: 1, padding: 20 }}>
+          {/* Header Section */}
+          <View style={styles.header}>
+            {/* Greeting and Subtext */}
+            <View style={styles.textContainer}>
+              <Text style={styles.greeting}>Hello, {profileData?.username}!</Text>
+              <Text style={styles.subText}>Assess, Connect, Thrive: Your Path to Mental Wellness</Text>
+            </View>
+          {/* Profile Picture */}
+          <Image
+            source={{ 
+              uri: typeof profileData?.profileImage === 'string' ? profileData.profileImage : undefined, 
+            }} 
+            style={styles.profileImage}
+          />
           </View>
-         {/* Profile Picture */}
-         <Image
-          source={ {uri: profileData?.profileImage} || require('../assets/testprofile.jpg')} // Replace with your image URI
-          style={styles.profileImage}
-        />
         </View>
-      </View>
 
-      {/* To-Do List Buttons */}
-      <View style={{ marginTop: 40 }}>
-        <TouchableOpacity onPress={() => navigation.navigate('SelfAssessment')} style={styles.todoItem}>
-          <View style={styles.circle}>
-            <Ionicons name="clipboard-outline" size={24} color="white" />
-          </View>
-          <Text style={styles.todoText}>Self-Assessment</Text>
+        {/* To-Do List Buttons */}
+        <View style={{ marginTop: 40 }}>
+          <TouchableOpacity onPress={() => navigation.navigate('SelfAssessment')} style={styles.todoItem}>
+            <View style={styles.circle}>
+              <Ionicons name="clipboard-outline" size={24} color="white" />
+            </View>
+            <Text style={styles.todoText}>Self-Assessment</Text>
 
-          <Image source={require('../assets/selfassessmentpic.jpg')} style={styles.todoImage} />
-        </TouchableOpacity>
+            <Image source={require('../assets/selfassessmentpic.jpg')} style={styles.todoImage} />
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Forums')} style={styles.todoItem}>
-          <View style={styles.circle}>
-            <Ionicons name="chatbox-outline" size={24} color="white" />
-          </View>
-            <Text style={styles.todoText}>Forums</Text>
-            <Image source={require('../assets/forumspic.png')} style={styles.todoImage} />
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Forums')} style={styles.todoItem}>
+            <View style={styles.circle}>
+              <Ionicons name="chatbox-outline" size={24} color="white" />
+            </View>
+              <Text style={styles.todoText}>Forums</Text>
+              <Image source={require('../assets/forumspic.png')} style={styles.todoImage} />
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('ViewProfessionals')} style={styles.todoItem}>
-          <View style={styles.circle}>
-            <Ionicons name="person-circle-outline" size={24} color="white" />
-          </View>
-          <Text style={styles.todoText}>View Professionals</Text>
-          <Image source={require('../assets/professionalspic.jpg')} style={styles.todoImage} />
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('ViewProfessionals')} style={styles.todoItem}>
+            <View style={styles.circle}>
+              <Ionicons name="person-circle-outline" size={24} color="white" />
+            </View>
+            <Text style={styles.todoText}>View Professionals</Text>
+            <Image source={require('../assets/professionalspic.jpg')} style={styles.todoImage} />
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('ViewOrganizations')} style={styles.todoItem}>
-          <View style={styles.circle}>
-            <Ionicons name="business-outline" size={24} color="white" />
-          </View>
-          <Text style={styles.todoText}>View Organizations</Text>
-          <Image source={require('../assets/orgspic.jpg')} style={styles.todoImage} />
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity onPress={() => navigation.navigate('ViewOrganizations')} style={styles.todoItem}>
+            <View style={styles.circle}>
+              <Ionicons name="business-outline" size={24} color="white" />
+            </View>
+            <Text style={styles.todoText}>View Organizations</Text>
+            <Image source={require('../assets/orgspic.jpg')} style={styles.todoImage} />
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </RootLayout>
   );
 }

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, TextInput } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; // For icons
 import { RootLayout } from '../navigation/RootLayout';
 import { Colors } from '../config';
+import { AuthenticatedUserContext } from '../providers';
 
 export const ViewRequestScreen = ({ navigation }) => {
+  const { userType } = useContext(AuthenticatedUserContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [reason, setReason] = useState(''); // To store the decline reason
 
@@ -21,7 +23,7 @@ export const ViewRequestScreen = ({ navigation }) => {
   };
 
   return (
-    <RootLayout screenName={'ViewRequest'} navigation={navigation}>
+    <RootLayout screenName={'ViewRequest'} navigation={navigation} userType={userType}>
       <View style={styles.container}>
         {/* Main title */}
         <Text style={styles.title}>View Requests</Text>

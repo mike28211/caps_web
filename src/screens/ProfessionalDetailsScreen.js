@@ -1,8 +1,11 @@
+import React, { useContext } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { RootLayout } from '../navigation/RootLayout';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { AuthenticatedUserContext } from '../providers';
 
 export const ProfessionalDetailsScreen = ({ route, navigation }) => {
+  const { userType } = useContext(AuthenticatedUserContext);
     const { professional } = route.params; // Get the professional data passed during navigation
 
     const renderStars = (rating) => {
@@ -21,7 +24,7 @@ export const ProfessionalDetailsScreen = ({ route, navigation }) => {
     };
 
     return (
-      <RootLayout navigation={navigation} screenName="ProfessionalDetails">
+      <RootLayout navigation={navigation} screenName="ProfessionalDetails" userType={userType}>
        <ScrollView>
         <View style={styles.imageContainer} key={professional.id} marginTop={20}>
           <Image source={{ uri: professional.image }} style={styles.image} />

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';   //https://www.npmjs.com/package/react-native-radio-buttons-group
 import { RootLayout } from '../navigation/RootLayout';
 import { Colors } from '../config';
+import { AuthenticatedUserContext } from '../providers';
 
 export const SAScreen3 = ({navigation, route}) => {
+  const { userType } = useContext(AuthenticatedUserContext);
   const { gad7Total, phq9Total } = route.params;
   // State for each question's answer
   const [answers, setAnswers] = useState({
@@ -87,7 +89,7 @@ export const SAScreen3 = ({navigation, route}) => {
   ];
 
   return (
-    <RootLayout screenName={'SelfAssessment'} navigation={navigation}>
+    <RootLayout screenName={'SelfAssessment3'} navigation={navigation} userType={userType}>
       <ScrollView style={styles.container}>
      
       {/* Title */}

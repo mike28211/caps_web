@@ -1,12 +1,14 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { RootLayout } from '../navigation/RootLayout';
 import { Colors } from '../config';
+import { AuthenticatedUserContext } from '../providers';
 
 
 export const SAScreen = ({ navigation }) => {
+  const { userType } = useContext(AuthenticatedUserContext);
   return (
-    <RootLayout screenName={'SelfAssessment'} navigation={navigation}>
+    <RootLayout screenName={'SelfAssessment'} navigation={navigation} userType={userType}>
       <View style={styles.container}>
         {/* Top Left Greeting */}
         <Text style={styles.title}>Self Assessment</Text>

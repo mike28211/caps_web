@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { RootLayout } from '../navigation/RootLayout';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, firestore } from '../config';
+import { AuthenticatedUserContext } from '../providers';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '../config';
 
 
 export const ProfileScreen = () => {
+  const { userType } = useContext(AuthenticatedUserContext);
   const navigation = useNavigation();
   const [profileData, setProfileData] = useState(null);
+  const [ imageUri, setImageUri ] = useState('');
 
   // Function to handle image picking
   const pickImage = async () => {
@@ -29,9 +34,26 @@ export const ProfileScreen = () => {
       quality: 1,     // Maximum quality
     });
 
-    // If user selects an image
     if (!result.canceled) {
-      setProfileImage({ uri: result.assets[0].uri }); // Update the profile image
+      const selectedImage = result.assets[0].uri;
+
+      const response = await fetch(selectedImage);
+      const blob = await response.blob();
+      const userId = auth.currentUser.uid;
+      const imageRef = ref(storage, `profileImages/${userId}/profilePicure.jpg`);
+
+      await uploadBytes(imageRef, blob);
+      const downloadURL = await getDownloadURL(imageRef);
+
+      const userRef = doc(firestore, 'users', userId);
+      await updateDoc(userRef, {
+        profileImage: downloadURL
+      });
+
+      setProfileData((prevData) => ({
+        ...prevData,
+        profileImage: downloadURL,
+      }));
     }
   };
 
@@ -59,7 +81,7 @@ export const ProfileScreen = () => {
   );
 
   return (
-    <RootLayout screenName="Profile" navigation={navigation}>
+    <RootLayout screenName="Profile" navigation={navigation} userType={userType}>
         <View style={styles.container}>
           <View style={styles.header}>
             <View style={styles.textContainer}>
@@ -143,7 +165,7 @@ const styles = StyleSheet.create({
   divider: {
     height: 1, 
     backgroundColor: '#ddd', 
-    marginVertical: 20, 
+    marginVertical: 15, 
   },
   imageContainer: {
     justifyContent: 'center',

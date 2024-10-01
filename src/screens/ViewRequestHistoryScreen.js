@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; // For icons
 import { RootLayout } from '../navigation/RootLayout'; // Keeping RootLayout as per your structure
+import { AuthenticatedUserContext } from '../providers';
 
 export const ViewRequestHistoryScreen = ({ navigation }) => {
+  const { userType } = useContext(AuthenticatedUserContext);
   // Sample data for historical requests
   const requestHistory = [
     { id: '1', name: 'John Smith', date: '25 June 2024', status: 'approved' },
@@ -12,7 +14,7 @@ export const ViewRequestHistoryScreen = ({ navigation }) => {
   ];
 
   return (
-    <RootLayout screenName={'ViewRequestHistory'} navigation={navigation}>
+    <RootLayout screenName={'ViewRequestHistory'} navigation={navigation} userType={userType}>
       <View style={styles.container}>
         {/* Main title */}
         <Text style={styles.title}>View Request History</Text>
