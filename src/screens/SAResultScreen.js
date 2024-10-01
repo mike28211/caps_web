@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'rea
 import { RootLayout } from '../navigation/RootLayout';
 import { Colors } from '../config';
 import { AuthenticatedUserContext } from '../providers';
+import { getFirestore, doc, addDoc, collection } from 'firebase/firestore';
+import { auth, firestore } from '../config';
 
 export const SAResultScreen = ({ navigation, route }) =>{
   const { userType } = useContext(AuthenticatedUserContext);
@@ -28,6 +30,36 @@ export const SAResultScreen = ({ navigation, route }) =>{
     if (score <= 13) return 'Low stress';
     if (score <= 26) return 'Moderate stress';
     return 'Severe stress';
+  };
+
+  const handleFinish = async () => {
+    const user = auth.currentUser;
+    const phq9Interpretation = interpretPHQ9(phq9Total);
+    const gad7Interpretation = interpretGAD7(gad7Total);
+    const pssInterpretation = interpretPSS(pssTotal);
+
+    if (user) {
+      try {
+        const userId = user.uid;
+
+        const userAssessmentRef = doc(firestore, 'users', userId);
+        const selfAssessmentRef = collection(userAssessmentRef, 'selfAssessment');
+        await addDoc(selfAssessmentRef, {
+          phq9Total,
+          gad7Total,
+          pssTotal,
+          phq9Interpretation,
+          gad7Interpretation,
+          pssInterpretation,
+          timestamp: new Date(),
+        });
+        navigation.navigate('Home');
+      } catch (error) {
+        console.error('Error saving assessment:', error);
+      }
+    } else {
+      console.error('User not authenticated!');
+    }
   };
 
   return (
@@ -62,7 +94,7 @@ export const SAResultScreen = ({ navigation, route }) =>{
           <Text style={styles.buttonText}>Seek Professional</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity style={styles.button} onPress={handleFinish}>
           <Text style={styles.buttonText}>Finish</Text>
         </TouchableOpacity>
       </View>

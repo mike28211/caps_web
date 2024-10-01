@@ -3,12 +3,48 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'reac
 import RadioGroup from 'react-native-radio-buttons-group';  
 import { RootLayout } from '../navigation/RootLayout';
 import { AuthenticatedUserContext } from '../providers';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { auth, firestore } from '../config';
 
 export const SAPreferenceScreen = ({navigation}) => {
   const { userType } = useContext(AuthenticatedUserContext);
   const [age, setAge] = useState('');
-  const [gender, setGender] = useState('male');
-  const [availability, setAvailability] = useState('morning'); 
+  const [gender, setGender] = useState('');
+  const [availability, setAvailability] = useState(''); 
+
+  const user = auth.currentUser;
+
+  const handleSavePreferences = async () => {
+    if (user) {
+      try {
+        const userId = user.uid;
+        const userDocRef = doc(firestore, 'users', userId);
+        await setDoc(userDocRef, {
+          preferences: {
+            preferredProfAge: age,
+            preferredProfGender: gender,
+            preferredProfAvailability: availability,
+          }
+        }, { merge: true });
+        navigation.navigate('SelfAssessment2');
+      } catch (error) {
+        console.error('Error saving preferences:', error);
+      }
+    } else {
+      console.error('User not authenticated!');
+    }
+  };
+
+  const genderOptions = [
+    { id: '1', label: 'Male', value: 'male' },
+    { id: '2', label: 'Female', value: 'female' },
+  ];
+
+  const availabilityOptions = [
+    { id: '1', label: 'Morning', value: 'morning' },
+    { id: '2', label: 'Afternoon', value: 'afternoon' },
+    { id: '3', label: 'Evening', value: 'evening' },
+  ];
 
   return (
     <RootLayout navigation={navigation} screenName={'Preferences'} userType={userType}>
@@ -34,12 +70,9 @@ export const SAPreferenceScreen = ({navigation}) => {
       <View style={styles.inputSection}>
         <Text style={styles.label}>Gender of Professional</Text>
         <RadioGroup
-          radioButtons={[
-            { id: '1', label: 'Male', value: 'male' },
-            { id: '2', label: 'Female', value: 'female' },
-          ]}
-          onPress={setGender}
-          selectedId={gender}
+          radioButtons={genderOptions}
+          onPress={(id) => setGender(genderOptions.find(option => option.id === id)?.value)}
+          selectedId={genderOptions.find(option => option.value === gender)?.id}
           layout="row"
         />
       </View>
@@ -48,19 +81,15 @@ export const SAPreferenceScreen = ({navigation}) => {
       <View style={styles.inputSection}>
         <Text style={styles.label}>Availability</Text>
         <RadioGroup
-          radioButtons={[
-            { id: '1', label: 'Morning', value: 'morning' },
-            { id: '2', label: 'Afternoon', value: 'afternoon' },
-            { id: '3', label: 'Evening', value: 'evening' },
-          ]}
-          onPress={setAvailability}
-          selectedId={availability}
+          radioButtons={availabilityOptions}
+          onPress={(id) => setAvailability(availabilityOptions.find(option => option.id === id)?.value)}
+          selectedId={availabilityOptions.find(option => option.value === availability)?.id}
           layout="row"
         />
       </View>
 
       {/* Next Button */}
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SelfAssessment2')}>
+      <TouchableOpacity style={styles.button} onPress={handleSavePreferences}>
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
     </View>
