@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image,  FlatList } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import RNPickerSelect from 'react-native-picker-select';
 import { RootLayout } from '../navigation/RootLayout';
-
+import { AuthenticatedUserContext } from '../providers';
 
 
 // Sample data
@@ -78,6 +78,7 @@ const professionals = [
 ];
 
 export const ViewProfScreen = () => {
+  const { userType } = useContext(AuthenticatedUserContext);
   const [searchQuery, setSearchQuery] = useState('');
   const [isFilterModalVisible, setFilterModalVisible] = useState(false);
   const [selectedSpecialty, setSelectedSpecialty] = useState(null);
@@ -144,7 +145,7 @@ export const ViewProfScreen = () => {
   );
   
   return (
-    <RootLayout navigation={navigation} screenName="ViewProf" >
+    <RootLayout navigation={navigation} screenName="ViewProf" userType={userType}>
       <View style={styles.container}>
               <Text style={styles.title}>View Professionals</Text>
         <View style={styles.searchBarRow}>

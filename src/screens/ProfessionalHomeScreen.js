@@ -1,11 +1,13 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { RootLayout } from '../navigation/RootLayout';
+import { AuthenticatedUserContext } from '../providers';
 
 export const ProfessionalHomeScreen = ({ navigation }) => {
+  const { userType } = useContext(AuthenticatedUserContext);
   return (
-    <RootLayout navigation={navigation}>
+    <RootLayout navigation={navigation} screenName={'ProfessionalHome'} userType={userType}>
       <View style={{ flex: 1, padding: 20 }}>
         {/* Header Section */}
         <View style={styles.header}>

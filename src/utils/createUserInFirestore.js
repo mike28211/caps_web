@@ -2,8 +2,8 @@ import { doc, setDoc , serverTimestamp} from 'firebase/firestore';
 import { firestore } from '../config';
 import { getDefaultProfileImage } from './getDefaultProfileImage';
 
-export const createUserInFirestore = async (userId, username, email) => {
-  const userRef = doc(firestore, 'users', userId);
+export const createUserInFirestore = async (userId, username, email, collectionName) => {
+  const userRef = doc(firestore, collectionName, userId);
 
   try {
     const profileImageUrl = await getDefaultProfileImage();

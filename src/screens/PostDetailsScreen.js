@@ -1,9 +1,11 @@
-import React, { useState } from 'react'; 
+import React, { useState, useContext } from 'react'; 
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Modal, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { RootLayout } from '../navigation/RootLayout';
+import { AuthenticatedUserContext } from '../providers';
 
 export const PostDetailsScreen = ({ route, navigation }) => {
+  const { userType } = useContext(AuthenticatedUserContext);
   const { postId, postTitle, postContent, postAuthor, postTime, userId } = route.params;
 
   // Sample data for comments
@@ -119,7 +121,7 @@ export const PostDetailsScreen = ({ route, navigation }) => {
   );
 
   return (
-    <RootLayout navigation={navigation} screenName="Post Details">
+    <RootLayout navigation={navigation} screenName="Post Details" userType={userType}>
       <View style={styles.container}>
         {/* Post Details */}
         <Text style={styles.postTitle}>{postTitle}</Text>

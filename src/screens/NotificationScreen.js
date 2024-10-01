@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { RootLayout } from '../navigation/RootLayout';
+import { AuthenticatedUserContext } from '../providers';
 
 // Sample notifications data (for example purposes)
 const initialNotifications = [
@@ -12,6 +13,7 @@ const initialNotifications = [
 ];
 
 export const NotificationScreen = () => {
+  const { userType } = useContext(AuthenticatedUserContext);
   const [notifications, setNotifications] = useState(initialNotifications);
   const navigation = useNavigation();
 
@@ -49,7 +51,7 @@ export const NotificationScreen = () => {
   );
 
   return (
-    <RootLayout navigation={navigation} screenName="Notifications">
+    <RootLayout navigation={navigation} screenName="Notifications" userType={userType}>
       <View style={{ flex: 1, padding: 20, backgroundColor: 'white' }}>
         <View style={styles.header}>
           <View style={styles.textContainer}>
