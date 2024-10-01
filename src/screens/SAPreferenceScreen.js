@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import RadioGroup from 'react-native-radio-buttons-group';   //https://www.npmjs.com/package/react-native-radio-buttons-group
-
+import RadioGroup from 'react-native-radio-buttons-group';  
 import { RootLayout } from '../navigation/RootLayout';
-
+import { AuthenticatedUserContext } from '../providers';
 
 export const SAPreferenceScreen = ({navigation}) => {
+  const { userType } = useContext(AuthenticatedUserContext);
   const [age, setAge] = useState('');
   const [gender, setGender] = useState('male');
   const [availability, setAvailability] = useState('morning'); 
 
   return (
-    <RootLayout navigation={navigation} screenName={'Preferences'}>
+    <RootLayout navigation={navigation} screenName={'Preferences'} userType={userType}>
       <View style={styles.container}>
       
     

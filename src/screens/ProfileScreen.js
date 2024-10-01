@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
@@ -6,9 +6,11 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { RootLayout } from '../navigation/RootLayout';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, firestore } from '../config';
+import { AuthenticatedUserContext } from '../providers';
 
 
 export const ProfileScreen = () => {
+  const { userType } = useContext(AuthenticatedUserContext);
   const navigation = useNavigation();
   const [profileData, setProfileData] = useState(null);
 
@@ -59,7 +61,7 @@ export const ProfileScreen = () => {
   );
 
   return (
-    <RootLayout screenName="Profile" navigation={navigation}>
+    <RootLayout screenName="Profile" navigation={navigation} userType={userType}>
         <View style={styles.container}>
           <View style={styles.header}>
             <View style={styles.textContainer}>

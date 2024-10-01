@@ -10,24 +10,35 @@ export const RegisterAsScreen = ({ navigation }) => {
         style={styles.logo}
         resizeMode="contain"
       />
-      {/* Register As Text */}
-      <Text style={styles.registerText}>Register as?</Text>
-      
-      {/* Seeker Button */}
-      <TouchableOpacity 
-        style={styles.button}
-        onPress={() => navigation.navigate('Signup', { userType: 'seeker' })} // Adjust navigation
-      >
-        <Text style={styles.buttonText}>Seeker</Text>
-      </TouchableOpacity>
-      
-      {/* Professional Button */}
-      <TouchableOpacity 
-        style={styles.button}
-        onPress={() => navigation.navigate('Signup', { userType: 'professional' })} // Adjust navigation
-      >
-        <Text style={styles.buttonText}>Professional</Text>
-      </TouchableOpacity>
+
+      <View style={styles.centerContent}>
+                {/* Register As Text */}
+                <Text style={styles.textStyle}>Register as?</Text>
+        
+        {/* Seeker Button */}
+        <TouchableOpacity 
+          style={styles.button}
+          onPress={() => navigation.navigate('Signup', { userType: 'seeker' })} // Adjust navigation
+        >
+          <Text style={styles.buttonText}>Seeker</Text>
+        </TouchableOpacity>
+        
+        {/* Professional Button */}
+        <TouchableOpacity 
+          style={styles.button}
+          onPress={() => navigation.navigate('Signup', { userType: 'professional' })} // Adjust navigation
+        >
+          <Text style={styles.buttonText}>Professional</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.textStyle}>Already Have an Account?</Text>
+        <TouchableOpacity 
+          style={styles.button}
+          onPress={() => navigation.navigate('Login')} // Adjust navigation
+        >
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -35,19 +46,26 @@ export const RegisterAsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#fff',  // White background
   },
   logo: {
     width: 300,   // Adjust the size of the logo as needed
     height: 300,  // Adjust the size of the logo as needed
-    marginBottom: 50,  // Space between logo and text/buttons
+    marginTop: 50,  // Space between logo and text/buttons
   },
-  registerText: {
-    fontSize: 24,
+  centerContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+  },
+  textStyle: {
+    fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 40,
+    marginBottom: 20,
+    marginTop: 15,
     color: '#000',
   },
   button: {

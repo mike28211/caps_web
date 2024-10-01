@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, FlatList } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import RNPickerSelect from 'react-native-picker-select';
 import { RootLayout } from '../navigation/RootLayout';
+import { AuthenticatedUserContext } from '../providers';
 
 // Sample data for organizations
 const organizations = [
@@ -32,6 +33,7 @@ const organizations = [
 ];
 
 export const ViewOrgScreen = () => {
+  const { userType } = useContext(AuthenticatedUserContext);
   const [searchQuery, setSearchQuery] = useState('');
   const [isFilterModalVisible, setFilterModalVisible] = useState(false);
 
@@ -78,7 +80,7 @@ export const ViewOrgScreen = () => {
   );
 
   return (
-    <RootLayout navigation={navigation} screenName="ViewOrg">
+    <RootLayout navigation={navigation} screenName="ViewOrg" userType={userType}>
     <View style={styles.container}>
       <Text style={styles.title}>View Organizations</Text>
       <View style={styles.searchBarRow}>

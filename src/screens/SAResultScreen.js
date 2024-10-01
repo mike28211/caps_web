@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { RootLayout } from '../navigation/RootLayout';
 import { Colors } from '../config';
+import { AuthenticatedUserContext } from '../providers';
 
 export const SAResultScreen = ({ navigation, route }) =>{
+  const { userType } = useContext(AuthenticatedUserContext);
     // receive the scores as props
   const { gad7Total, phq9Total, pssTotal } = route.params;
 
@@ -29,7 +31,7 @@ export const SAResultScreen = ({ navigation, route }) =>{
   };
 
   return (
-    <RootLayout screenName="SAResult" navigation={navigation}>
+    <RootLayout screenName="SAResult" navigation={navigation} userType={userType}>
        <ScrollView style={styles.container}>
       {/* Title */}
       <Text style={styles.title}>Your total score was ..... </Text>

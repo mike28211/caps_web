@@ -10,9 +10,10 @@ import { AuthenticatedUserContext } from "../providers";
 import { LoadingIndicator } from "../components";
 import { auth, firestore } from "../config";
 
+const navigationRef = React.createRef();
+
 export const RootNavigator = () => {
-    const { user, setUser } = useContext(AuthenticatedUserContext);
-    const [ userType, setUserType ] = useState(null);
+    const { user, setUser, userType, setUserType } = useContext(AuthenticatedUserContext);
     const [isLoading, setIsLoading] = useState(true);
   
     useEffect(() => {
@@ -45,8 +46,19 @@ export const RootNavigator = () => {
   
       // unsubscribe auth listener on unmount
       return unsubscribeAuthStateChanged;
-    }, [user]);
-  
+    }, [setUser, setUserType]);
+    
+    useEffect(() => {
+      const logNavigationState = () => {
+        const currentNavigationState = navigationRef.current?.getRootSate();
+        console.log("Navigation State:", currentNavigationState);
+      };
+
+      if (navigationRef.current) {
+        logNavigationState();
+      }
+    }, [user, userType])
+    
     if (isLoading) {
       return <LoadingIndicator />;
     }

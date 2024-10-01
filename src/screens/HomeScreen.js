@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { RootLayout } from '../navigation/RootLayout';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, firestore } from '../config';
+import { AuthenticatedUserContext } from '../providers';
 
 export const HomeScreen = ({ navigation }) => {
+    const { userType } = useContext(AuthenticatedUserContext);
     const [profileData, setProfileData] = useState(null);
 
     const fetchProfileData = async () => {
@@ -30,7 +32,7 @@ export const HomeScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <RootLayout screenName="Home" navigation={navigation}>
+    <RootLayout screenName="Home" navigation={navigation} userType={userType}>
       <View style={{ flex: 1, padding: 20 }}>
         {/* Header Section */}
         <View style={styles.header}>

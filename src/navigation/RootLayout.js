@@ -3,7 +3,7 @@ import { View, TouchableOpacity, StyleSheet, Image, SafeAreaView, StatusBar } fr
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Colors } from '../config';
 
-export const RootLayout = ({ children, navigation, screenName }) => {
+export const RootLayout = ({ children, navigation, screenName, userType }) => {
 
   const renderLeftIcon = () => {
     if (screenName === 'Home' || screenName === 'ProfessionalHome') {
@@ -41,21 +41,12 @@ export const RootLayout = ({ children, navigation, screenName }) => {
         {/* Footer Navigation */}
         <View style={styles.footer}>
             <TouchableOpacity onPress={() => {
-                if (screenName === 'Home') {
-                  navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'Home' }],
-                  });
-                } else if (screenName === 'ProfessionalHome') {
-                  navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'ProfessionalStack', params: { screen: 'ProfessionalHome'} }],
-                  });
-                } else {
-                  navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'Home' }],
-                  });
+                if (screenName === 'Home' || screenName === 'ProfessionalHome') {
+                  navigation.navigate(screenName);
+                } else if (userType === "user") {
+                  navigation.navigate('Home');
+                } else if (userType === "professional") {
+                  navigation.navigate('ProfessionalHome');
                 }
               }} style={styles.navButton}>
               <View style={screenName === 'Home' || screenName === 'ProfessionalHome' ? styles.activeIconContainer : styles.iconContainer}>
