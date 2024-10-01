@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { HomeScreen, SAScreen, ForumsScreen, ViewProfScreen, ForumPostScreen, PostDetailsScreen, ViewOrgScreen, MoodScreen,
      ProfileScreen, NotificationScreen, MenuScreen, EditProfileScreen, ProfessionalDetailsScreen, OrganizationDetailsScreen,
-     SAPreferenceScreen, SAScreen2, SAScreen3, SAResultScreen
+     SAPreferenceScreen, SAScreen2, SAScreen3, SAResultScreen, MoodMeterScreen, MoodScreen2, MoodResultScreen
  } from '../screens';
 
 const Stack = createStackNavigator();
@@ -102,6 +102,21 @@ export const AppStack = () => {
              <Stack.Screen 
                 name="SelfAssessmentResult" 
                 component={SAResultScreen} 
+                options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+                name="MoodMeter" 
+                component={MoodMeterScreen} 
+                options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+                name="Mood2" 
+                component={MoodScreen2} 
+                options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+                name="MoodResult" 
+                component={MoodResultScreen} 
                 options={{ headerShown: false }} 
             />
         </Stack.Navigator>
