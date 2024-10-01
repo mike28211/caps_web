@@ -6,7 +6,6 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, firestore } from '../config';
 
 export const EditProfileScreen = ({ navigation }) => {
-
   const [firstName, setFirstName] = React.useState('');
   const [middleName, setMiddleName] = React.useState('');
   const [lastName, setLastName] = React.useState('');

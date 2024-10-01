@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Modal, Alert, Image } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react'; 
+import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Modal, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import moment from 'moment';
 import { RootLayout } from '../navigation/RootLayout';
+import { AuthenticatedUserContext } from '../providers';
 
 export const PostDetailsScreen = ({ route, navigation }) => {
+  const { userType } = useContext(AuthenticatedUserContext);
   const { postId, postTitle, postContent, postAuthor, postTime, userId } = route.params;
 
   const [comments, setComments] = useState([
@@ -143,7 +145,7 @@ export const PostDetailsScreen = ({ route, navigation }) => {
   );
 
   return (
-    <RootLayout navigation={navigation} screenName="Post Details">
+    <RootLayout navigation={navigation} screenName="Post Details" userType={userType}>
       <View style={styles.container}>
         <Text style={styles.postTitle}>{postTitle}</Text>
         <View style={styles.metaContainer}>
@@ -199,6 +201,12 @@ export const PostDetailsScreen = ({ route, navigation }) => {
 
 // Style
 const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
   container: {
     flex: 1,
     padding: 16,

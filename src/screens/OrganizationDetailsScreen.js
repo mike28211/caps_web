@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { RootLayout } from '../navigation/RootLayout';
+import { AuthenticatedUserContext } from '../providers';
 
 export const OrganizationDetailsScreen = ({ route }) => {
+  const { userType } = useContext(AuthenticatedUserContext);
   const { organization } = route.params;
 
   return (
-    <RootLayout navigation={route.params.navigation} screenName="OrganizationDetails">
+    <RootLayout navigation={route.params.navigation} screenName="OrganizationDetails" userType={userType}>
         <View style={styles.container}>
             <Image source={{ uri: organization.image }} style={styles.orgImage} />
                 <Text style={styles.orgName}>{organization.name}</Text>
