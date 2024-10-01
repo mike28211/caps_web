@@ -1,95 +1,83 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, FlatList, StyleSheet, Dimensions, Modal, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, FlatList, StyleSheet, Modal, Button, Dimensions, Alert, ScrollView, KeyboardAvoidingView } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { RootLayout } from '../navigation/RootLayout';
 
-const { width } = Dimensions.get('window'); // Get screen width
+// Get screen width
+const { width } = Dimensions.get('window');
 
 export const ForumsScreen = ({ navigation }) => {
-  // State declarations
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [forums, setForums] = useState([
-    { id: '1', title: 'Mental Health Awareness', timeFrame: '2h ago', tags: ['Support', 'Awareness'] },
-    { id: '2', title: 'Stress Management', timeFrame: '5h ago', tags: ['Stress', 'Self-care'] },
+    { id: '1', title: 'Mental Health Awareness', timeFrame: '2h ago', tags: ['Support', 'Awareness', 'Wellness', 'Motivation'] },
+    { id: '2', title: 'Stress Management', timeFrame: '5h ago', tags: ['Stress', 'Self-care', 'Mental Health', 'Wellness'] },
   ]);
 
-  // Modal state for adding forums
-  const [modalVisible, setModalVisible] = useState(false);
-  const [newForumTitle, setNewForumTitle] = useState('');
-  const [newForumContent, setNewForumContent] = useState('');
-  const [newForumTags, setNewForumTags] = useState([]);
-  const [tagInput, setTagInput] = useState('');
+  const [isModalVisible, setIsModalVisible] = useState(false); 
+  const [forumTitle, setForumTitle] = useState(''); 
+  const [forumContent, setForumContent] = useState(''); 
+  const [tags, setTags] = useState([]);
 
-  // Function to filter forums based on search query
-  const handleSearch = () => {
-    if (searchQuery) {
-      const filteredForums = forums.filter((forum) =>
-        forum.title.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setForums(filteredForums);
+  // Predefined tags
+  const predefinedTags = ['Support', 'Awareness', 'Stress', 'Self-care', 'Motivation', 'Wellness', 'Mental Health'];
+
+  // Handle tag selection
+  const toggleTag = (tag) => {
+    if (tags.includes(tag)) {
+      setTags(tags.filter((t) => t !== tag));
     } else {
-      setForums([
-        { id: '1', title: 'Mental Health Awareness', timeFrame: '2h ago', tags: ['Support', 'Awareness'] },
-        { id: '2', title: 'Stress Management', timeFrame: '5h ago', tags: ['Stress', 'Self-care'] },
-      ]);
+      setTags([...tags, tag]);
     }
   };
 
-  // Function to render each forum item
-  const renderForumItem = ({ item }) => (
-    <View style={styles.forumContainer}>
-      <Text style={styles.forumTitle}>{item.title}</Text>
-      <View style={styles.metaContainer}>
-        <Text style={styles.timeFrame}>{item.timeFrame}</Text>
-        <View style={styles.tagContainer}>
-          {item.tags.map((tag, index) => (
-            <Text key={index} style={styles.tag}>{tag}</Text>
-          ))}
-        </View>
-      </View>
-      <TouchableOpacity
-        style={styles.visitButton}
-        onPress={() => navigation.navigate('ForumDetails', { forumId: item.id, forumTitle: item.title })}
-      >
-        <Ionicons name="arrow-forward" size={18} color="white" style={styles.visitIcon} />
-        <Text style={styles.visitButtonText}>Visit Forum</Text>
-      </TouchableOpacity>
-    </View>
-  );
-
-  // Function to handle adding a new forum
-  const handleAddForum = () => {
-    if (!newForumTitle || !newForumContent) {
-      Alert.alert('Error', 'Please provide a title and content for the forum.');
+  // Validation
+  const createForum = () => {
+    if (!forumTitle || !forumContent) {
+      Alert.alert('Error', 'Please enter both a title and content for the forum.');
       return;
     }
 
     const newForum = {
-      id: String(forums.length + 1),
-      title: newForumTitle,
+      id: (forums.length + 1).toString(),
+      title: forumTitle,
       timeFrame: 'Just now',
-      tags: newForumTags,
+      tags: tags,
     };
-    setForums([newForum, ...forums]);
-    setModalVisible(false);
-    setNewForumTitle('');
-    setNewForumContent('');
-    setNewForumTags([]);
-    setTagInput('');
+    setForums([...forums, newForum]);
+    setForumTitle('');
+    setForumContent('');
+    setTags([]);
+    setIsModalVisible(false); 
   };
 
-  // Function to add a tag
-  const handleAddTag = () => {
-    if (tagInput && !newForumTags.includes(tagInput)) {
-      setNewForumTags([...newForumTags, tagInput]);
-      setTagInput('');
-    }
-  };
+  const renderForumItem = ({ item }) => {
+    const displayedTags = item.tags.slice(0, 2);
+    const remainingTagsCount = item.tags.length - 2;
 
-  // Function to remove a tag
-  const handleRemoveTag = (tagToRemove) => {
-    setNewForumTags(newForumTags.filter(tag => tag !== tagToRemove));
+    return (
+      <View style={styles.forumContainer}>
+        <Text style={styles.forumTitle}>{item.title}</Text>
+        <View style={styles.metaContainer}>
+          <Text style={styles.timeFrame}>{item.timeFrame}</Text>
+          <View style={styles.tagContainer}>
+            {displayedTags.map((tag, index) => (
+              <Text key={index} style={styles.tag}>{tag}</Text>
+            ))}
+            {remainingTagsCount > 0 && (
+              <Text style={styles.moreTagsText}>{`+${remainingTagsCount}`}</Text>
+            )}
+          </View>
+        </View>
+        <TouchableOpacity
+          style={styles.visitButton}
+          onPress={() => navigation.navigate('ForumDetails', { forumId: item.id, forumTitle: item.title, forumTags: item.tags })}
+        >
+          <Ionicons name="arrow-forward" size={18} color="white" style={styles.visitIcon} />
+          <Text style={styles.visitButtonText}>Visit Forum</Text>
+        </TouchableOpacity>
+      </View>
+    );
   };
 
   return (
@@ -102,7 +90,7 @@ export const ForumsScreen = ({ navigation }) => {
           </View>
 
           <View style={styles.iconContainer}>
-            <TouchableOpacity style={styles.addForumButton} onPress={() => setModalVisible(true)}>
+            <TouchableOpacity style={styles.addForumButton} onPress={() => setIsModalVisible(true)}>
               <Ionicons name="add-circle-outline" size={24} color="white" />
               <Text style={styles.addForumButtonText}> Add Forum</Text>
             </TouchableOpacity>
@@ -112,7 +100,7 @@ export const ForumsScreen = ({ navigation }) => {
           </View>
         </View>
 
-        {/* Search Bar (conditionally rendered) */}
+        {/* Search Bar */}
         {isSearching && (
           <View style={styles.searchContainer}>
             <TextInput
@@ -120,72 +108,63 @@ export const ForumsScreen = ({ navigation }) => {
               placeholder="Search forums..."
               value={searchQuery}
               onChangeText={(text) => setSearchQuery(text)}
-              onSubmitEditing={handleSearch}
             />
           </View>
         )}
 
-        {/* List of Forums (showing all items) */}
-        <FlatList
-          data={forums}
-          keyExtractor={(item) => item.id}
-          renderItem={renderForumItem}
-          style={styles.forumsList}
-        />
+        {/* Forum List */}
+        <ScrollView style={styles.forumsList}>
+          {forums.map((forum) => renderForumItem({ item: forum }))}
+        </ScrollView>
 
         {/* Modal for Adding New Forum */}
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <Text style={styles.modalTitle}>Create a New Forum</Text>
-              <TextInput
-                style={styles.modalInput}
-                placeholder="Title"
-                value={newForumTitle}
-                onChangeText={setNewForumTitle}
-              />
-              <TextInput
-                style={styles.modalInput}
-                placeholder="Content"
-                value={newForumContent}
-                onChangeText={setNewForumContent}
-                multiline
-              />
-              <View style={styles.tagContainer}>
-                {newForumTags.map((tag, index) => (
-                  <View key={index} style={styles.tagItem}>
-                    <Text style={styles.tag}>{tag}</Text>
-                    <TouchableOpacity onPress={() => handleRemoveTag(tag)}>
-                      <Ionicons name="close-circle" size={16} color="red" />
-                    </TouchableOpacity>
-                  </View>
-                ))}
-                <TextInput
-                  style={styles.tagInput}
-                  placeholder="Add a tag"
-                  value={tagInput}
-                  onChangeText={setTagInput}
-                  onSubmitEditing={handleAddTag}
-                />
-              </View>
-              <TouchableOpacity style={styles.submitButton} onPress={handleAddForum}>
-                <Text style={styles.submitButtonText}>Create Forum</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Text style={styles.closeButton}>Close</Text>
+        <Modal visible={isModalVisible} animationType="slide">
+          <KeyboardAvoidingView behavior="padding" style={styles.modalContainer}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Create New Forum</Text>
+                <TouchableOpacity style={styles.createForumButton} onPress={createForum}>
+                      <Text style={styles.ForumButtonText}>Create Forum</Text>
               </TouchableOpacity>
             </View>
-          </View>
+            <TextInput
+              style={styles.modalInput}
+              placeholder="Forum Title"
+              value={forumTitle}
+              onChangeText={(text) => setForumTitle(text)}
+            />
+            <TextInput
+              style={styles.modalInput}
+              placeholder="Forum Content"
+              value={forumContent}
+              onChangeText={(text) => setForumContent(text)}
+              multiline
+            />
+
+            {/* Tag Selection */}
+            <Text style={styles.tagSelectionTitle}>Select Tags</Text>
+            <View style={styles.predefinedTagsContainer}>
+              {predefinedTags.map((tag, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.predefinedTag,
+                    tags.includes(tag) ? styles.selectedTag : styles.unselectedTag,
+                  ]}
+                  onPress={() => toggleTag(tag)}
+                >
+                  <Text style={styles.tagText}>{tag}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+              <TouchableOpacity style={styles.createForumCancelButton} onPress={() => setIsModalVisible(false)}>
+                <Text style={styles.ForumButtonText}>Cancel</Text>
+              </TouchableOpacity>
+          </KeyboardAvoidingView>
         </Modal>
       </View>
     </RootLayout>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -212,7 +191,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#7129F2',
     padding: 10,
     borderRadius: 8,
-    marginBottom: 20,
   },
   addForumButtonText: {
     color: '#fff',
@@ -221,13 +199,10 @@ const styles = StyleSheet.create({
   subText: {
     fontSize: 14,
     color: '#6c757d',
-    marginTop: 5,
-    flexShrink: 1,
   },
   iconContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
   },
   searchContainer: {
     marginTop: 20,
@@ -250,54 +225,103 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     backgroundColor: '#f0f0f0',
     borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 2,
   },
   forumTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
   },
   metaContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',  // Spread out timeFrame and tags
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
-  },
-  timeFrame: {
-    fontSize: 12,
-    color: '#6c757d',
   },
   tagContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',  // Align tags to the right
+    flexWrap: 'wrap',
   },
   tag: {
     backgroundColor: '#B9A2F1',
-    color: 'white',
-    paddingVertical: 3,
+    color: '#fff',
     paddingHorizontal: 8,
+    paddingVertical: 4,
+    margin: 2,
     borderRadius: 12,
-    marginLeft: 5,  // Margin to separate tags from each other
-    fontSize: 10,  // Smaller font for the tags
+  },
+  modalContainer: {
+    flex: 1,
+    padding: 20,
+  },
+  modalTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  modalInput: {
+    marginBottom: 15,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10,
+  },
+  predefinedTagsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: 15,
+  },
+  predefinedTag: {
+    padding: 10,
+    borderRadius: 20,
+    marginRight: 10,
+    marginBottom: 10,
+  },
+  selectedTag: {
+    backgroundColor: '#B9A2F1',
+  },
+  unselectedTag: {
+    backgroundColor: '#ECE6F0',
   },
   visitButton: {
-    flexDirection: 'row', // Align the icon and text in a row
-    alignItems: 'center', // Ensure both are vertically aligned
-    alignSelf: 'flex-start',
-    backgroundColor: '#7129F2',
-    paddingVertical: 6,
-    paddingHorizontal: 15,
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#7f4dff',
+    padding: 10,
     borderRadius: 8,
   },
   visitIcon: {
-    marginRight: 5,  // Adds space between the icon and text
+    marginRight: 5,
   },
   visitButtonText: {
-    color: 'white',
-    fontSize: 14,
+    color: '#fff',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  ForumButtonText: {
+    color: '#fff',
+    alignItems: 'center',
+    marginLeft: 5,
+  },
+  createForumButton: {  
+    backgroundColor: '#7129F2',
+    padding: 10,
+    borderRadius: 8,
+    display: 'flex',
+    marginTop: 20,
+    alignItems: 'center',
+    height: 40,
+  },
+  createForumCancelButton: {  
+    backgroundColor: '#7129F2',
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 20,
+    alignItems: 'center',
+    height: 40,
+    display: 'flex',
   },
 });
