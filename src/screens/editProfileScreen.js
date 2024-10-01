@@ -1,10 +1,71 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { RootLayout } from '../navigation/RootLayout';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { auth, firestore } from '../config';
 
 export const EditProfileScreen = ({ navigation }) => {
+
+  const [firstName, setFirstName] = React.useState('');
+  const [middleName, setMiddleName] = React.useState('');
+  const [lastName, setLastName] = React.useState('');
+  const [age, setAge] = React.useState('');
   const [gender, setGender] = React.useState('');
+  const [mobileNumber, setMobileNumber] = React.useState('');
+  const [facebookLink, setFacebookLink] = React.useState('');
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const userRef = doc(firestore, 'users', user.uid);
+      const userDoc = await getDoc(userRef);
+
+      if (userDoc.exists()) {
+        const data = userDoc.data();
+        // Set to existing data if available
+        setFirstName(data.firstName || '');
+        setMiddleName(data.middleName || '');
+        setLastName(data.lastName || '');
+        setAge(data.age || '');
+        setGender(data.gender || '');
+        setMobileNumber(data.mobileNumber || '');
+        setFacebookLink(data.facebookLink || '');
+      }
+    };
+
+    fetchProfileData();
+  }, []);
+
+  const handleSubmit = async () => {
+    const user = auth.currentUser;
+    if(!user) {
+      alert('User not authenticated!');
+      return;
+    }
+
+    const profileData = {
+      firstName,
+      middleName,
+      lastName,
+      age,
+      gender,
+      mobileNumber,
+      facebookLink,
+    };
+
+    try {
+      await setDoc(doc(firestore, 'users', user.uid), profileData, { merge: true });
+      alert('Profile updated successfully!');
+      console.log('Profile updated successfully:', profileData);
+      navigation.navigate('Profile', { updatedProfileData: profileData});
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      alert('Failed to update profile. Please try again.');
+    }
+  };
 
   return (
     <RootLayout navigation={navigation} screenName="EditProfileScreen">
@@ -22,19 +83,34 @@ export const EditProfileScreen = ({ navigation }) => {
             {/* First Name */}
             <View style={styles.editRow}>
               <Text style={styles.label}>First Name:</Text>
-              <TextInput style={styles.input} placeholder="Enter First Name" />
+              <TextInput 
+                style={styles.input} 
+                placeholder="Enter First Name" 
+                value={firstName}
+                onChangeText={setFirstName}
+              />
             </View>
 
             {/* Middle Name */}
             <View style={styles.editRow}>
               <Text style={styles.label}>Middle Name:</Text>
-              <TextInput style={styles.input} placeholder="Enter Middle Name" />
+              <TextInput 
+                style={styles.input} 
+                placeholder="Enter Middle Name" 
+                value={middleName}
+                onChangeText={setMiddleName}
+              />
             </View>
 
             {/* Last Name */}
             <View style={styles.editRow}>
               <Text style={styles.label}>Last Name:</Text>
-              <TextInput style={styles.input} placeholder="Enter Last Name" />
+              <TextInput 
+                style={styles.input} 
+                placeholder="Enter Last Name" 
+                value={lastName}
+                onChangeText={setLastName}
+              />
             </View>
 
             {/* Age with smaller width */}
@@ -44,6 +120,8 @@ export const EditProfileScreen = ({ navigation }) => {
                 style={[styles.input]} 
                 placeholder="Enter Age" 
                 keyboardType="numeric" 
+                value={age}
+                onChangeText={setAge}
               />
             </View>
 
@@ -54,9 +132,9 @@ export const EditProfileScreen = ({ navigation }) => {
                 <RNPickerSelect
                   onValueChange={(value) => setGender(value)}
                   items={[
-                    { label: 'Male', value: 'male' },
-                    { label: 'Female', value: 'female' },
-                    { label: 'Other', value: 'other' },
+                    { label: 'Male', value: 'Male' },
+                    { label: 'Female', value: 'Female' },
+                    { label: 'Other', value: 'Other' },
                   ]}
                   placeholder={{ label: 'Select Gender', value: null }}
                   style={{
@@ -70,18 +148,29 @@ export const EditProfileScreen = ({ navigation }) => {
             {/* Mobile Number */}
             <View style={styles.editRow}>
               <Text style={styles.label}>Mobile Number:</Text>
-              <TextInput style={styles.input} placeholder="Enter Mobile Number" keyboardType="phone-pad" />
+              <TextInput 
+                style={styles.input} 
+                placeholder="Enter Mobile Number" 
+                keyboardType="phone-pad" 
+                value={mobileNumber}
+                onChangeText={setMobileNumber}
+              />
             </View>
 
             {/* Facebook/Messenger Link */}
             <View style={styles.editRow}>
               <Text style={styles.label}>Facebook/Messenger Link:</Text>
-              <TextInput style={styles.input} placeholder="Enter Link" />
+              <TextInput 
+                style={styles.input} 
+                placeholder="Enter Link"
+                value={facebookLink}
+                onChangeText={setFacebookLink}
+              />
             </View>
           </ScrollView>
 
           {/* Submit Button */}
-          <TouchableOpacity style={styles.submitButton} onPress={() => alert('Submitted!')}>
+          <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
             <Text style={styles.submitButtonText}>Submit</Text>
           </TouchableOpacity>
         </View>

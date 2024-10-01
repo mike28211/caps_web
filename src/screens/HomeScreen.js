@@ -1,9 +1,34 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { RootLayout } from '../navigation/RootLayout';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, firestore } from '../config';
 
 export const HomeScreen = ({ navigation }) => {
+    const [profileData, setProfileData] = useState(null);
+
+    const fetchProfileData = async () => {
+    const userId = auth.currentUser.uid;
+    const userRef = doc(firestore, 'users', userId);
+
+    try {
+      const docSnap = await getDoc(userRef);
+      if(docSnap.exists()) {
+        console.log('Profile Data Fetched Successfully: ', docSnap.data());
+        setProfileData(docSnap.data());
+      } else{
+        console.log('No such document!');
+      }
+    } catch(error){
+      console.log('Error fetching profile data:', error.message)
+    }
+  };
+
+  useEffect(() => {
+    fetchProfileData();
+  }, []);
+
   return (
     <RootLayout screenName="Home" navigation={navigation}>
       <View style={{ flex: 1, padding: 20 }}>
@@ -11,12 +36,12 @@ export const HomeScreen = ({ navigation }) => {
         <View style={styles.header}>
           {/* Greeting and Subtext */}
           <View style={styles.textContainer}>
-            <Text style={styles.greeting}>Hello, Seeker!</Text>
+            <Text style={styles.greeting}>Hello, {profileData?.username}!</Text>
             <Text style={styles.subText}>Assess, Connect, Thrive: Your Path to Mental Wellness</Text>
           </View>
          {/* Profile Picture */}
          <Image
-          source={require('../assets/testprofile.jpg')} // Replace with your image URI
+          source={ {uri: profileData?.profileImage} || require('../assets/testprofile.jpg')} // Replace with your image URI
           style={styles.profileImage}
         />
         </View>
