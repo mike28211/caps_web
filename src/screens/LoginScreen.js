@@ -103,7 +103,7 @@ export const LoginScreen = ({ navigation }) => {
           {/* Footer for creating a new account */}
           <View style={styles.footer}>
             <Text>Don't have an account?</Text>
-            <Text style={styles.signupLink} onPress={() => navigation.navigate('Signup')}>
+            <Text style={styles.signupLink} onPress={() => navigation.navigate('RegisterAs')}>
               Register
             </Text>
           </View>
