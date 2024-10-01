@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { HomeScreen } from '../screens';
+import { HomeScreen} from '../screens';
 import { SAScreen } from '../screens';
 import { ForumsScreen } from '../screens';
 import { ViewProfScreen } from '../screens';
@@ -20,7 +20,9 @@ import { ProfessionalDetailsScreen } from '../screens/ProfessionalDetailsScreen'
 import { OrganizationDetailsScreen } from '../screens/OrganizationDetailsScreen';
 import { ForumPostScreen } from '../screens/ForumPostScreen';
 import { PostDetailsScreen } from '../screens/PostDetailsScreen';
-
+import {MoodMeterScreen}    from '../screens/MoodMeterScreen';
+import {MoodScreen2}    from '../screens/MoodScreen2';
+import {MoodResultScreen} from '../screens/MoodResultScreen'
 const Stack = createStackNavigator();
 
 export const AppStack = () => {
@@ -65,7 +67,7 @@ export const AppStack = () => {
             <Stack.Screen 
                 name="Mood" 
                 component={MoodScreen} 
-                options={{ headerShown: true }} // Show the header for ViewOrganizationsScreen
+                options={{ headerShown: false }} // Show the header for ViewOrganizationsScreen
             /> 
             <Stack.Screen 
                 name="Profile" 
@@ -124,6 +126,21 @@ export const AppStack = () => {
                 component={ProfessionalHomeScreen} 
                 options={{ headerShown: false }} 
             /> */}
+             <Stack.Screen 
+                name="MoodMeter" 
+                component={MoodMeterScreen} 
+                options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+                name="Mood2" 
+                component={MoodScreen2} 
+                options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+                name="MoodResult" 
+                component={MoodResultScreen} 
+                options={{ headerShown: false }} 
+            />
         </Stack.Navigator>
     );
 }
