@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Button, StyleSheet, Text } from 'react-native';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config';
-import { RootLayout } from '../navigation';
+import { RootLayout } from '../navigation/RootLayout';
 
 export const MenuScreen = ({ navigation }) => {
   const handleLogout = () => {

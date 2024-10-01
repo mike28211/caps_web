@@ -87,7 +87,7 @@ export const SAScreen3 = ({navigation, route}) => {
   ];
 
   return (
-    <RootLayout screenName={'SelfAssessment'} navigation={navigation}>
+    <RootLayout screenName={'SelfAssessment3'} navigation={navigation}>
       <ScrollView style={styles.container}>
      
       {/* Title */}

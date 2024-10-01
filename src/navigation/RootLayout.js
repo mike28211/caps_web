@@ -21,8 +21,6 @@ export const RootLayout = ({ children, navigation, screenName }) => {
     }
   };
 
-  const isActiveScreen = (screen) => screenName === screen;
-
   return (
     <SafeAreaView style={styles.safeArea}>
 
@@ -42,7 +40,24 @@ export const RootLayout = ({ children, navigation, screenName }) => {
 
         {/* Footer Navigation */}
         <View style={styles.footer}>
-            <TouchableOpacity onPress={() => navigation.navigate(screenName)} style={styles.navButton}>
+            <TouchableOpacity onPress={() => {
+                if (screenName === 'Home') {
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Home' }],
+                  });
+                } else if (screenName === 'ProfessionalHome') {
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'ProfessionalStack', params: { screen: 'ProfessionalHome'} }],
+                  });
+                } else {
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Home' }],
+                  });
+                }
+              }} style={styles.navButton}>
               <View style={screenName === 'Home' || screenName === 'ProfessionalHome' ? styles.activeIconContainer : styles.iconContainer}>
                 <Ionicons name="home-outline" size={30} color='black'/>
               </View>
