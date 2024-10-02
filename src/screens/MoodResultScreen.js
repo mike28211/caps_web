@@ -3,15 +3,14 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; // For icons
 import { RootLayout } from '../navigation/RootLayout'; // Assuming RootLayout exists
 
-export const MoodScreen = ({ navigation }) => {
+export const MoodResultScreen = ({ navigation }) => {
   return (
-    <RootLayout screenName={'MoodScreen'} navigation={navigation}>
+    <RootLayout screenName={'MoodResultScreen'} navigation={navigation}>
       <View style={styles.container}>
        
         {/* Message Box */}
         <View style={styles.messageBox}>
-          <Text style={styles.messageText}>Good to see you!</Text>
-          <Text style={styles.messageText}>Let's explore your mood.</Text>
+          <Text style={styles.messageText}>Based on your input, you feel...</Text>
         </View>
 
         {/* Mood Emoji */}
@@ -23,12 +22,12 @@ export const MoodScreen = ({ navigation }) => {
         </View>
 
         {/* Buttons */}
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('MoodMeter')}>
-          <Text style={styles.buttonText}>LET'S DO IT</Text>
+        <TouchableOpacity style={styles.button} >
+          <Text style={styles.buttonText}>Seek Professional</Text>
         </TouchableOpacity>
         
-        <TouchableOpacity style={styles.buttonSecondary}>
-          <Text style={styles.buttonText}>Show Mood Logs</Text>
+        <TouchableOpacity style={styles.buttonSecondary} onPress={() => navigation.navigate('Home')}>
+          <Text style={styles.buttonText}>Finish</Text>
         </TouchableOpacity>
       </View>
     </RootLayout>
