@@ -4,6 +4,7 @@ import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing, interpo
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 import PropTypes from 'prop-types';
+import { RootLayout } from '../navigation/RootLayout';
 
 const { width, height } = Dimensions.get('window');
 const GRID_SIZE = 10;
@@ -235,6 +236,7 @@ export const MoodMeterScreen = ({ navigation }) => {
   }, []);
 
   return (
+   <RootLayout  screenName = {'MoodMeter'} navigation={navigation}>
     <View style={styles.container}>
       <Text style={styles.title}>How are you feeling right now?</Text>
 
@@ -286,6 +288,7 @@ export const MoodMeterScreen = ({ navigation }) => {
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
     </View>
+  </RootLayout>   
   );
 };
 
@@ -322,6 +325,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    marginVertical: 20,
   },
   leftLabelContainer: {
     position: 'absolute',
@@ -334,7 +338,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    bottom: '35%',
+    bottom: '32%',
     width: '70%',
   },
   energyLabel: {
