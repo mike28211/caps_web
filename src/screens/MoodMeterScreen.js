@@ -14,8 +14,8 @@ const GRID_WIDTH = GRID_SIZE * (DOT_SIZE + GAP_SIZE) - GAP_SIZE;
 
 const colorPalette = {
   highEnergyLowPleasant: { base: '#CC3300', highlight: '#FF6347' },
-  lowEnergyLowPleasant: { base: '#CC9900', highlight: '#FFD700' },
-  highEnergyHighPleasant: { base: '#006699', highlight: '#4682B4' },
+  highEnergyHighPleasant: { base: '#CC9900', highlight: '#FFD700' },
+  lowEnergyLowPleasant: { base: '#006699', highlight: '#4682B4' },
   lowEnergyHighPleasant: { base: '#006600', highlight: '#32CD32' }
 };
 
@@ -27,19 +27,19 @@ const moodData = {
     'Anxious', 'Apprehensive', 'Worried', 'Irritated', 'Annoyed',
     'Repulsed', 'Troubled', 'Concerned', 'Uneasy', 'Peeved'
   ],
-  lowEnergyLowPleasant: [
-    'Disgusted', 'Glum', 'Disappointed', 'Down', 'Apathetic',
-    'Pessimistic', 'Morose', 'Discouraged', 'Sad', 'Bored',
-    'Allenated', 'Miserable', 'Lonely', 'Disheartened', 'Tired',
-    'Despondent', 'Depressed', 'Sullen', 'Exhausted', 'Fatigued',
-    'Despairing', 'Hopeless', 'Desolate', 'Spent', 'Drained'
-  ],
   highEnergyHighPleasant: [
     'Surprised', 'Upbeat', 'Festive', 'Exhilarated', 'Estatic',
     'Hyper', 'Cheerful', 'Motivated', 'Inspired', 'Elated',
     'Energized', 'Lively', 'Excited', 'Optimistic', 'Enthusiastic',
     'Pleased', 'Focused', 'Happy', 'Proud', 'Thrilled', 
     'Pleasant', 'Joyful', 'Hopeful', 'Playful', 'Blissful'
+  ],
+  lowEnergyLowPleasant: [
+    'Disgusted', 'Glum', 'Disappointed', 'Down', 'Apathetic',
+    'Pessimistic', 'Morose', 'Discouraged', 'Sad', 'Bored',
+    'Allenated', 'Miserable', 'Lonely', 'Disheartened', 'Tired',
+    'Despondent', 'Depressed', 'Sullen', 'Exhausted', 'Fatigued',
+    'Despairing', 'Hopeless', 'Desolate', 'Spent', 'Drained'
   ],
   lowEnergyHighPleasant: [
     'At ease', 'Easygoing', 'Content', 'Loving', 'Fulfilled',
@@ -50,7 +50,7 @@ const moodData = {
   ]
 };
 
-const MoodDot = ({ x, y, colorInfo, panX, panY, moodIndex }) => {
+const MoodDot = ({ x, y, colorInfo, panX, panY, moodIndex, isInteracting }) => {
   const animatedScale = useSharedValue(1);
   const animatedTranslateX = useSharedValue(0);
   const animatedTranslateY = useSharedValue(0);
@@ -72,13 +72,13 @@ const MoodDot = ({ x, y, colorInfo, panX, panY, moodIndex }) => {
     let scaleFactor;
     let repulsionDistance;
 
-    if (distance < DOT_SIZE / 2) {
+    if (isInteracting.value && distance < DOT_SIZE / 2) {
       scaleFactor = MAGNIFICATION_FACTOR;
       repulsionDistance = 0;
       animatedColorProgress.value = withTiming(1, { duration: 150 });
     } else {
-      scaleFactor = Math.max(1, MAGNIFICATION_FACTOR - (distance / (DOT_SIZE * 2)) ** 2);
-      repulsionDistance = Math.max(0, (DOT_SIZE * 1.5 - distance) * REPULSION_FACTOR);
+      scaleFactor = 1;
+      repulsionDistance = 0;
       animatedColorProgress.value = withTiming(0, { duration: 150 });
     }
 
@@ -89,7 +89,7 @@ const MoodDot = ({ x, y, colorInfo, panX, panY, moodIndex }) => {
     animatedScale.value = withTiming(scaleFactor, { duration: 150, easing: Easing.bezier(0.25, 0.1, 0.25, 1) });
     animatedTranslateX.value = withTiming(translateX, { duration: 150, easing: Easing.bezier(0.25, 0.1, 0.25, 1) });
     animatedTranslateY.value = withTiming(translateY, { duration: 150, easing: Easing.bezier(0.25, 0.1, 0.25, 1) });
-    animatedZIndex.value = distance < DOT_SIZE ? 10 : 0;
+    animatedZIndex.value = isInteracting.value && distance < DOT_SIZE ? 10 : 0;
 
     return {
       width: DOT_SIZE,
@@ -98,12 +98,14 @@ const MoodDot = ({ x, y, colorInfo, panX, panY, moodIndex }) => {
       left: x * (DOT_SIZE + GAP_SIZE),
       top: y * (DOT_SIZE + GAP_SIZE),
       zIndex: animatedZIndex.value,
+      transformOrigin: 'center',
+      borderRadius: DOT_SIZE / 2,
+      overflow: 'hidden',
       transform: [
         { translateX: animatedTranslateX.value },
         { translateY: animatedTranslateY.value },
         { scale: animatedScale.value }
       ],
-      
     };
   });
 
@@ -138,6 +140,17 @@ export const MoodMeterScreen = ({ navigation }) => {
   const [selectedColor, setSelectedColor] = useState(null);
   const panX = useSharedValue(0);
   const panY = useSharedValue(0);
+  const isInteracting = useSharedValue(false);
+
+  const handleGestureStart = useCallback(() => {
+    isInteracting.value = true;
+  }, [isInteracting]);
+
+  const handleGestureEnd = useCallback(() => {
+    isInteracting.value = false;
+    panX.value = -1; // Set to a value outside the grid
+    panY.value = -1;
+  }, [isInteracting, panX, panY]);
 
   const handleGesture = useCallback(({ nativeEvent }) => {
     const x = nativeEvent.x;
@@ -157,7 +170,23 @@ export const MoodMeterScreen = ({ navigation }) => {
       const quadrant = Object.keys(moodData)[quadrantIndex];
       const index = ((gridY % (GRID_SIZE / 2)) * (GRID_SIZE / 2) + (gridX % (GRID_SIZE / 2))) % moodData[quadrant].length;
       setSelectedMood(moodData[quadrant][index]);
-      setSelectedColor(colorPalette[quadrant].highlight);
+
+      // Calculate the distance from the touch point to the center of the dot
+      const dotCenterX = gridX * (DOT_SIZE + GAP_SIZE) + DOT_SIZE / 2;
+      const dotCenterY = gridY * (DOT_SIZE + GAP_SIZE) + DOT_SIZE / 2;
+      const dx = dotCenterX - x;
+      const dy = dotCenterY - y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      // Interpolate the color based on the distance
+      const colorProgress = Math.max(0, Math.min(1, 1 - (distance / (DOT_SIZE / 2))));
+      const interpolatedColor = interpolateColor(
+        colorProgress,
+        [0, 1],
+        [colorPalette[quadrant].base, colorPalette[quadrant].highlight]
+      );
+
+      setSelectedColor(interpolatedColor);
     }
   }, []);
 
@@ -179,14 +208,14 @@ export const MoodMeterScreen = ({ navigation }) => {
               panX={panX}
               panY={panY}
               moodIndex={quadrant}
+              isInteracting={isInteracting}
             />
           );
         }
       }
     });
     return dots;
-  }, [panX, panY]);
-
+  }, [panX, panY, isInteracting]);
 
   return (
     <View style={styles.container}>
@@ -197,7 +226,13 @@ export const MoodMeterScreen = ({ navigation }) => {
         <Text style={styles.energyLabel}>Low Energy</Text>
       </View>
 
-      <PanGestureHandler onGestureEvent={handleGesture}>
+      <PanGestureHandler 
+        onGestureEvent={handleGesture}
+        onBegan={handleGestureStart}
+        onEnded={handleGestureEnd}
+        onFailed={handleGestureEnd}
+        onCancelled={handleGestureEnd}
+      >
         <View style={styles.gridContainer}>
           {renderMoodDots}
         </View>
@@ -244,10 +279,11 @@ const styles = StyleSheet.create({
   gridContainer: {
     width: GRID_WIDTH,
     height: GRID_WIDTH,
-    backgroundColor: '#000',
+    backgroundColor: '#fff',
     alignItems: "center",
     justifyContent: "center",
     shadowColor: "#000",
+    borderRadius: 20,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -267,7 +303,7 @@ const styles = StyleSheet.create({
    position:'absolute',
    flexDirection:'row',
    justifyContent:'space-between',
-   bottom:'32%',
+   bottom:'29%',
    width:'77%',
  },
 energyLabel:{
@@ -281,8 +317,7 @@ pleasantnessLabel:{
 },
   moodDot: {
     position: 'absolute',
-    borderRadius: DOT_SIZE / 2,
-    shadowColor: '#000',
+    shadowColor: '#fff',
     shadowOffset: { width: 0, height: 2 },
   },
   moodTextContainer: {
