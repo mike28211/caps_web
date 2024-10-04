@@ -50,7 +50,7 @@ export const AppStack = () => {
             <Stack.Screen 
                 name="Mood" 
                 component={MoodScreen} 
-                options={{ headerShown: true }}
+                options={{ headerShown: false }}
             /> 
             <Stack.Screen 
                 name="Profile" 

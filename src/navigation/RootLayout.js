@@ -58,8 +58,16 @@ export const RootLayout = ({ children, navigation, screenName, userType }) => {
                 <Ionicons name="happy-outline" size={30} color='black'/>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.navButton}>
-              <View style={screenName === 'Profile' ? styles.activeIconContainer : styles.iconContainer}>
+            <TouchableOpacity onPress={() => {
+                if (screenName === 'Profile' || screenName === 'ProfessionalProfile') {
+                  navigation.navigate(screenName);
+                } else if (userType === "user") {
+                  navigation.navigate('Profile');
+                } else if (userType === "professional") {
+                  navigation.navigate('ProfessionalProfile');
+                }
+              }} style={styles.navButton}>
+              <View style={screenName === 'Profile' || screenName === 'ProfessionalProfile' ? styles.activeIconContainer : styles.iconContainer}>
                 <Ionicons name="person-outline" size={30} color='black'/>
               </View>
             </TouchableOpacity>

@@ -6,7 +6,7 @@ import { RootLayout } from '../navigation/RootLayout';
 const { width } = Dimensions.get('window');
 
 export const ForumPostScreen = ({ route, navigation }) => {
-    const { forumId, forumTitle } = route.params;
+    const { forumId, forumTitle, forumTags } = route.params;
 
     // Sample data for posts
     const [posts, setPosts] = useState([
@@ -19,6 +19,7 @@ export const ForumPostScreen = ({ route, navigation }) => {
     const [newPostContent, setNewPostContent] = useState('');
     const [isJoined, setIsJoined] = useState(false);
     const [memberCount, setMemberCount] = useState(50); // Sample member count
+    const [selectedTags, setSelectedTags] = useState(['Mental Health', 'Self-care']); // Sample selected tags
 
     const handleJoinForum = () => {
         if (!isJoined) {
@@ -69,11 +70,25 @@ export const ForumPostScreen = ({ route, navigation }) => {
         </TouchableOpacity>
     );
 
+    const renderTags = () => {
+      return (
+        <View style={styles.tagContainer}>
+          {forumTags.map((tag, index) => (
+            <View key={index} style={styles.tag}>
+              <Text color="white">{tag}</Text>
+            </View>
+          ))}
+        </View>
+      );
+    };
+
     return (
         <RootLayout navigation={navigation} screenName={forumTitle}>
             <View style={styles.container}>
                 <View style={styles.headerContainer}>
-                    <Text style={styles.header}>{forumTitle}</Text>
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.header} numberOfLines={1}>{forumTitle}</Text>
+                    </View>
                     <View style={styles.joinSection}>
                         <Text style={styles.memberCount}>{memberCount} Members</Text>
                         {!isJoined ? (
@@ -85,6 +100,7 @@ export const ForumPostScreen = ({ route, navigation }) => {
                         )}
                     </View>
                 </View>
+                {renderTags()}
                 <View style={styles.divider} />
 
                 <TouchableOpacity
@@ -142,13 +158,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 20,
     },
+    titleContainer: {
+        flex: 1, // Adjust to occupy available space
+        marginRight: 10, // Margin to avoid overlap with joinSection
+    },
     header: {
-        fontSize: 35,
+        fontSize: 28,
         fontWeight: 'bold',
+        flexWrap: 'wrap',
     },
     joinSection: {
         alignItems: 'center',
-        position: 'fixed',
     },
     memberCount: {
         fontSize: 12,
@@ -166,6 +186,19 @@ const styles = StyleSheet.create({
     joinedText: {
         color: '#6c757d',
         fontSize: 16,
+    },
+    tagContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginVertical: 10, 
+    },
+    tag: {
+      backgroundColor: '#B9A2F1',
+      color: '#fff',
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+      margin: 2,
+      borderRadius: 12,
     },
     divider: {
         height: 1,
@@ -203,8 +236,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 5,
-        maxWidth: width - 40, // Adjust max width based on your layout
-        flexWrap: 'wrap', // Allows text to wrap to the next line
+        maxWidth: width - 40,
+        flexWrap: 'wrap',
         color: '#333',
     },
     postContent: {

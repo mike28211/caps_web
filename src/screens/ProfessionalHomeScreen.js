@@ -1,11 +1,36 @@
-import React, { useContext } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { RootLayout } from '../navigation/RootLayout';
-import { AuthenticatedUserContext } from '../providers';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, firestore } from '../config';
+import { AuthenticatedUserContext } from '../providers';  
 
 export const ProfessionalHomeScreen = ({ navigation }) => {
   const { userType } = useContext(AuthenticatedUserContext);
+    const [profileData, setProfileData] = useState(null);
+
+    const fetchProfileData = async () => {
+    const userId = auth.currentUser.uid;
+    const userRef = doc(firestore, 'professionals', userId);
+
+    try {
+      const docSnap = await getDoc(userRef);
+      if(docSnap.exists()) {
+        console.log('Profile Data Fetched Successfully: ', docSnap.data());
+        setProfileData(docSnap.data());
+      } else{
+        console.log('No such document!');
+      }
+    } catch(error){
+      console.log('Error fetching profile data:', error.message)
+    }
+  };
+
+  useEffect(() => {
+    fetchProfileData();
+  }, []);
+
   return (
     <RootLayout navigation={navigation} screenName={'ProfessionalHome'} userType={userType}>
       <View style={{ flex: 1, padding: 20 }}>
@@ -13,15 +38,15 @@ export const ProfessionalHomeScreen = ({ navigation }) => {
         <View style={styles.header}>
           {/* Greeting and Subtext */}
           <View style={styles.textContainer}>
-            <Text style={styles.greeting}>Hello, Kayla!</Text>
+            <Text style={styles.greeting}>Hello, {profileData?.username}!</Text>
             <Text style={styles.subText}>Assess, Connect, Thrive: Your Path to Mental Wellness</Text>
           </View>
          {/* Profile Picture */}
          <Image
-          source={require('../assets/testProfProfile.jpg')} // Replace with your image URI
+          source={ {uri: profileData?.profileImage} || require('../assets/testprofile.jpg')} // Replace with your image URI
           style={styles.profileImage}
         />
-      </View>
+        </View>
 
       {/* To-Do List Buttons */}
       <View style={{ marginTop: 40 }}>
